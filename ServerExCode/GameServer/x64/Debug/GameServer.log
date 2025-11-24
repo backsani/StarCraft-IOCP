@@ -199,40 +199,43 @@
   C:Protocol.cs
   1개 파일이 복사되었습니다.
   계속하려면 아무 키나 누르십시오 . . . 
+  pch.cpp
   Enum.pb.cc
   Protocol.pb.cc
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(676,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(1133,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(1351,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(2474,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(676,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1133,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1351,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2474,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Struct.pb.cc
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Struct.pb.cc(491,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc(491,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
-  ClientPacketHandler.cpp
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\ClientPacketHandler.cpp(27,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\ClientPacketHandler.cpp(29,64): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
-  
   GameObject.cpp
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\GameObject.cpp(181,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(181,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
   
   GameServer.cpp
   GameSession.cpp
+  GameSessionManager.cpp
+  ClientPacketHandler.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(27,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(29,64): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+  Grid.cpp
   Room.cpp
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         with
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         [
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:             _Ty=int32
-C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         ]
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         with
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         [
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:             _Ty=int32
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         ]
   (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31):
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31):
       템플릿 인스턴스화 컨텍스트(가장 오래된 인스턴스화 컨텍스트)가
-          C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Room.cpp(13,9):
+          C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Room.cpp(13,9):
           컴파일되는 함수 템플릿 인스턴스화 'std::shared_ptr<GridManager> MakeShared<GridManager,int,int,int,int>(int &&,int &&,int &&,int &&)'에 대한 참조를 확인하세요.
-          C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(53,27):
+          C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(53,27):
           컴파일되는 함수 템플릿 인스턴스화 'Type *xnew<GridManager,_Ty,_Ty,_Ty,_Ty>(_Ty &&,_Ty &&,_Ty &&,_Ty &&)'에 대한 참조를 확인하세요.
           with
           [
@@ -240,18 +243,9 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
               _Ty=int32
           ]
   
+  RoomManager.cpp
   코드를 생성하고 있습니다...
-  LINK : 이전 연결 이후로 0개의 새 모듈과 8개(전체 83개 중)의 모듈이 변경되었습니다.
-  라이브러리를 검색하고 있습니다.
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
-  라이브러리가 검색되었습니다.
-  LINK : 이전에 강했던 '"void __cdecl __global_delete(void *,unsigned __int64)" (?__global_delete@@YAXPEAX_K@Z)' 기호가 이제 약합니다. 전체 링크를 수행하고 있습니다.
-  LINK.EXE 호출 중:
-   /ERRORREPORT:PROMPT @C:\Users\hj577\AppData\Local\Temp\MSBuildTemp\tmp01c40f12f53644c3a89b653e299332bf.rsp
-   /nologo
-   /incremental
-   /fullbuild
-  
+  LINK : 바이너리의 CV 레코드에 작성된 PDB 파일 이름은 'C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Binary\Debug\GameServer.pdb'이었으며 'C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Binary\Debug\GameServer.pdb'(으)로 바뀝니다. 전체 링크를 수행하고 있습니다.
   Pass 1을 시작하고 있습니다.
   /DEFAULTLIB:msvcprtd을(를) 처리했습니다.
   /DEFAULTLIB:MSVCRTD을(를) 처리했습니다.
@@ -259,7 +253,6 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
   /DEFAULTLIB:ServerCore\Debug\ServerCore.lib을(를) 처리했습니다.
   /DEFAULTLIB:Protobuf\Debug\libprotobufd.lib을(를) 처리했습니다.
   /DEFAULTLIB:ws2_32.lib을(를) 처리했습니다.
-  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -715,7 +708,7 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
           MSVCRTD.lib(guard_support.obj)에서 참조됩니다.
           MSVCRTD.lib(guard_xfg_dispatch.obj)을(를) 로드했습니다.
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
         "public: static void * __cdecl PoolAllocator::Alloc(int)" (?Alloc@PoolAllocator@@SAPEAXH@Z)을(를) 찾았습니다.
           Grid.obj에서 참조됩니다.
           Room.obj에서 참조됩니다.
@@ -793,7 +786,7 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
         "public: __cdecl MemoryPool::MemoryPool(int)" (??0MemoryPool@@QEAA@H@Z)을(를) 찾았습니다.
           ServerCore.lib(Memory.obj)에서 참조됩니다.
           ServerCore.lib(MemoryPool.obj)을(를) 로드했습니다.
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
         "void __cdecl google::protobuf::internal::AssignDescriptors(struct google::protobuf::internal::DescriptorTable const *,bool)" (?AssignDescriptors@internal@protobuf@google@@YAXPEBUDescriptorTable@123@_N@Z)을(를) 찾았습니다.
           Enum.pb.obj에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
@@ -1899,8 +1892,8 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
           ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
           MSVCRTD.lib(tlsdyn.obj)을(를) 로드했습니다.
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
@@ -1920,9 +1913,7 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
-  
   라이브러리가 검색되었습니다.
-  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -1941,14 +1932,12 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
         __scrt_stub_for_acrt_initialize을(를) 찾았습니다.
           MSVCRTD.lib(ucrt_stubs.obj)을(를) 로드했습니다.
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
-  
   라이브러리가 검색되었습니다.
-  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -1965,14 +1954,12 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
-  
   라이브러리가 검색되었습니다.
-  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -1989,17 +1976,13 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
-  
   라이브러리가 검색되었습니다.
-  
   Pass 1이 끝났습니다.
-  
-  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -2018,46 +2001,41 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
         _load_config_used을(를) 찾았습니다.
           MSVCRTD.lib(loadcfg.obj)을(를) 로드했습니다.
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
-      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
         __guard_memcpy_fptr을(를) 찾았습니다.
           MSVCRTD.lib(loadcfg.obj)에서 참조됩니다.
           vcruntimed.lib(softmemtag.obj)을(를) 로드했습니다.
-  
   라이브러리가 검색되었습니다.
-  
   rc.exe 호출 중:
    /v
    /x
    /fo
-   "C:\Users\hj577\AppData\Local\Temp\lnk{9CC16C0D-FF8B-4200-A4BF-38CA3E224916}.tmp"
-   "C:\Users\hj577\AppData\Local\Temp\lnk{99F6A3B6-148A-4294-AF2E-09EC5D7A7D32}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{12CA0368-5030-42FB-98A8-4ABC4AF6AA04}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{092EB654-C13B-4A9D-B454-3CEAAC36A431}.tmp"
   Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
   
   Copyright (C) Microsoft Corporation.  All rights reserved.
   
   
   Using codepage 949 as default
-  Creating C:\Users\hj577\AppData\Local\Temp\lnk{9CC16C0D-FF8B-4200-A4BF-38CA3E224916}.tmp
+  Creating C:\Users\hj577\AppData\Local\Temp\lnk{12CA0368-5030-42FB-98A8-4ABC4AF6AA04}.tmp
   
   
-  C:\Users\hj577\AppData\Local\Temp\lnk{99F6A3B6-148A-4294-AF2E-09EC5D7A7D32}.tmp.
+  C:\Users\hj577\AppData\Local\Temp\lnk{092EB654-C13B-4A9D-B454-3CEAAC36A431}.tmp.
   Writing 24:1,	lang:0x409,	size 381
-  
   cvtres.exe 호출 중:
    /machine:amd64
    /verbose
-   /out:"C:\Users\hj577\AppData\Local\Temp\lnk{6D3F2FC8-B7C6-4FB4-92C7-E01816D13B42}.tmp"
+   /out:"C:\Users\hj577\AppData\Local\Temp\lnk{A3270B53-692B-4DCD-B6EB-79EBEAB765AE}.tmp"
    /readonly
-   "C:\Users\hj577\AppData\Local\Temp\lnk{9CC16C0D-FF8B-4200-A4BF-38CA3E224916}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{12CA0368-5030-42FB-98A8-4ABC4AF6AA04}.tmp"
   Microsoft (R) Windows Resource To Object Converter 버전 14.42.34436.0
   Copyright (c) Microsoft Corporation. All rights reserved.
   
   리소스를 추가하고 있습니다. 형식:MANIFEST, 이름:1, 언어:0x0409, 플래그:0x30, 크기:381
-  
-  
   사용되지 않은 라이브러리:
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib
@@ -2071,7 +2049,6 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib
     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib
-  
   Pass 2를 시작하고 있습니다.
        * linker generated manifest res *
        Struct.pb.obj
@@ -2411,4 +2388,4 @@ C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31
        ucrtd.lib(ucrtbased.dll)
        ucrtd.lib(ucrtbased.dll)
   Pass 2가 끝났습니다.
-  GameServer.vcxproj -> C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Binary\Debug\GameServer.exe
+  GameServer.vcxproj -> C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Binary\Debug\GameServer.exe
