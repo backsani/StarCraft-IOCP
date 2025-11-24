@@ -1,0 +1,288 @@
+﻿Struct.proto(4,1): warning G1A4DC0EC: Import Enum.proto is unused.
+Protocol.proto(4,1): warning G1A4DC0EC: Import Enum.proto is unused.
+  #pragma once
+  #include "Protocol.pb.h"
+  
+  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
+  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
+  
+  enum : uint16
+  {
+  	PKT_C_TEST = 1000,
+  	PKT_C_MOVE = 1001,
+  	PKT_S_TEST = 1002,
+  	PKT_S_LOGIN = 1003,
+  };
+  
+  // Custom Handlers
+  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
+  bool Handle_C_TEST(PacketSessionRef& session, Protocol::C_TEST& pkt);
+  bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt);
+  
+  class ClientPacketHandler
+  {
+  public:
+  	static void Init()
+  	{
+  		for (int32 i = 0; i < UINT16_MAX; i++)
+  			GPacketHandler[i] = Handle_INVALID;
+  		GPacketHandler[PKT_C_TEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_TEST>(Handle_C_TEST, session, buffer, len); };
+  		GPacketHandler[PKT_C_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_MOVE>(Handle_C_MOVE, session, buffer, len); };
+  	}
+  
+  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  		return GPacketHandler[header->id](session, buffer, len);
+  	}
+  	static SendBufferRef MakeSendBuffer(Protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, PKT_S_TEST); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
+  
+  private:
+  	template<typename PacketType, typename ProcessFunc>
+  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketType pkt;
+  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
+  			return false;
+  
+  		return func(session, pkt);
+  	}
+  
+  	template<typename T>
+  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
+  	{
+  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
+  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+  
+  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
+  		header->size = packetSize;
+  		header->id = pktId;
+  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+  		sendBuffer->Close(packetSize);
+  
+  		return sendBuffer;
+  	}
+  };
+  #pragma once
+  #include "Protocol.pb.h"
+  
+  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
+  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
+  
+  enum : uint16
+  {
+  	PKT_C_TEST = 1000,
+  	PKT_C_MOVE = 1001,
+  	PKT_S_TEST = 1002,
+  	PKT_S_LOGIN = 1003,
+  };
+  
+  // Custom Handlers
+  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
+  bool Handle_S_TEST(PacketSessionRef& session, Protocol::S_TEST& pkt);
+  bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt);
+  
+  class ServerPacketHandler
+  {
+  public:
+  	static void Init()
+  	{
+  		for (int32 i = 0; i < UINT16_MAX; i++)
+  			GPacketHandler[i] = Handle_INVALID;
+  		GPacketHandler[PKT_S_TEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_TEST>(Handle_S_TEST, session, buffer, len); };
+  		GPacketHandler[PKT_S_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_LOGIN>(Handle_S_LOGIN, session, buffer, len); };
+  	}
+  
+  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  		return GPacketHandler[header->id](session, buffer, len);
+  	}
+  	static SendBufferRef MakeSendBuffer(Protocol::C_TEST& pkt) { return MakeSendBuffer(pkt, PKT_C_TEST); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_C_MOVE); }
+  
+  private:
+  	template<typename PacketType, typename ProcessFunc>
+  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketType pkt;
+  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
+  			return false;
+  
+  		return func(session, pkt);
+  	}
+  
+  	template<typename T>
+  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
+  	{
+  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
+  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+  
+  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
+  		header->size = packetSize;
+  		header->id = pktId;
+  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+  		sendBuffer->Close(packetSize);
+  
+  		return sendBuffer;
+  	}
+  };
+  C:Enum.pb.h
+  1개 파일이 복사되었습니다.
+  C:Enum.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.h
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.h
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.cc
+  1개 파일이 복사되었습니다.
+  C:ClientPacketHandler.h
+  1개 파일이 복사되었습니다.
+  C:Enum.pb.h
+  1개 파일이 복사되었습니다.
+  C:Enum.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.h
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.h
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.cc
+  1개 파일이 복사되었습니다.
+  C:ServerPacketHandler.h
+  1개 파일이 복사되었습니다.
+  계속하려면 아무 키나 누르십시오 . . . 
+  Enum.pb.cc
+  Protocol.pb.cc
+  Struct.pb.cc
+  코드를 생성하고 있습니다...
+  ClientPacketHandler.cpp
+  GameServer.cpp
+  GameSession.cpp
+  코드를 생성하고 있습니다...
+Enum.pb.obj : error LNK2019: "void __cdecl google::protobuf::internal::AssignDescriptors(struct google::protobuf::internal::DescriptorTable const *,bool)" (?AssignDescriptors@internal@protobuf@google@@YAXPBUDescriptorTable@123@_N@Z)"class google::protobuf::EnumDescriptor const * __cdecl Protocol::PlayerType_descriptor(void)" (?PlayerType_descriptor@Protocol@@YAPBVEnumDescriptor@protobuf@google@@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Enum.pb.obj : error LNK2019: "public: __thiscall google::protobuf::internal::AddDescriptorsRunner::AddDescriptorsRunner(struct google::protobuf::internal::DescriptorTable const *)" (??0AddDescriptorsRunner@internal@protobuf@google@@QAE@PBUDescriptorTable@123@@Z)"void __cdecl `dynamic initializer for 'dynamic_init_dummy_Enum_2eproto''(void)" (??__Edynamic_init_dummy_Enum_2eproto@@YAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: __thiscall google::protobuf::internal::AddDescriptorsRunner::AddDescriptorsRunner(struct google::protobuf::internal::DescriptorTable const *)" (??0AddDescriptorsRunner@internal@protobuf@google@@QAE@PBUDescriptorTable@123@@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: __thiscall google::protobuf::internal::AddDescriptorsRunner::AddDescriptorsRunner(struct google::protobuf::internal::DescriptorTable const *)" (??0AddDescriptorsRunner@internal@protobuf@google@@QAE@PBUDescriptorTable@123@@Z)
+GameServer.obj : error LNK2019: "public: static void * __cdecl PoolAllocator::Alloc(int)" (?Alloc@PoolAllocator@@SAPAXH@Z)"class GameSession * __cdecl xnew<class GameSession>(void)" (??$xnew@VGameSession@@$$V@@YAPAVGameSession@@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameSessionManager.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: static void * __cdecl PoolAllocator::Alloc(int)" (?Alloc@PoolAllocator@@SAPAXH@Z)
+GameServer.obj : error LNK2019: "public: static void __cdecl PoolAllocator::Release(void *)" (?Release@PoolAllocator@@SAXPAX@Z)"void __cdecl xdelete<class GameSession>(class GameSession *)" (??$xdelete@VGameSession@@@@YAXPAVGameSession@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameSessionManager.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: static void __cdecl PoolAllocator::Release(void *)" (?Release@PoolAllocator@@SAXPAX@Z)
+GameServer.obj : error LNK2019: "public: void __thiscall SendBuffer::Close(unsigned int)" (?Close@SendBuffer@@QAEXI@Z)"private: static class std::shared_ptr<class SendBuffer> __cdecl ClientPacketHandler::MakeSendBuffer<class Protocol::S_TEST>(class Protocol::S_TEST &,unsigned short)" (??$MakeSendBuffer@VS_TEST@Protocol@@@ClientPacketHandler@@CA?AV?$shared_ptr@VSendBuffer@@@std@@AAVS_TEST@Protocol@@G@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: class std::shared_ptr<class SendBuffer> __thiscall SendBufferManager::Open(unsigned int)" (?Open@SendBufferManager@@QAE?AV?$shared_ptr@VSendBuffer@@@std@@I@Z)"private: static class std::shared_ptr<class SendBuffer> __cdecl ClientPacketHandler::MakeSendBuffer<class Protocol::S_TEST>(class Protocol::S_TEST &,unsigned short)" (??$MakeSendBuffer@VS_TEST@Protocol@@@ClientPacketHandler@@CA?AV?$shared_ptr@VSendBuffer@@@std@@AAVS_TEST@Protocol@@G@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: __thiscall IocpCore::IocpCore(void)" (??0IocpCore@@QAE@XZ)"class IocpCore * __cdecl xnew<class IocpCore>(void)" (??$xnew@VIocpCore@@$$V@@YAPAVIocpCore@@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: __thiscall IocpCore::~IocpCore(void)" (??1IocpCore@@QAE@XZ)"public: void * __thiscall IocpCore::`scalar deleting destructor'(unsigned int)" (??_GIocpCore@@QAEPAXI@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: bool __thiscall IocpCore::Dispatch(unsigned int)" (?Dispatch@IocpCore@@QAE_NI@Z)"public: __thiscall `int __cdecl main(void)'::`13'::<lambda_1>::operator()(void)const " (??R<lambda_1>@?N@??main@@YAHXZ@QBE@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: __thiscall NetAddress::NetAddress(class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,unsigned short)" (??0NetAddress@@QAE@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@G@Z)_main 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: virtual void * __thiscall Session::GetHandle(void)" (?GetHandle@Session@@EAEPAXXZ)
+GameServer.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: virtual void __thiscall Session::Dispatch(class IocpEvent *,int)" (?Dispatch@Session@@EAEXPAVIocpEvent@@H@Z)
+GameServer.obj : error LNK2019: "public: __thiscall PacketSession::PacketSession(void)" (??0PacketSession@@QAE@XZ)"public: __thiscall GameSession::GameSession(void)" (??0GameSession@@QAE@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: virtual __thiscall PacketSession::~PacketSession(void)" (??1PacketSession@@UAE@XZ)"public: virtual __thiscall GameSession::~GameSession(void)" (??1GameSession@@UAE@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2001: 확인할 수 없는 외부 기호 "protected: virtual int __thiscall PacketSession::OnRecv(unsigned char *,int)" (?OnRecv@PacketSession@@MAEHPAEH@Z)
+GameServer.obj : error LNK2019: "public: void __thiscall ThreadManager::Launch(class std::function<void __cdecl(void)>)" (?Launch@ThreadManager@@QAEXV?$function@$$A6AXXZ@std@@@Z)_main 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: void __thiscall ThreadManager::Join(void)" (?Join@ThreadManager@@QAEXXZ)_main 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: __thiscall ServerService::ServerService(class NetAddress,class std::shared_ptr<class IocpCore>,class std::function<class std::shared_ptr<class Session> __cdecl(void)>,int)" (??0ServerService@@QAE@VNetAddress@@V?$shared_ptr@VIocpCore@@@std@@V?$function@$$A6A?AV?$shared_ptr@VSession@@@std@@XZ@3@H@Z)"class ServerService * __cdecl xnew<class ServerService,class NetAddress,class std::shared_ptr<class IocpCore>,class std::shared_ptr<class GameSession> (__cdecl&)(void),int>(class NetAddress &&,class std::shared_ptr<class IocpCore> &&,class std::shared_ptr<class GameSession> (__cdecl&)(void),int &&)" (??$xnew@VServerService@@VNetAddress@@V?$shared_ptr@VIocpCore@@@std@@A6A?AV?$shared_ptr@VGameSession@@@4@XZH@@YAPAVServerService@@$$QAVNetAddress@@$$QAV?$shared_ptr@VIocpCore@@@std@@A6A?AV?$shared_ptr@VGameSession@@@3@XZ$$QAH@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: bool __thiscall google::protobuf::MessageLite::ParseFromArray(void const *,int)" (?ParseFromArray@MessageLite@protobuf@google@@QAE_NPBXH@Z)"private: static bool __cdecl ClientPacketHandler::HandlePacket<class Protocol::C_MOVE,bool (__cdecl*)(class std::shared_ptr<class PacketSession> &,class Protocol::C_MOVE &)>(bool (__cdecl*)(class std::shared_ptr<class PacketSession> &,class Protocol::C_MOVE &),class std::shared_ptr<class PacketSession> &,unsigned char *,int)" (??$HandlePacket@VC_MOVE@Protocol@@P6A_NAAV?$shared_ptr@VPacketSession@@@std@@AAV12@@Z@ClientPacketHandler@@CA_NP6A_NAAV?$shared_ptr@VPacketSession@@@std@@AAVC_MOVE@Protocol@@@Z0PAEH@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "public: bool __thiscall google::protobuf::MessageLite::SerializeToArray(void *,int)const " (?SerializeToArray@MessageLite@protobuf@google@@QBE_NPAXH@Z)"private: static class std::shared_ptr<class SendBuffer> __cdecl ClientPacketHandler::MakeSendBuffer<class Protocol::S_TEST>(class Protocol::S_TEST &,unsigned short)" (??$MakeSendBuffer@VS_TEST@Protocol@@@ClientPacketHandler@@CA?AV?$shared_ptr@VSendBuffer@@@std@@AAVS_TEST@Protocol@@G@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameServer.obj : error LNK2019: "private: void * __thiscall google::protobuf::internal::RepeatedPtrFieldBase::AddOutOfLineHelper(void *)" (?AddOutOfLineHelper@RepeatedPtrFieldBase@internal@protobuf@google@@AAEPAXPAX@Z)"protected: class Protocol::BuffData * __thiscall google::protobuf::internal::RepeatedPtrFieldBase::Add<class google::protobuf::RepeatedPtrField<class Protocol::BuffData>::TypeHandler>(class Protocol::BuffData *)" (??$Add@VTypeHandler@?$RepeatedPtrField@VBuffData@Protocol@@@protobuf@google@@@RepeatedPtrFieldBase@internal@protobuf@google@@IAEPAVBuffData@Protocol@@PAV45@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: void * __thiscall google::protobuf::internal::RepeatedPtrFieldBase::AddOutOfLineHelper(void *)" (?AddOutOfLineHelper@RepeatedPtrFieldBase@internal@protobuf@google@@AAEPAXPAX@Z)
+GameServer.obj : error LNK2019: "public: void __thiscall google::protobuf::RepeatedField<unsigned __int64>::Add(unsigned __int64 const &)" (?Add@?$RepeatedField@_K@protobuf@google@@QAEXAB_K@Z)"private: void __thiscall Protocol::BuffData::_internal_add_victims(unsigned __int64)" (?_internal_add_victims@BuffData@Protocol@@AAEX_K@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: void __thiscall google::protobuf::RepeatedField<unsigned __int64>::Add(unsigned __int64 const &)" (?Add@?$RepeatedField@_K@protobuf@google@@QAEXAB_K@Z)
+GameServer.obj : error LNK2001: 확인할 수 없는 외부 기호 "class ThreadManager * GThreadManager" (?GThreadManager@@3PAVThreadManager@@A)
+GameServer.obj : error LNK2001: 확인할 수 없는 외부 기호 "class SendBufferManager * GSendBufferManager" (?GSendBufferManager@@3PAVSendBufferManager@@A)
+GameSessionManager.obj : error LNK2019: "public: void __thiscall Lock::WriteLock(char const *)" (?WriteLock@Lock@@QAEXPBD@Z)"public: __thiscall WriteLockGuard::WriteLockGuard(class Lock &,char const *)" (??0WriteLockGuard@@QAE@AAVLock@@PBD@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameSessionManager.obj : error LNK2019: "public: void __thiscall Lock::WriteUnlock(char const *)" (?WriteUnlock@Lock@@QAEXPBD@Z)"public: __thiscall WriteLockGuard::~WriteLockGuard(void)" (??1WriteLockGuard@@QAE@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+GameSessionManager.obj : error LNK2019: "public: void __thiscall Session::Send(class std::shared_ptr<class SendBuffer>)" (?Send@Session@@QAEXV?$shared_ptr@VSendBuffer@@@std@@@Z)"public: void __thiscall GameSessionManager::Broadcast(class std::shared_ptr<class SendBuffer>)" (?Broadcast@GameSessionManager@@QAEXV?$shared_ptr@VSendBuffer@@@std@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall google::protobuf::Message::InitializationErrorString(void)const " (?InitializationErrorString@Message@protobuf@google@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall google::protobuf::Message::InitializationErrorString(void)const " (?InitializationErrorString@Message@protobuf@google@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::DiscardUnknownFields(void)" (?DiscardUnknownFields@Message@protobuf@google@@UAEXXZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::DiscardUnknownFields(void)" (?DiscardUnknownFields@Message@protobuf@google@@UAEXXZ)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual unsigned int __thiscall google::protobuf::Message::SpaceUsedLong(void)const " (?SpaceUsedLong@Message@protobuf@google@@UBEIXZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual unsigned int __thiscall google::protobuf::Message::SpaceUsedLong(void)const " (?SpaceUsedLong@Message@protobuf@google@@UBEIXZ)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall google::protobuf::Message::GetTypeName(void)const " (?GetTypeName@Message@protobuf@google@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall google::protobuf::Message::GetTypeName(void)const " (?GetTypeName@Message@protobuf@google@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::CheckTypeAndMergeFrom(class google::protobuf::MessageLite const &)" (?CheckTypeAndMergeFrom@Message@protobuf@google@@UAEXABVMessageLite@23@@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::CheckTypeAndMergeFrom(class google::protobuf::MessageLite const &)" (?CheckTypeAndMergeFrom@Message@protobuf@google@@UAEXABVMessageLite@23@@Z)
+Protocol.pb.obj : error LNK2019: "public: __thiscall google::protobuf::internal::LogMessage::LogMessage(enum google::protobuf::LogLevel,char const *,int)" (??0LogMessage@internal@protobuf@google@@QAE@W4LogLevel@23@PBDH@Z)"public: virtual void __thiscall Protocol::C_TEST::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@C_TEST@Protocol@@UAEXABVMessage@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: __thiscall google::protobuf::internal::LogMessage::LogMessage(enum google::protobuf::LogLevel,char const *,int)" (??0LogMessage@internal@protobuf@google@@QAE@W4LogLevel@23@PBDH@Z)
+Protocol.pb.obj : error LNK2019: "public: __thiscall google::protobuf::internal::LogMessage::~LogMessage(void)" (??1LogMessage@internal@protobuf@google@@QAE@XZ)"public: virtual void __thiscall Protocol::C_TEST::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@C_TEST@Protocol@@UAEXABVMessage@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: __thiscall google::protobuf::internal::LogMessage::~LogMessage(void)" (??1LogMessage@internal@protobuf@google@@QAE@XZ)
+Protocol.pb.obj : error LNK2019: "public: class google::protobuf::internal::LogMessage & __thiscall google::protobuf::internal::LogMessage::operator<<(char const *)" (??6LogMessage@internal@protobuf@google@@QAEAAV0123@PBD@Z)"public: virtual void __thiscall Protocol::C_TEST::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@C_TEST@Protocol@@UAEXABVMessage@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: class google::protobuf::internal::LogMessage & __thiscall google::protobuf::internal::LogMessage::operator<<(char const *)" (??6LogMessage@internal@protobuf@google@@QAEAAV0123@PBD@Z)
+Protocol.pb.obj : error LNK2019: "public: void __thiscall google::protobuf::internal::LogFinisher::operator=(class google::protobuf::internal::LogMessage &)" (??4LogFinisher@internal@protobuf@google@@QAEXAAVLogMessage@123@@Z)"public: virtual void __thiscall Protocol::C_TEST::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@C_TEST@Protocol@@UAEXABVMessage@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: void __thiscall google::protobuf::internal::LogFinisher::operator=(class google::protobuf::internal::LogMessage &)" (??4LogFinisher@internal@protobuf@google@@QAEXAAVLogMessage@123@@Z)
+Protocol.pb.obj : error LNK2019: "private: unsigned char * __thiscall google::protobuf::io::EpsCopyOutputStream::EnsureSpaceFallback(unsigned char *)" (?EnsureSpaceFallback@EpsCopyOutputStream@io@protobuf@google@@AAEPAEPAE@Z)"public: unsigned char * __thiscall google::protobuf::io::EpsCopyOutputStream::EnsureSpace(unsigned char *)" (?EnsureSpace@EpsCopyOutputStream@io@protobuf@google@@QAEPAEPAE@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: unsigned char * __thiscall google::protobuf::io::EpsCopyOutputStream::EnsureSpaceFallback(unsigned char *)" (?EnsureSpaceFallback@EpsCopyOutputStream@io@protobuf@google@@AAEPAEPAE@Z)
+Protocol.pb.obj : error LNK2019: "private: static unsigned char * __cdecl google::protobuf::io::CodedOutputStream::WriteVarint32ToArrayOutOfLineHelper(unsigned int,unsigned char *)" (?WriteVarint32ToArrayOutOfLineHelper@CodedOutputStream@io@protobuf@google@@CAPAEIPAE@Z)"public: static unsigned char * __cdecl google::protobuf::io::CodedOutputStream::WriteVarint32ToArrayOutOfLine(unsigned int,unsigned char *)" (?WriteVarint32ToArrayOutOfLine@CodedOutputStream@io@protobuf@google@@SAPAEIPAE@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2019: "public: unsigned __int64 __thiscall google::protobuf::internal::ThreadSafeArena::SpaceAllocated(void)const " (?SpaceAllocated@ThreadSafeArena@internal@protobuf@google@@QBE_KXZ)"public: unsigned __int64 __thiscall google::protobuf::Arena::SpaceAllocated(void)const " (?SpaceAllocated@Arena@protobuf@google@@QBE_KXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2019: "public: void __thiscall google::protobuf::internal::ThreadSafeArena::AddCleanup(void *,void (__cdecl*)(void *))" (?AddCleanup@ThreadSafeArena@internal@protobuf@google@@QAEXPAXP6AX0@Z@Z)"private: void __thiscall google::protobuf::Arena::OwnInternal<class google::protobuf::Message>(class google::protobuf::Message *,struct std::integral_constant<bool,1>)" (??$OwnInternal@VMessage@protobuf@google@@@Arena@protobuf@google@@AAEXPAVMessage@12@U?$integral_constant@_N$00@std@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: void __thiscall google::protobuf::internal::ThreadSafeArena::AddCleanup(void *,void (__cdecl*)(void *))" (?AddCleanup@ThreadSafeArena@internal@protobuf@google@@QAEXPAXP6AX0@Z@Z)
+Protocol.pb.obj : error LNK2019: "private: void * __thiscall google::protobuf::Arena::AllocateAlignedWithHook(unsigned int,class type_info const *)" (?AllocateAlignedWithHook@Arena@protobuf@google@@AAEPAXIPBVtype_info@@@Z)"private: void * __thiscall google::protobuf::Arena::AllocateAlignedWithHook(unsigned int,unsigned int,class type_info const *)" (?AllocateAlignedWithHook@Arena@protobuf@google@@AAEPAXIIPBVtype_info@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: void * __thiscall google::protobuf::Arena::AllocateAlignedWithHook(unsigned int,class type_info const *)" (?AllocateAlignedWithHook@Arena@protobuf@google@@AAEPAXIPBVtype_info@@@Z)
+Protocol.pb.obj : error LNK2019: "private: struct std::pair<void *,struct google::protobuf::internal::SerialArena::CleanupNode *> __thiscall google::protobuf::Arena::AllocateAlignedWithCleanup(unsigned int,class type_info const *)" (?AllocateAlignedWithCleanup@Arena@protobuf@google@@AAE?AU?$pair@PAXPAUCleanupNode@SerialArena@internal@protobuf@google@@@std@@IPBVtype_info@@@Z)"private: void * __thiscall google::protobuf::Arena::AllocateInternal(unsigned int,unsigned int,void (__cdecl*)(void *),class type_info const *)" (?AllocateInternal@Arena@protobuf@google@@AAEPAXIIP6AXPAX@ZPBVtype_info@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: struct std::pair<void *,struct google::protobuf::internal::SerialArena::CleanupNode *> __thiscall google::protobuf::Arena::AllocateAlignedWithCleanup(unsigned int,class type_info const *)" (?AllocateAlignedWithCleanup@Arena@protobuf@google@@AAE?AU?$pair@PAXPAUCleanupNode@SerialArena@internal@protobuf@google@@@std@@IPBVtype_info@@@Z)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class google::protobuf::MessageLite * __thiscall google::protobuf::MessageLite::New(class google::protobuf::Arena *)const " (?New@MessageLite@protobuf@google@@UBEPAV123@PAVArena@23@@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class google::protobuf::MessageLite * __thiscall google::protobuf::MessageLite::New(class google::protobuf::Arena *)const " (?New@MessageLite@protobuf@google@@UBEPAV123@PAVArena@23@@Z)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall google::protobuf::MessageLite::InitializationErrorString(void)const " (?InitializationErrorString@MessageLite@protobuf@google@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __thiscall google::protobuf::MessageLite::InitializationErrorString(void)const " (?InitializationErrorString@MessageLite@protobuf@google@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+Protocol.pb.obj : error LNK2019: "private: void * * __thiscall google::protobuf::internal::RepeatedPtrFieldBase::InternalExtend(int)" (?InternalExtend@RepeatedPtrFieldBase@internal@protobuf@google@@AAEPAPAXH@Z)"private: void __thiscall google::protobuf::internal::RepeatedPtrFieldBase::MergeFromInternal(class google::protobuf::internal::RepeatedPtrFieldBase const &,void (__thiscall google::protobuf::internal::RepeatedPtrFieldBase::*)(void * *,void * *,int,int))" (?MergeFromInternal@RepeatedPtrFieldBase@internal@protobuf@google@@AAEXABV1234@P81234@AEXPAPAX1HH@Z@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2019: "private: struct std::pair<char const *,bool> __thiscall google::protobuf::internal::EpsCopyInputStream::DoneFallback(int,int)" (?DoneFallback@EpsCopyInputStream@internal@protobuf@google@@AAE?AU?$pair@PBD_N@std@@HH@Z)"protected: bool __thiscall google::protobuf::internal::EpsCopyInputStream::DoneWithCheck(char const * *,int)" (?DoneWithCheck@EpsCopyInputStream@internal@protobuf@google@@IAE_NPAPBDH@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: struct std::pair<char const *,bool> __thiscall google::protobuf::internal::EpsCopyInputStream::DoneFallback(int,int)" (?DoneFallback@EpsCopyInputStream@internal@protobuf@google@@AAE?AU?$pair@PBD_N@std@@HH@Z)
+Protocol.pb.obj : error LNK2019: "private: char const * __thiscall google::protobuf::internal::ParseContext::ReadSizeAndPushLimitAndDepth(char const *,int *)" (?ReadSizeAndPushLimitAndDepth@ParseContext@internal@protobuf@google@@AAEPBDPBDPAH@Z)"public: char const * __thiscall google::protobuf::internal::ParseContext::ParseMessage<class Protocol::BuffData>(class Protocol::BuffData *,char const *)" (??$ParseMessage@VBuffData@Protocol@@@ParseContext@internal@protobuf@google@@QAEPBDPAVBuffData@Protocol@@PBD@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2019: "struct std::pair<char const *,unsigned int> __cdecl google::protobuf::internal::VarintParseSlow32(char const *,unsigned int)" (?VarintParseSlow32@internal@protobuf@google@@YA?AU?$pair@PBDI@std@@PBDI@Z)"char const * __cdecl google::protobuf::internal::VarintParseSlow(char const *,unsigned int,unsigned int *)" (?VarintParseSlow@internal@protobuf@google@@YAPBDPBDIPAI@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Protocol.pb.obj : error LNK2019: "struct std::pair<char const *,unsigned __int64> __cdecl google::protobuf::internal::VarintParseSlow64(char const *,unsigned int)" (?VarintParseSlow64@internal@protobuf@google@@YA?AU?$pair@PBD_K@std@@PBDI@Z)"char const * __cdecl google::protobuf::internal::VarintParseSlow(char const *,unsigned int,unsigned __int64 *)" (?VarintParseSlow@internal@protobuf@google@@YAPBDPBDIPA_K@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "struct std::pair<char const *,unsigned __int64> __cdecl google::protobuf::internal::VarintParseSlow64(char const *,unsigned int)" (?VarintParseSlow64@internal@protobuf@google@@YA?AU?$pair@PBD_K@std@@PBDI@Z)
+Protocol.pb.obj : error LNK2019: "struct std::pair<char const *,unsigned int> __cdecl google::protobuf::internal::ReadTagFallback(char const *,unsigned int)" (?ReadTagFallback@internal@protobuf@google@@YA?AU?$pair@PBDI@std@@PBDI@Z)"char const * __cdecl google::protobuf::internal::ReadTag(char const *,unsigned int *,unsigned int)" (?ReadTag@internal@protobuf@google@@YAPBDPBDPAII@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "struct std::pair<char const *,unsigned int> __cdecl google::protobuf::internal::ReadTagFallback(char const *,unsigned int)" (?ReadTagFallback@internal@protobuf@google@@YA?AU?$pair@PBDI@std@@PBDI@Z)
+Protocol.pb.obj : error LNK2019: "public: void __thiscall google::protobuf::UnknownFieldSet::MergeFrom(class google::protobuf::UnknownFieldSet const &)" (?MergeFrom@UnknownFieldSet@protobuf@google@@QAEXABV123@@Z)"private: void __thiscall google::protobuf::internal::InternalMetadata::DoMergeFrom<class google::protobuf::UnknownFieldSet>(class google::protobuf::UnknownFieldSet const &)" (??$DoMergeFrom@VUnknownFieldSet@protobuf@google@@@InternalMetadata@internal@protobuf@google@@AAEXABVUnknownFieldSet@23@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: void __thiscall google::protobuf::UnknownFieldSet::MergeFrom(class google::protobuf::UnknownFieldSet const &)" (?MergeFrom@UnknownFieldSet@protobuf@google@@QAEXABV123@@Z)
+Protocol.pb.obj : error LNK2019: "public: static class google::protobuf::UnknownFieldSet const & __cdecl google::protobuf::UnknownFieldSet::default_instance(void)" (?default_instance@UnknownFieldSet@protobuf@google@@SAABV123@XZ)"public: virtual unsigned char * __thiscall Protocol::C_TEST::_InternalSerialize(unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)const " (?_InternalSerialize@C_TEST@Protocol@@UBEPAEPAEPAVEpsCopyOutputStream@io@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: static class google::protobuf::UnknownFieldSet const & __cdecl google::protobuf::UnknownFieldSet::default_instance(void)" (?default_instance@UnknownFieldSet@protobuf@google@@SAABV123@XZ)
+Protocol.pb.obj : error LNK2019: "private: void __thiscall google::protobuf::UnknownFieldSet::ClearFallback(void)" (?ClearFallback@UnknownFieldSet@protobuf@google@@AAEXXZ)"public: void __thiscall google::protobuf::UnknownFieldSet::Clear(void)" (?Clear@UnknownFieldSet@protobuf@google@@QAEXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: void __thiscall google::protobuf::UnknownFieldSet::ClearFallback(void)" (?ClearFallback@UnknownFieldSet@protobuf@google@@AAEXXZ)
+Protocol.pb.obj : error LNK2019: "char const * __cdecl google::protobuf::internal::UnknownFieldParse(unsigned __int64,class google::protobuf::UnknownFieldSet *,char const *,class google::protobuf::internal::ParseContext *)" (?UnknownFieldParse@internal@protobuf@google@@YAPBD_KPAVUnknownFieldSet@23@PBDPAVParseContext@123@@Z)"public: virtual char const * __thiscall Protocol::C_TEST::_InternalParse(char const *,class google::protobuf::internal::ParseContext *)" (?_InternalParse@C_TEST@Protocol@@UAEPBDPBDPAVParseContext@internal@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "char const * __cdecl google::protobuf::internal::UnknownFieldParse(unsigned __int64,class google::protobuf::UnknownFieldSet *,char const *,class google::protobuf::internal::ParseContext *)" (?UnknownFieldParse@internal@protobuf@google@@YAPBD_KPAVUnknownFieldSet@23@PBDPAVParseContext@123@@Z)
+Protocol.pb.obj : error LNK2019: "struct google::protobuf::Metadata __cdecl google::protobuf::internal::AssignDescriptors(struct google::protobuf::internal::DescriptorTable const * (__cdecl*)(void),struct std::once_flag *,struct google::protobuf::Metadata const &)" (?AssignDescriptors@internal@protobuf@google@@YA?AUMetadata@23@P6APBUDescriptorTable@123@XZPAUonce_flag@std@@ABU423@@Z)"public: virtual struct google::protobuf::Metadata __thiscall Protocol::C_TEST::GetMetadata(void)const " (?GetMetadata@C_TEST@Protocol@@UBE?AUMetadata@protobuf@google@@XZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "struct google::protobuf::Metadata __cdecl google::protobuf::internal::AssignDescriptors(struct google::protobuf::internal::DescriptorTable const * (__cdecl*)(void),struct std::once_flag *,struct google::protobuf::Metadata const &)" (?AssignDescriptors@internal@protobuf@google@@YA?AUMetadata@23@P6APBUDescriptorTable@123@XZPAUonce_flag@std@@ABU423@@Z)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::CopyFrom(class google::protobuf::Message const &)" (?CopyFrom@Message@protobuf@google@@UAEXABV123@@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::CopyFrom(class google::protobuf::Message const &)" (?CopyFrom@Message@protobuf@google@@UAEXABV123@@Z)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@Message@protobuf@google@@UAEXABV123@@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@Message@protobuf@google@@UAEXABV123@@Z)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::Clear(void)" (?Clear@Message@protobuf@google@@UAEXXZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual void __thiscall google::protobuf::Message::Clear(void)" (?Clear@Message@protobuf@google@@UAEXXZ)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __thiscall google::protobuf::Message::IsInitialized(void)const " (?IsInitialized@Message@protobuf@google@@UBE_NXZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual bool __thiscall google::protobuf::Message::IsInitialized(void)const " (?IsInitialized@Message@protobuf@google@@UBE_NXZ)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual char const * __thiscall google::protobuf::Message::_InternalParse(char const *,class google::protobuf::internal::ParseContext *)" (?_InternalParse@Message@protobuf@google@@UAEPBDPBDPAVParseContext@internal@23@@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual char const * __thiscall google::protobuf::Message::_InternalParse(char const *,class google::protobuf::internal::ParseContext *)" (?_InternalParse@Message@protobuf@google@@UAEPBDPBDPAVParseContext@internal@23@@Z)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual unsigned int __thiscall google::protobuf::Message::ByteSizeLong(void)const " (?ByteSizeLong@Message@protobuf@google@@UBEIXZ)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual unsigned int __thiscall google::protobuf::Message::ByteSizeLong(void)const " (?ByteSizeLong@Message@protobuf@google@@UBEIXZ)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual unsigned char * __thiscall google::protobuf::Message::_InternalSerialize(unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)const " (?_InternalSerialize@Message@protobuf@google@@UBEPAEPAEPAVEpsCopyOutputStream@io@23@@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual unsigned char * __thiscall google::protobuf::Message::_InternalSerialize(unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)const " (?_InternalSerialize@Message@protobuf@google@@UBEPAEPAEPAVEpsCopyOutputStream@io@23@@Z)
+Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: virtual void __thiscall google::protobuf::Message::SetCachedSize(int)const " (?SetCachedSize@Message@protobuf@google@@EBEXH@Z)
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "private: virtual void __thiscall google::protobuf::Message::SetCachedSize(int)const " (?SetCachedSize@Message@protobuf@google@@EBEXH@Z)
+Protocol.pb.obj : error LNK2019: "public: static void __cdecl google::protobuf::internal::ReflectionOps::Merge(class google::protobuf::Message const &,class google::protobuf::Message *)" (?Merge@ReflectionOps@internal@protobuf@google@@SAXABVMessage@34@PAV534@@Z)"public: virtual void __thiscall Protocol::C_TEST::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@C_TEST@Protocol@@UAEXABVMessage@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: static void __cdecl google::protobuf::internal::ReflectionOps::Merge(class google::protobuf::Message const &,class google::protobuf::Message *)" (?Merge@ReflectionOps@internal@protobuf@google@@SAXABVMessage@34@PAV534@@Z)
+Protocol.pb.obj : error LNK2019: "public: static unsigned char * __cdecl google::protobuf::internal::WireFormat::InternalSerializeUnknownFieldsToArray(class google::protobuf::UnknownFieldSet const &,unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)" (?InternalSerializeUnknownFieldsToArray@WireFormat@internal@protobuf@google@@SAPAEABVUnknownFieldSet@34@PAEPAVEpsCopyOutputStream@io@34@@Z)"public: virtual unsigned char * __thiscall Protocol::C_TEST::_InternalSerialize(unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)const " (?_InternalSerialize@C_TEST@Protocol@@UBEPAEPAEPAVEpsCopyOutputStream@io@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: static unsigned char * __cdecl google::protobuf::internal::WireFormat::InternalSerializeUnknownFieldsToArray(class google::protobuf::UnknownFieldSet const &,unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)" (?InternalSerializeUnknownFieldsToArray@WireFormat@internal@protobuf@google@@SAPAEABVUnknownFieldSet@34@PAEPAVEpsCopyOutputStream@io@34@@Z)
+Protocol.pb.obj : error LNK2019: "unsigned int __cdecl google::protobuf::internal::ComputeUnknownFieldsSize(class google::protobuf::internal::InternalMetadata const &,unsigned int,class google::protobuf::internal::CachedSize *)" (?ComputeUnknownFieldsSize@internal@protobuf@google@@YAIABVInternalMetadata@123@IPAVCachedSize@123@@Z)"public: virtual unsigned int __thiscall Protocol::C_TEST::ByteSizeLong(void)const " (?ByteSizeLong@C_TEST@Protocol@@UBEIXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "unsigned int __cdecl google::protobuf::internal::ComputeUnknownFieldsSize(class google::protobuf::internal::InternalMetadata const &,unsigned int,class google::protobuf::internal::CachedSize *)" (?ComputeUnknownFieldsSize@internal@protobuf@google@@YAIABVInternalMetadata@123@IPAVCachedSize@123@@Z)
+Struct.pb.obj : error LNK2019: "public: __thiscall google::protobuf::RepeatedField<unsigned __int64>::RepeatedField<unsigned __int64>(class google::protobuf::Arena *)" (??0?$RepeatedField@_K@protobuf@google@@QAE@PAVArena@12@@Z)"protected: __thiscall Protocol::BuffData::BuffData(class google::protobuf::Arena *)" (??0BuffData@Protocol@@IAE@PAVArena@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: __thiscall google::protobuf::RepeatedField<unsigned __int64>::RepeatedField<unsigned __int64>(class google::protobuf::RepeatedField<unsigned __int64> const &)" (??0?$RepeatedField@_K@protobuf@google@@QAE@ABV012@@Z)"public: __thiscall Protocol::BuffData::BuffData(class Protocol::BuffData const &)" (??0BuffData@Protocol@@QAE@ABV01@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: __thiscall google::protobuf::RepeatedField<unsigned __int64>::~RepeatedField<unsigned __int64>(void)" (??1?$RepeatedField@_K@protobuf@google@@QAE@XZ)__unwindfunclet$??0BuffData@Protocol@@IAE@PAVArena@protobuf@google@@@Z$1 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: int __thiscall google::protobuf::RepeatedField<unsigned __int64>::size(void)const " (?size@?$RepeatedField@_K@protobuf@google@@QBEHXZ)"private: unsigned char * __thiscall google::protobuf::io::EpsCopyOutputStream::WriteVarintPacked<class google::protobuf::RepeatedField<unsigned __int64>,unsigned __int64 __cdecl(unsigned __int64)>(int,class google::protobuf::RepeatedField<unsigned __int64> const &,int,unsigned char *,unsigned __int64 (__cdecl&)(unsigned __int64))" (??$WriteVarintPacked@V?$RepeatedField@_K@protobuf@google@@$$A6A_K_K@Z@EpsCopyOutputStream@io@protobuf@google@@AAEPAEHABV?$RepeatedField@_K@23@HPAEA6A_K_K@Z@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: void __thiscall google::protobuf::RepeatedField<unsigned __int64>::Clear(void)" (?Clear@?$RepeatedField@_K@protobuf@google@@QAEXXZ)"public: virtual void __thiscall Protocol::BuffData::Clear(void)" (?Clear@BuffData@Protocol@@UAEXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: void __thiscall google::protobuf::RepeatedField<unsigned __int64>::MergeFrom(class google::protobuf::RepeatedField<unsigned __int64> const &)" (?MergeFrom@?$RepeatedField@_K@protobuf@google@@QAEXABV123@@Z)"public: void __thiscall Protocol::BuffData::MergeFrom(class Protocol::BuffData const &)" (?MergeFrom@BuffData@Protocol@@QAEXABV12@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: unsigned __int64 const * __thiscall google::protobuf::RepeatedField<unsigned __int64>::data(void)const " (?data@?$RepeatedField@_K@protobuf@google@@QBEPB_KXZ)"private: unsigned char * __thiscall google::protobuf::io::EpsCopyOutputStream::WriteVarintPacked<class google::protobuf::RepeatedField<unsigned __int64>,unsigned __int64 __cdecl(unsigned __int64)>(int,class google::protobuf::RepeatedField<unsigned __int64> const &,int,unsigned char *,unsigned __int64 (__cdecl&)(unsigned __int64))" (??$WriteVarintPacked@V?$RepeatedField@_K@protobuf@google@@$$A6A_K_K@Z@EpsCopyOutputStream@io@protobuf@google@@AAEPAEHABV?$RepeatedField@_K@23@HPAEA6A_K_K@Z@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: void __thiscall google::protobuf::RepeatedField<unsigned __int64>::InternalSwap(class google::protobuf::RepeatedField<unsigned __int64> *)" (?InternalSwap@?$RepeatedField@_K@protobuf@google@@QAEXPAV123@@Z)"private: void __thiscall Protocol::BuffData::InternalSwap(class Protocol::BuffData *)" (?InternalSwap@BuffData@Protocol@@AAEXPAV12@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "public: static unsigned int __cdecl google::protobuf::internal::WireFormatLite::UInt64Size(class google::protobuf::RepeatedField<unsigned __int64> const &)" (?UInt64Size@WireFormatLite@internal@protobuf@google@@SAIABV?$RepeatedField@_K@34@@Z)"public: virtual unsigned int __thiscall Protocol::BuffData::ByteSizeLong(void)const " (?ByteSizeLong@BuffData@Protocol@@UBEIXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+Struct.pb.obj : error LNK2019: "char const * __cdecl google::protobuf::internal::PackedUInt64Parser(void *,char const *,class google::protobuf::internal::ParseContext *)" (?PackedUInt64Parser@internal@protobuf@google@@YAPBDPAXPBDPAVParseContext@123@@Z)"public: virtual char const * __thiscall Protocol::BuffData::_InternalParse(char const *,class google::protobuf::internal::ParseContext *)" (?_InternalParse@BuffData@Protocol@@UAEPBDPBDPAVParseContext@internal@protobuf@google@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+C:\Users\hj577\Desktop\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib : warning LNK4272: 'x64' 라이브러리 컴퓨터 종류가 'x86' 대상 컴퓨터 종류와 충돌합니다.
+C:\Users\hj577\Desktop\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib : warning LNK4272: 'x64' 라이브러리 컴퓨터 종류가 'x86' 대상 컴퓨터 종류와 충돌합니다.
+C:\Users\hj577\Desktop\ServerExCode\Binary\Debug\GameServer.exe : fatal error LNK1120: 76개의 확인할 수 없는 외부 참조입니다.

@@ -1,0 +1,32 @@
+syntax = "proto3";
+package Protocol;
+
+import "Enum.proto";
+
+message BuffData
+{
+	uint64 buffId = 1;
+	float remainTime = 2;
+	repeated uint64 victims = 3;
+}
+
+message RoomData
+{
+	int32 roomCode = 1;
+	uint32 playerCount = 2;
+}
+
+message Vector3
+{
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}
+
+message ObjectData
+{
+	ObjectType type = 1;
+	uint32 objectId = 2;
+	Vector3 position = 3;
+	Vector3 direction = 4;
+}

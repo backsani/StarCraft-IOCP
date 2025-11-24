@@ -1,0 +1,245 @@
+﻿  #pragma once
+  #include "Protocol.pb.h"
+  
+  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
+  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
+  
+  enum : uint16
+  {
+  	PKT_C_LOGIN = 1000,
+  	PKT_C_MOVE = 1001,
+  	PKT_C_ROOM_DATA = 1002,
+  	PKT_C_ROOM_REQUEST = 1003,
+  	PKT_C_ATTACK = 1004,
+  	PKT_S_LOGIN = 1005,
+  	PKT_S_ROOM_DATA = 1006,
+  	PKT_S_ROOM_RESPONSE = 1007,
+  	PKT_S_MOVE = 1008,
+  	PKT_S_OBJECT_SPAWN = 1009,
+  };
+  
+  // Custom Handlers
+  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
+  bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt);
+  bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt);
+  bool Handle_C_ROOM_DATA(PacketSessionRef& session, Protocol::C_ROOM_DATA& pkt);
+  bool Handle_C_ROOM_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_REQUEST& pkt);
+  bool Handle_C_ATTACK(PacketSessionRef& session, Protocol::C_ATTACK& pkt);
+  
+  class ClientPacketHandler
+  {
+  public:
+  	static void Init()
+  	{
+  		for (int32 i = 0; i < UINT16_MAX; i++)
+  			GPacketHandler[i] = Handle_INVALID;
+  		GPacketHandler[PKT_C_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_LOGIN>(Handle_C_LOGIN, session, buffer, len); };
+  		GPacketHandler[PKT_C_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_MOVE>(Handle_C_MOVE, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_DATA] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_DATA>(Handle_C_ROOM_DATA, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_REQUEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_REQUEST>(Handle_C_ROOM_REQUEST, session, buffer, len); };
+  		GPacketHandler[PKT_C_ATTACK] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ATTACK>(Handle_C_ATTACK, session, buffer, len); };
+  	}
+  
+  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  		return GPacketHandler[header->id](session, buffer, len);
+  	}
+  	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DATA); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_RESPONSE& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_RESPONSE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_MOVE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }
+  
+  private:
+  	template<typename PacketType, typename ProcessFunc>
+  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketType pkt;
+  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
+  			return false;
+  
+  		return func(session, pkt);
+  	}
+  
+  	template<typename T>
+  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
+  	{
+  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
+  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+  
+  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
+  		header->size = packetSize;
+  		header->id = pktId;
+  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+  		sendBuffer->Close(packetSize);
+  
+  		return sendBuffer;
+  	}
+  };
+  #pragma once
+  #include "Protocol.pb.h"
+  
+  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
+  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
+  
+  enum : uint16
+  {
+  	PKT_C_LOGIN = 1000,
+  	PKT_C_MOVE = 1001,
+  	PKT_C_ROOM_DATA = 1002,
+  	PKT_C_ROOM_REQUEST = 1003,
+  	PKT_C_ATTACK = 1004,
+  	PKT_S_LOGIN = 1005,
+  	PKT_S_ROOM_DATA = 1006,
+  	PKT_S_ROOM_RESPONSE = 1007,
+  	PKT_S_MOVE = 1008,
+  	PKT_S_OBJECT_SPAWN = 1009,
+  };
+  
+  // Custom Handlers
+  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
+  bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt);
+  bool Handle_S_ROOM_DATA(PacketSessionRef& session, Protocol::S_ROOM_DATA& pkt);
+  bool Handle_S_ROOM_RESPONSE(PacketSessionRef& session, Protocol::S_ROOM_RESPONSE& pkt);
+  bool Handle_S_MOVE(PacketSessionRef& session, Protocol::S_MOVE& pkt);
+  bool Handle_S_OBJECT_SPAWN(PacketSessionRef& session, Protocol::S_OBJECT_SPAWN& pkt);
+  
+  class ServerPacketHandler
+  {
+  public:
+  	static void Init()
+  	{
+  		for (int32 i = 0; i < UINT16_MAX; i++)
+  			GPacketHandler[i] = Handle_INVALID;
+  		GPacketHandler[PKT_S_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_LOGIN>(Handle_S_LOGIN, session, buffer, len); };
+  		GPacketHandler[PKT_S_ROOM_DATA] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ROOM_DATA>(Handle_S_ROOM_DATA, session, buffer, len); };
+  		GPacketHandler[PKT_S_ROOM_RESPONSE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ROOM_RESPONSE>(Handle_S_ROOM_RESPONSE, session, buffer, len); };
+  		GPacketHandler[PKT_S_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_MOVE>(Handle_S_MOVE, session, buffer, len); };
+  		GPacketHandler[PKT_S_OBJECT_SPAWN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECT_SPAWN>(Handle_S_OBJECT_SPAWN, session, buffer, len); };
+  	}
+  
+  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  		return GPacketHandler[header->id](session, buffer, len);
+  	}
+  	static SendBufferRef MakeSendBuffer(Protocol::C_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_C_LOGIN); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_C_MOVE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_DATA); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_REQUEST& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_REQUEST); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_ATTACK& pkt) { return MakeSendBuffer(pkt, PKT_C_ATTACK); }
+  
+  private:
+  	template<typename PacketType, typename ProcessFunc>
+  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketType pkt;
+  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
+  			return false;
+  
+  		return func(session, pkt);
+  	}
+  
+  	template<typename T>
+  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
+  	{
+  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
+  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+  
+  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
+  		header->size = packetSize;
+  		header->id = pktId;
+  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+  		sendBuffer->Close(packetSize);
+  
+  		return sendBuffer;
+  	}
+  };
+  C:Enum.pb.h
+  1개 파일이 복사되었습니다.
+  C:Enum.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.h
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.h
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.cc
+  1개 파일이 복사되었습니다.
+  C:ClientPacketHandler.h
+  1개 파일이 복사되었습니다.
+  C:Enum.cs
+  1개 파일이 복사되었습니다.
+  C:Struct.cs
+  1개 파일이 복사되었습니다.
+  C:Protocol.cs
+  1개 파일이 복사되었습니다.
+  C:Enum.pb.h
+  1개 파일이 복사되었습니다.
+  C:Enum.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.h
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.h
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.cc
+  1개 파일이 복사되었습니다.
+  C:ServerPacketHandler.h
+  1개 파일이 복사되었습니다.
+  계속하려면 아무 키나 누르십시오 . . . 
+  DummyClient.cpp
+  ServerPacketHandler.cpp
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(15,57): error C2039: 'S_TEST': 'Protocol'의 멤버가 아닙니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\Protocol.pb.h(102,11):
+      'Protocol' 선언을 참조하십시오.
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(15,57): error C2061: 구문 오류: 식별자 'S_TEST'
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(17,10): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(17,29): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(17,48): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(19,26): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(21,19): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(21,13): error C2530: 'buf': 참조를 초기화해야 합니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(21,13): error C3531: 'buf': 형식에 'auto'이(가) 포함된 기호에는 이니셜라이저가 있어야 합니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(21,17): error C2143: 구문 오류: ';'이(가) ':' 앞에 없습니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(21,30): error C2143: 구문 오류: ';'이(가) ')' 앞에 없습니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(25,14): error C2530: 'vic': 참조를 초기화해야 합니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(25,14): error C3531: 'vic': 형식에 'auto'이(가) 포함된 기호에는 이니셜라이저가 있어야 합니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(25,18): error C2143: 구문 오류: ';'이(가) ':' 앞에 없습니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\DummyClient\ServerPacketHandler.cpp(25,33): error C2143: 구문 오류: ';'이(가) ')' 앞에 없습니다.
+  (소스 파일 '/ServerPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+  코드를 생성하고 있습니다...

@@ -1,0 +1,2414 @@
+﻿  #pragma once
+  #include "Protocol.pb.h"
+  
+  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
+  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
+  
+  enum : uint16
+  {
+  	PKT_C_LOGIN = 1000,
+  	PKT_C_MOVE = 1001,
+  	PKT_C_ROOM_DATA = 1002,
+  	PKT_C_ROOM_REQUEST = 1003,
+  	PKT_C_ATTACK = 1004,
+  	PKT_C_RTT_PING = 1005,
+  	PKT_S_RTT_PONG = 1006,
+  	PKT_S_LOGIN = 1007,
+  	PKT_S_ROOM_DATA = 1008,
+  	PKT_S_ROOM_RESPONSE = 1009,
+  	PKT_S_MOVE = 1010,
+  	PKT_S_OBJECT_SPAWN = 1011,
+  	PKT_S_OBJECT_DEAD = 1012,
+  	PKT_S_OBJECT_DAMAGE = 1013,
+  };
+  
+  // Custom Handlers
+  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
+  bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt);
+  bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt);
+  bool Handle_C_ROOM_DATA(PacketSessionRef& session, Protocol::C_ROOM_DATA& pkt);
+  bool Handle_C_ROOM_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_REQUEST& pkt);
+  bool Handle_C_ATTACK(PacketSessionRef& session, Protocol::C_ATTACK& pkt);
+  bool Handle_C_RTT_PING(PacketSessionRef& session, Protocol::C_RTT_PING& pkt);
+  
+  class ClientPacketHandler
+  {
+  public:
+  	static void Init()
+  	{
+  		for (int32 i = 0; i < UINT16_MAX; i++)
+  			GPacketHandler[i] = Handle_INVALID;
+  		GPacketHandler[PKT_C_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_LOGIN>(Handle_C_LOGIN, session, buffer, len); };
+  		GPacketHandler[PKT_C_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_MOVE>(Handle_C_MOVE, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_DATA] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_DATA>(Handle_C_ROOM_DATA, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_REQUEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_REQUEST>(Handle_C_ROOM_REQUEST, session, buffer, len); };
+  		GPacketHandler[PKT_C_ATTACK] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ATTACK>(Handle_C_ATTACK, session, buffer, len); };
+  		GPacketHandler[PKT_C_RTT_PING] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_RTT_PING>(Handle_C_RTT_PING, session, buffer, len); };
+  	}
+  
+  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  		return GPacketHandler[header->id](session, buffer, len);
+  	}
+  	static SendBufferRef MakeSendBuffer(Protocol::S_RTT_PONG& pkt) { return MakeSendBuffer(pkt, PKT_S_RTT_PONG); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DATA); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_RESPONSE& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_RESPONSE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_MOVE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DEAD& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DEAD); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DAMAGE& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DAMAGE); }
+  
+  private:
+  	template<typename PacketType, typename ProcessFunc>
+  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketType pkt;
+  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
+  			return false;
+  
+  		return func(session, pkt);
+  	}
+  
+  	template<typename T>
+  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
+  	{
+  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
+  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+  
+  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
+  		header->size = packetSize;
+  		header->id = pktId;
+  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+  		sendBuffer->Close(packetSize);
+  
+  		return sendBuffer;
+  	}
+  };
+  #pragma once
+  #include "Protocol.pb.h"
+  
+  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
+  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
+  
+  enum : uint16
+  {
+  	PKT_C_LOGIN = 1000,
+  	PKT_C_MOVE = 1001,
+  	PKT_C_ROOM_DATA = 1002,
+  	PKT_C_ROOM_REQUEST = 1003,
+  	PKT_C_ATTACK = 1004,
+  	PKT_C_RTT_PING = 1005,
+  	PKT_S_RTT_PONG = 1006,
+  	PKT_S_LOGIN = 1007,
+  	PKT_S_ROOM_DATA = 1008,
+  	PKT_S_ROOM_RESPONSE = 1009,
+  	PKT_S_MOVE = 1010,
+  	PKT_S_OBJECT_SPAWN = 1011,
+  	PKT_S_OBJECT_DEAD = 1012,
+  	PKT_S_OBJECT_DAMAGE = 1013,
+  };
+  
+  // Custom Handlers
+  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
+  bool Handle_S_RTT_PONG(PacketSessionRef& session, Protocol::S_RTT_PONG& pkt);
+  bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt);
+  bool Handle_S_ROOM_DATA(PacketSessionRef& session, Protocol::S_ROOM_DATA& pkt);
+  bool Handle_S_ROOM_RESPONSE(PacketSessionRef& session, Protocol::S_ROOM_RESPONSE& pkt);
+  bool Handle_S_MOVE(PacketSessionRef& session, Protocol::S_MOVE& pkt);
+  bool Handle_S_OBJECT_SPAWN(PacketSessionRef& session, Protocol::S_OBJECT_SPAWN& pkt);
+  bool Handle_S_OBJECT_DEAD(PacketSessionRef& session, Protocol::S_OBJECT_DEAD& pkt);
+  bool Handle_S_OBJECT_DAMAGE(PacketSessionRef& session, Protocol::S_OBJECT_DAMAGE& pkt);
+  
+  class ServerPacketHandler
+  {
+  public:
+  	static void Init()
+  	{
+  		for (int32 i = 0; i < UINT16_MAX; i++)
+  			GPacketHandler[i] = Handle_INVALID;
+  		GPacketHandler[PKT_S_RTT_PONG] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_RTT_PONG>(Handle_S_RTT_PONG, session, buffer, len); };
+  		GPacketHandler[PKT_S_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_LOGIN>(Handle_S_LOGIN, session, buffer, len); };
+  		GPacketHandler[PKT_S_ROOM_DATA] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ROOM_DATA>(Handle_S_ROOM_DATA, session, buffer, len); };
+  		GPacketHandler[PKT_S_ROOM_RESPONSE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ROOM_RESPONSE>(Handle_S_ROOM_RESPONSE, session, buffer, len); };
+  		GPacketHandler[PKT_S_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_MOVE>(Handle_S_MOVE, session, buffer, len); };
+  		GPacketHandler[PKT_S_OBJECT_SPAWN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECT_SPAWN>(Handle_S_OBJECT_SPAWN, session, buffer, len); };
+  		GPacketHandler[PKT_S_OBJECT_DEAD] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECT_DEAD>(Handle_S_OBJECT_DEAD, session, buffer, len); };
+  		GPacketHandler[PKT_S_OBJECT_DAMAGE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECT_DAMAGE>(Handle_S_OBJECT_DAMAGE, session, buffer, len); };
+  	}
+  
+  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  		return GPacketHandler[header->id](session, buffer, len);
+  	}
+  	static SendBufferRef MakeSendBuffer(Protocol::C_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_C_LOGIN); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_C_MOVE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_DATA); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_REQUEST& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_REQUEST); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_ATTACK& pkt) { return MakeSendBuffer(pkt, PKT_C_ATTACK); }
+  	static SendBufferRef MakeSendBuffer(Protocol::C_RTT_PING& pkt) { return MakeSendBuffer(pkt, PKT_C_RTT_PING); }
+  
+  private:
+  	template<typename PacketType, typename ProcessFunc>
+  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketType pkt;
+  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
+  			return false;
+  
+  		return func(session, pkt);
+  	}
+  
+  	template<typename T>
+  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
+  	{
+  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
+  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+  
+  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
+  		header->size = packetSize;
+  		header->id = pktId;
+  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+  		sendBuffer->Close(packetSize);
+  
+  		return sendBuffer;
+  	}
+  };
+  C:Enum.pb.h
+  1개 파일이 복사되었습니다.
+  C:Enum.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.h
+  1개 파일이 복사되었습니다.
+  C:Struct.pb.cc
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.h
+  1개 파일이 복사되었습니다.
+  C:Protocol.pb.cc
+  1개 파일이 복사되었습니다.
+  C:ClientPacketHandler.h
+  1개 파일이 복사되었습니다.
+  C:Enum.cs
+  1개 파일이 복사되었습니다.
+  C:Struct.cs
+  1개 파일이 복사되었습니다.
+  C:Protocol.cs
+  1개 파일이 복사되었습니다.
+  계속하려면 아무 키나 누르십시오 . . . 
+  Enum.pb.cc
+  Protocol.pb.cc
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(676,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(1133,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(1351,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Protocol.pb.cc(2474,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Struct.pb.cc
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Struct.pb.cc(491,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  ClientPacketHandler.cpp
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\ClientPacketHandler.cpp(27,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\ClientPacketHandler.cpp(29,64): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+  GameObject.cpp
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\GameObject.cpp(181,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+  
+  GameServer.cpp
+  GameSession.cpp
+  Room.cpp
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         with
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         [
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:             _Ty=int32
+C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         ]
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(39,31):
+      템플릿 인스턴스화 컨텍스트(가장 오래된 인스턴스화 컨텍스트)가
+          C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\GameServer\Room.cpp(13,9):
+          컴파일되는 함수 템플릿 인스턴스화 'std::shared_ptr<GridManager> MakeShared<GridManager,int,int,int,int>(int &&,int &&,int &&,int &&)'에 대한 참조를 확인하세요.
+          C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\ServerCore\Memory.h(53,27):
+          컴파일되는 함수 템플릿 인스턴스화 'Type *xnew<GridManager,_Ty,_Ty,_Ty,_Ty>(_Ty &&,_Ty &&,_Ty &&,_Ty &&)'에 대한 참조를 확인하세요.
+          with
+          [
+              Type=GridManager,
+              _Ty=int32
+          ]
+  
+  코드를 생성하고 있습니다...
+  LINK : 이전 연결 이후로 0개의 새 모듈과 8개(전체 83개 중)의 모듈이 변경되었습니다.
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+  라이브러리가 검색되었습니다.
+  LINK : 이전에 강했던 '"void __cdecl __global_delete(void *,unsigned __int64)" (?__global_delete@@YAXPEAX_K@Z)' 기호가 이제 약합니다. 전체 링크를 수행하고 있습니다.
+  LINK.EXE 호출 중:
+   /ERRORREPORT:PROMPT @C:\Users\hj577\AppData\Local\Temp\MSBuildTemp\tmp01c40f12f53644c3a89b653e299332bf.rsp
+   /nologo
+   /incremental
+   /fullbuild
+  
+  Pass 1을 시작하고 있습니다.
+  /DEFAULTLIB:msvcprtd을(를) 처리했습니다.
+  /DEFAULTLIB:MSVCRTD을(를) 처리했습니다.
+  /DEFAULTLIB:OLDNAMES을(를) 처리했습니다.
+  /DEFAULTLIB:ServerCore\Debug\ServerCore.lib을(를) 처리했습니다.
+  /DEFAULTLIB:Protobuf\Debug\libprotobufd.lib을(를) 처리했습니다.
+  /DEFAULTLIB:ws2_32.lib을(를) 처리했습니다.
+  
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+        "__declspec(dllimport) public: __cdecl std::_Lockit::_Lockit(int)" (__imp_??0_Lockit@std@@QEAA@H@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: __cdecl std::_Lockit::~_Lockit(void)" (__imp_??1_Lockit@std@@QEAA@XZ)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Xtime_get_ticks을(를) 찾았습니다.
+          GameObject.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "void __cdecl std::_Xlength_error(char const *)" (?_Xlength_error@std@@YAXPEBD@Z)을(를) 찾았습니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Query_perf_counter을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Query_perf_frequency을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "bool __cdecl std::uncaught_exception(void)" (?uncaught_exception@std@@YA_NXZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Thrd_sleep_for을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          msvcprtd.lib(sharedmutex.obj)을(를) 로드했습니다.
+        "__declspec(dllimport) public: bool __cdecl std::ios_base::good(void)const " (__imp_?good@ios_base@std@@QEBA_NXZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: int __cdecl std::ios_base::flags(void)const " (__imp_?flags@ios_base@std@@QEBAHXZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: __int64 __cdecl std::ios_base::width(void)const " (__imp_?width@ios_base@std@@QEBA_JXZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: __int64 __cdecl std::ios_base::width(__int64)" (__imp_?width@ios_base@std@@QEAA_J_J@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: int __cdecl std::basic_streambuf<char,struct std::char_traits<char> >::sputc(char)" (__imp_?sputc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHD@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: __int64 __cdecl std::basic_streambuf<char,struct std::char_traits<char> >::sputn(char const *,__int64)" (__imp_?sputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAA_JPEBD_J@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: void __cdecl std::basic_ios<char,struct std::char_traits<char> >::setstate(int,bool)" (__imp_?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > * __cdecl std::basic_ios<char,struct std::char_traits<char> >::tie(void)const " (__imp_?tie@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBAPEAV?$basic_ostream@DU?$char_traits@D@std@@@2@XZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_streambuf<char,struct std::char_traits<char> > * __cdecl std::basic_ios<char,struct std::char_traits<char> >::rdbuf(void)const " (__imp_?rdbuf@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBAPEAV?$basic_streambuf@DU?$char_traits@D@std@@@2@XZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: char __cdecl std::basic_ios<char,struct std::char_traits<char> >::fill(void)const " (__imp_?fill@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADXZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: char __cdecl std::basic_ios<char,struct std::char_traits<char> >::widen(char)const " (__imp_?widen@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADD@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: void __cdecl std::basic_ostream<char,struct std::char_traits<char> >::_Osfx(void)" (__imp_?_Osfx@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::basic_ostream<char,struct std::char_traits<char> >::operator<<(class std::basic_ostream<char,struct std::char_traits<char> > & (__cdecl*)(class std::basic_ostream<char,struct std::char_traits<char> > &))" (__imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::basic_ostream<char,struct std::char_traits<char> >::put(char)" (__imp_?put@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@D@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::basic_ostream<char,struct std::char_traits<char> >::flush(void)" (__imp_?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) class std::basic_ostream<char,struct std::char_traits<char> > std::cout" (__imp_?cout@std@@3V?$basic_ostream@DU?$char_traits@D@std@@@1@A)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "void __cdecl std::_Xbad_function_call(void)" (?_Xbad_function_call@std@@YAXXZ)을(를) 찾았습니다.
+          GameSession.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::basic_ostream<char,struct std::char_traits<char> >::operator<<(int)" (__imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@H@Z)을(를) 찾았습니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::basic_ostream<char,struct std::char_traits<char> >::operator<<(unsigned __int64)" (__imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@_K@Z)을(를) 찾았습니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::basic_ostream<char,struct std::char_traits<char> >::operator<<(float)" (__imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z)을(를) 찾았습니다.
+          Room.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        __IMPORT_DESCRIPTOR_MSVCP140D을(를) 찾았습니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        __NULL_IMPORT_DESCRIPTOR을(를) 찾았습니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        MSVCP140D_NULL_THUNK_DATA을(를) 찾았습니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
+        _RTC_InitBase을(를) 찾았습니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          pch.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Enum.pb.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          MSVCRTD.lib(init.obj)을(를) 로드했습니다.
+        __CheckForDebuggerJustMyCode을(를) 찾았습니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          pch.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Enum.pb.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          MSVCRTD.lib(debugger_jmc.obj)을(를) 로드했습니다.
+        "void * __cdecl operator new(unsigned __int64)" (??2@YAPEAX_K@Z)을(를) 찾았습니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          MSVCRTD.lib(new_scalar.obj)을(를) 로드했습니다.
+        "void __cdecl operator delete(void *,unsigned __int64)" (??3@YAXPEAX_K@Z)을(를) 찾았습니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          MSVCRTD.lib(delete_scalar_size.obj)을(를) 로드했습니다.
+        _RTC_CheckStackVars을(를) 찾았습니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          MSVCRTD.lib(stack.obj)을(를) 로드했습니다.
+        __GSHandlerCheck을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          MSVCRTD.lib(gshandler.obj)을(를) 로드했습니다.
+        __GSHandlerCheck_EH4을(를) 찾았습니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          MSVCRTD.lib(gshandlereh4.obj)을(를) 로드했습니다.
+        __security_check_cookie을(를) 찾았습니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          MSVCRTD.lib(gshandler.obj)에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          MSVCRTD.lib(amdsecgs.obj)을(를) 로드했습니다.
+        "const type_info::`vftable'" (??_7type_info@@6B@)을(를) 찾았습니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          MSVCRTD.lib(std_type_info_static.obj)을(를) 로드했습니다.
+        __security_cookie을(를) 찾았습니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          MSVCRTD.lib(amdsecgs.obj)에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          MSVCRTD.lib(gs_cookie.obj)을(를) 로드했습니다.
+        _fltused을(를) 찾았습니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          MSVCRTD.lib(fltused.obj)을(를) 로드했습니다.
+        atexit을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          MSVCRTD.lib(utility.obj)을(를) 로드했습니다.
+        _Init_thread_header을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          MSVCRTD.lib(thread_safe_statics.obj)을(를) 로드했습니다.
+        _tls_index을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
+          MSVCRTD.lib(tlssup.obj)을(를) 로드했습니다.
+        "struct __type_info_node __type_info_root_node" (?__type_info_root_node@@3U__type_info_node@@A)을(를) 찾았습니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          MSVCRTD.lib(tncleanup.obj)을(를) 로드했습니다.
+        "void __cdecl `eh vector constructor iterator'(void *,unsigned __int64,unsigned __int64,void (__cdecl*)(void *),void (__cdecl*)(void *))" (??_L@YAXPEAX_K1P6AX0@Z2@Z)을(를) 찾았습니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          MSVCRTD.lib(ehvecctr.obj)을(를) 로드했습니다.
+        "void __cdecl `eh vector destructor iterator'(void *,unsigned __int64,unsigned __int64,void (__cdecl*)(void *))" (??_M@YAXPEAX_K1P6AX0@Z@Z)을(를) 찾았습니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          MSVCRTD.lib(ehvecdtr.obj)을(를) 로드했습니다.
+        mainCRTStartup을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)을(를) 로드했습니다.
+        _RTC_SetErrorFuncW을(를) 찾았습니다.
+          MSVCRTD.lib(init.obj)에서 참조됩니다.
+          MSVCRTD.lib(userapi.obj)을(를) 로드했습니다.
+        "void __cdecl __scrt_throw_std_bad_alloc(void)" (?__scrt_throw_std_bad_alloc@@YAXXZ)을(를) 찾았습니다.
+          MSVCRTD.lib(new_scalar.obj)에서 참조됩니다.
+          MSVCRTD.lib(throw_bad_alloc.obj)을(를) 로드했습니다.
+        "void __cdecl operator delete(void *)" (??3@YAXPEAX@Z)을(를) 찾았습니다.
+          MSVCRTD.lib(delete_scalar_size.obj)에서 참조됩니다.
+          MSVCRTD.lib(delete_scalar.obj)을(를) 로드했습니다.
+        "void __cdecl _RTC_StackFailure(void *,char const *)" (?_RTC_StackFailure@@YAXPEAXPEBD@Z)을(를) 찾았습니다.
+          MSVCRTD.lib(stack.obj)에서 참조됩니다.
+          MSVCRTD.lib(error.obj)을(를) 로드했습니다.
+        __report_gsfailure을(를) 찾았습니다.
+          MSVCRTD.lib(amdsecgs.obj)에서 참조됩니다.
+          MSVCRTD.lib(gs_report.obj)을(를) 로드했습니다.
+        __isa_available_init을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(cpu_disp.obj)을(를) 로드했습니다.
+        _get_startup_argv_mode을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(argv_mode.obj)을(를) 로드했습니다.
+        __scrt_is_ucrt_dll_in_use을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(ucrt_detection.obj)을(를) 로드했습니다.
+        __scrt_fastfail을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)을(를) 로드했습니다.
+        __guard_dispatch_icall_fptr을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(ehvecctr.obj)에서 참조됩니다.
+          MSVCRTD.lib(ehvecdtr.obj)에서 참조됩니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(guard_support.obj)을(를) 로드했습니다.
+        __security_init_cookie을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(gs_support.obj)을(를) 로드했습니다.
+        _matherr을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(matherr.obj)을(를) 로드했습니다.
+        _get_startup_commit_mode을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(commit_mode.obj)을(를) 로드했습니다.
+        _get_startup_file_mode을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(file_mode.obj)을(를) 로드했습니다.
+        _get_startup_new_mode을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(new_mode.obj)을(를) 로드했습니다.
+        _get_startup_thread_locale_mode을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(thread_locale.obj)을(를) 로드했습니다.
+        _should_initialize_environment을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(env_mode.obj)을(를) 로드했습니다.
+        _initialize_invalid_parameter_handler을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(invalid_parameter_handler.obj)을(를) 로드했습니다.
+        _initialize_denormal_control을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(denormal_control.obj)을(를) 로드했습니다.
+        __scrt_initialize_default_local_stdio_options을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(default_local_stdio_options.obj)을(를) 로드했습니다.
+        __scrt_is_user_matherr_present을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(matherr_detection.obj)을(를) 로드했습니다.
+        __scrt_get_dyn_tls_init_callback을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(dyn_tls_init.obj)을(를) 로드했습니다.
+        __scrt_get_dyn_tls_dtor_callback을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(dyn_tls_dtor.obj)을(를) 로드했습니다.
+        _RTC_Initialize을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(initsect.obj)을(를) 로드했습니다.
+        __xi_a을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          MSVCRTD.lib(initializers.obj)을(를) 로드했습니다.
+  /DEFAULTLIB:kernel32.lib을(를) 처리했습니다.
+   /DISALLOWLIB:msvcrt.lib을(를) 처리했습니다.
+   /DISALLOWLIB:libcmt.lib을(를) 처리했습니다.
+   /DISALLOWLIB:libcmtd.lib을(를) 처리했습니다.
+   /DISALLOWLIB:vcruntime.lib을(를) 처리했습니다.
+  /DEFAULTLIB:vcruntimed.lib을(를) 처리했습니다.
+   /DISALLOWLIB:libvcruntime.lib을(를) 처리했습니다.
+   /DISALLOWLIB:libvcruntimed.lib을(를) 처리했습니다.
+   /DISALLOWLIB:ucrt.lib을(를) 처리했습니다.
+  /DEFAULTLIB:ucrtd.lib을(를) 처리했습니다.
+   /DISALLOWLIB:libucrt.lib을(를) 처리했습니다.
+   /DISALLOWLIB:libucrtd.lib을(를) 처리했습니다.
+        "int __cdecl _RTC_GetSrcLine(unsigned char *,wchar_t *,unsigned long,int *,wchar_t *,unsigned long)" (?_RTC_GetSrcLine@@YAHPEAEPEA_WKPEAH1K@Z)을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          MSVCRTD.lib(pdblkup.obj)을(를) 로드했습니다.
+        _guard_dispatch_icall_nop을(를) 찾았습니다.
+          MSVCRTD.lib(guard_support.obj)에서 참조됩니다.
+          MSVCRTD.lib(guard_dispatch.obj)을(를) 로드했습니다.
+        _guard_xfg_dispatch_icall_nop을(를) 찾았습니다.
+          MSVCRTD.lib(guard_support.obj)에서 참조됩니다.
+          MSVCRTD.lib(guard_xfg_dispatch.obj)을(를) 로드했습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+        "public: static void * __cdecl PoolAllocator::Alloc(int)" (?Alloc@PoolAllocator@@SAPEAXH@Z)을(를) 찾았습니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          ServerCore.lib(Allocator.obj)을(를) 로드했습니다.
+        "public: void __cdecl SendBuffer::Close(unsigned int)" (?Close@SendBuffer@@QEAAXI@Z)을(를) 찾았습니다.
+          GameObject.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)을(를) 로드했습니다.
+        "class SendBufferManager * GSendBufferManager" (?GSendBufferManager@@3PEAVSendBufferManager@@EA)을(를) 찾았습니다.
+          GameObject.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)을(를) 로드했습니다.
+        "public: __cdecl IocpCore::IocpCore(void)" (??0IocpCore@@QEAA@XZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ServerCore.lib(IocpCore.obj)을(를) 로드했습니다.
+        "public: __cdecl NetAddress::NetAddress(class std::basic_string<wchar_t,struct std::char_traits<wchar_t>,class std::allocator<wchar_t> >,unsigned short)" (??0NetAddress@@QEAA@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@G@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)을(를) 로드했습니다.
+        "private: virtual void * __cdecl Session::GetHandle(void)" (?GetHandle@Session@@EEAAPEAXXZ)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ServerCore.lib(Session.obj)을(를) 로드했습니다.
+        "public: void __cdecl ThreadManager::Launch(class std::function<void __cdecl(void)>)" (?Launch@ThreadManager@@QEAAXV?$function@$$A6AXXZ@std@@@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)을(를) 로드했습니다.
+        "public: __cdecl ServerService::ServerService(class NetAddress,class std::shared_ptr<class IocpCore>,class std::function<class std::shared_ptr<class Session> __cdecl(void)>,int)" (??0ServerService@@QEAA@VNetAddress@@V?$shared_ptr@VIocpCore@@@std@@V?$function@$$A6A?AV?$shared_ptr@VSession@@@std@@XZ@3@H@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ServerCore.lib(Service.obj)을(를) 로드했습니다.
+        "public: void __cdecl Lock::WriteLock(char const *)" (?WriteLock@Lock@@QEAAXPEBD@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Lock.obj)을(를) 로드했습니다.
+        "public: void * __cdecl Memory::Allocate(int)" (?Allocate@Memory@@QEAAPEAXH@Z)을(를) 찾았습니다.
+          ServerCore.lib(Allocator.obj)에서 참조됩니다.
+          ServerCore.lib(Memory.obj)을(를) 로드했습니다.
+        __@@_PchSym_@00@UillprhhUxkkPhvieviUhvieviUhvievixlivUcGEUwvyftUkxsOlyq@4B2008FD98C1DD4을(를) 찾았습니다.
+          ServerCore.lib(Lock.obj)에서 참조됩니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          ServerCore.lib(Allocator.obj)에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ServerCore.lib(IocpCore.obj)에서 참조됩니다.
+          ServerCore.lib(pch.obj)을(를) 로드했습니다.
+        "class std::shared_ptr<class SendBufferChunk> LSendBufferChunk" (?LSendBufferChunk@@3V?$shared_ptr@VSendBufferChunk@@@std@@A)을(를) 찾았습니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreTLS.obj)을(를) 로드했습니다.
+        "public: static void __cdecl SocketUtils::Init(void)" (?Init@SocketUtils@@SAXXZ)을(를) 찾았습니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ServerCore.lib(SocketUtils.obj)을(를) 로드했습니다.
+        "public: __cdecl IocpEvent::IocpEvent(enum EventType)" (??0IocpEvent@@QEAA@W4EventType@@@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(IocpEvent.obj)을(를) 로드했습니다.
+        "public: __cdecl RecvBuffer::RecvBuffer(int)" (??0RecvBuffer@@QEAA@H@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)을(를) 로드했습니다.
+        "public: __cdecl Listener::~Listener(void)" (??1Listener@@QEAA@XZ)을(를) 찾았습니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)을(를) 로드했습니다.
+        "public: void __cdecl DeadLockProfiler::PushLock(char const *)" (?PushLock@DeadLockProfiler@@QEAAXPEBD@Z)을(를) 찾았습니다.
+          ServerCore.lib(Lock.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)을(를) 로드했습니다.
+        "public: __cdecl MemoryPool::MemoryPool(int)" (??0MemoryPool@@QEAA@H@Z)을(를) 찾았습니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(MemoryPool.obj)을(를) 로드했습니다.
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+        "void __cdecl google::protobuf::internal::AssignDescriptors(struct google::protobuf::internal::DescriptorTable const *,bool)" (?AssignDescriptors@internal@protobuf@google@@YAXPEBUDescriptorTable@123@_N@Z)을(를) 찾았습니다.
+          Enum.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: __cdecl google::protobuf::internal::AddDescriptorsRunner::AddDescriptorsRunner(struct google::protobuf::internal::DescriptorTable const *)" (??0AddDescriptorsRunner@internal@protobuf@google@@QEAA@PEBUDescriptorTable@123@@Z)을(를) 찾았습니다.
+          Enum.pb.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: bool __cdecl google::protobuf::MessageLite::SerializeToArray(void *,int)const " (?SerializeToArray@MessageLite@protobuf@google@@QEBA_NPEAXH@Z)을(를) 찾았습니다.
+          GameObject.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: bool __cdecl google::protobuf::MessageLite::ParseFromArray(void const *,int)" (?ParseFromArray@MessageLite@protobuf@google@@QEAA_NPEBXH@Z)을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl google::protobuf::Message::InitializationErrorString(void)const " (?InitializationErrorString@Message@protobuf@google@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual void __cdecl google::protobuf::Message::DiscardUnknownFields(void)" (?DiscardUnknownFields@Message@protobuf@google@@UEAAXXZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual unsigned __int64 __cdecl google::protobuf::Message::SpaceUsedLong(void)const " (?SpaceUsedLong@Message@protobuf@google@@UEBA_KXZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl google::protobuf::Message::GetTypeName(void)const " (?GetTypeName@Message@protobuf@google@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual void __cdecl google::protobuf::Message::CheckTypeAndMergeFrom(class google::protobuf::MessageLite const &)" (?CheckTypeAndMergeFrom@Message@protobuf@google@@UEAAXAEBVMessageLite@23@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: __cdecl google::protobuf::internal::LogMessage::LogMessage(enum google::protobuf::LogLevel,char const *,int)" (??0LogMessage@internal@protobuf@google@@QEAA@W4LogLevel@23@PEBDH@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: __cdecl google::protobuf::internal::LogMessage::~LogMessage(void)" (??1LogMessage@internal@protobuf@google@@QEAA@XZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: class google::protobuf::internal::LogMessage & __cdecl google::protobuf::internal::LogMessage::operator<<(char const *)" (??6LogMessage@internal@protobuf@google@@QEAAAEAV0123@PEBD@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: void __cdecl google::protobuf::internal::LogFinisher::operator=(class google::protobuf::internal::LogMessage &)" (??4LogFinisher@internal@protobuf@google@@QEAAXAEAVLogMessage@123@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: unsigned char * __cdecl google::protobuf::io::EpsCopyOutputStream::EnsureSpaceFallback(unsigned char *)" (?EnsureSpaceFallback@EpsCopyOutputStream@io@protobuf@google@@AEAAPEAEPEAE@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: static unsigned char * __cdecl google::protobuf::io::CodedOutputStream::WriteVarint32ToArrayOutOfLineHelper(unsigned int,unsigned char *)" (?WriteVarint32ToArrayOutOfLineHelper@CodedOutputStream@io@protobuf@google@@CAPEAEIPEAE@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: unsigned __int64 __cdecl google::protobuf::internal::ThreadSafeArena::SpaceAllocated(void)const " (?SpaceAllocated@ThreadSafeArena@internal@protobuf@google@@QEBA_KXZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: void __cdecl google::protobuf::internal::ThreadSafeArena::AddCleanup(void *,void (__cdecl*)(void *))" (?AddCleanup@ThreadSafeArena@internal@protobuf@google@@QEAAXPEAXP6AX0@Z@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: void * __cdecl google::protobuf::Arena::AllocateAlignedWithHook(unsigned __int64,class type_info const *)" (?AllocateAlignedWithHook@Arena@protobuf@google@@AEAAPEAX_KPEBVtype_info@@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: struct std::pair<void *,struct google::protobuf::internal::SerialArena::CleanupNode *> __cdecl google::protobuf::Arena::AllocateAlignedWithCleanup(unsigned __int64,class type_info const *)" (?AllocateAlignedWithCleanup@Arena@protobuf@google@@AEAA?AU?$pair@PEAXPEAUCleanupNode@SerialArena@internal@protobuf@google@@@std@@_KPEBVtype_info@@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual class google::protobuf::MessageLite * __cdecl google::protobuf::MessageLite::New(class google::protobuf::Arena *)const " (?New@MessageLite@protobuf@google@@UEBAPEAV123@PEAVArena@23@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl google::protobuf::MessageLite::InitializationErrorString(void)const " (?InitializationErrorString@MessageLite@protobuf@google@@UEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: void * * __cdecl google::protobuf::internal::RepeatedPtrFieldBase::InternalExtend(int)" (?InternalExtend@RepeatedPtrFieldBase@internal@protobuf@google@@AEAAPEAPEAXH@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: void * __cdecl google::protobuf::internal::RepeatedPtrFieldBase::AddOutOfLineHelper(void *)" (?AddOutOfLineHelper@RepeatedPtrFieldBase@internal@protobuf@google@@AEAAPEAXPEAX@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: struct std::pair<char const *,bool> __cdecl google::protobuf::internal::EpsCopyInputStream::DoneFallback(int,int)" (?DoneFallback@EpsCopyInputStream@internal@protobuf@google@@AEAA?AU?$pair@PEBD_N@std@@HH@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: char const * __cdecl google::protobuf::internal::ParseContext::ReadSizeAndPushLimitAndDepth(char const *,int *)" (?ReadSizeAndPushLimitAndDepth@ParseContext@internal@protobuf@google@@AEAAPEBDPEBDPEAH@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "struct std::pair<char const *,unsigned int> __cdecl google::protobuf::internal::VarintParseSlow32(char const *,unsigned int)" (?VarintParseSlow32@internal@protobuf@google@@YA?AU?$pair@PEBDI@std@@PEBDI@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "struct std::pair<char const *,unsigned __int64> __cdecl google::protobuf::internal::VarintParseSlow64(char const *,unsigned int)" (?VarintParseSlow64@internal@protobuf@google@@YA?AU?$pair@PEBD_K@std@@PEBDI@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "struct std::pair<char const *,unsigned int> __cdecl google::protobuf::internal::ReadTagFallback(char const *,unsigned int)" (?ReadTagFallback@internal@protobuf@google@@YA?AU?$pair@PEBDI@std@@PEBDI@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: void __cdecl google::protobuf::UnknownFieldSet::MergeFrom(class google::protobuf::UnknownFieldSet const &)" (?MergeFrom@UnknownFieldSet@protobuf@google@@QEAAXAEBV123@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: static class google::protobuf::UnknownFieldSet const & __cdecl google::protobuf::UnknownFieldSet::default_instance(void)" (?default_instance@UnknownFieldSet@protobuf@google@@SAAEBV123@XZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: void __cdecl google::protobuf::UnknownFieldSet::ClearFallback(void)" (?ClearFallback@UnknownFieldSet@protobuf@google@@AEAAXXZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "char const * __cdecl google::protobuf::internal::UnknownFieldParse(unsigned __int64,class google::protobuf::UnknownFieldSet *,char const *,class google::protobuf::internal::ParseContext *)" (?UnknownFieldParse@internal@protobuf@google@@YAPEBD_KPEAVUnknownFieldSet@23@PEBDPEAVParseContext@123@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "struct google::protobuf::Metadata __cdecl google::protobuf::internal::AssignDescriptors(struct google::protobuf::internal::DescriptorTable const * (__cdecl*)(void),struct std::once_flag *,struct google::protobuf::Metadata const &)" (?AssignDescriptors@internal@protobuf@google@@YA?AUMetadata@23@P6APEBUDescriptorTable@123@XZPEAUonce_flag@std@@AEBU423@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual void __cdecl google::protobuf::Message::CopyFrom(class google::protobuf::Message const &)" (?CopyFrom@Message@protobuf@google@@UEAAXAEBV123@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual void __cdecl google::protobuf::Message::MergeFrom(class google::protobuf::Message const &)" (?MergeFrom@Message@protobuf@google@@UEAAXAEBV123@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual void __cdecl google::protobuf::Message::Clear(void)" (?Clear@Message@protobuf@google@@UEAAXXZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual bool __cdecl google::protobuf::Message::IsInitialized(void)const " (?IsInitialized@Message@protobuf@google@@UEBA_NXZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual char const * __cdecl google::protobuf::Message::_InternalParse(char const *,class google::protobuf::internal::ParseContext *)" (?_InternalParse@Message@protobuf@google@@UEAAPEBDPEBDPEAVParseContext@internal@23@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual unsigned __int64 __cdecl google::protobuf::Message::ByteSizeLong(void)const " (?ByteSizeLong@Message@protobuf@google@@UEBA_KXZ)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: virtual unsigned char * __cdecl google::protobuf::Message::_InternalSerialize(unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)const " (?_InternalSerialize@Message@protobuf@google@@UEBAPEAEPEAEPEAVEpsCopyOutputStream@io@23@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "private: virtual void __cdecl google::protobuf::Message::SetCachedSize(int)const " (?SetCachedSize@Message@protobuf@google@@EEBAXH@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: static void __cdecl google::protobuf::internal::ReflectionOps::Merge(class google::protobuf::Message const &,class google::protobuf::Message *)" (?Merge@ReflectionOps@internal@protobuf@google@@SAXAEBVMessage@34@PEAV534@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: static unsigned char * __cdecl google::protobuf::internal::WireFormat::InternalSerializeUnknownFieldsToArray(class google::protobuf::UnknownFieldSet const &,unsigned char *,class google::protobuf::io::EpsCopyOutputStream *)" (?InternalSerializeUnknownFieldsToArray@WireFormat@internal@protobuf@google@@SAPEAEAEBVUnknownFieldSet@34@PEAEPEAVEpsCopyOutputStream@io@34@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "unsigned __int64 __cdecl google::protobuf::internal::ComputeUnknownFieldsSize(class google::protobuf::internal::InternalMetadata const &,unsigned __int64,class google::protobuf::internal::CachedSize *)" (?ComputeUnknownFieldsSize@internal@protobuf@google@@YA_KAEBVInternalMetadata@123@_KPEAVCachedSize@123@@Z)을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: __cdecl google::protobuf::RepeatedField<unsigned __int64>::RepeatedField<unsigned __int64>(class google::protobuf::Arena *)" (??0?$RepeatedField@_K@protobuf@google@@QEAA@PEAVArena@12@@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: __cdecl google::protobuf::RepeatedField<unsigned __int64>::RepeatedField<unsigned __int64>(class google::protobuf::RepeatedField<unsigned __int64> const &)" (??0?$RepeatedField@_K@protobuf@google@@QEAA@AEBV012@@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: __cdecl google::protobuf::RepeatedField<unsigned __int64>::~RepeatedField<unsigned __int64>(void)" (??1?$RepeatedField@_K@protobuf@google@@QEAA@XZ)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: int __cdecl google::protobuf::RepeatedField<unsigned __int64>::size(void)const " (?size@?$RepeatedField@_K@protobuf@google@@QEBAHXZ)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: void __cdecl google::protobuf::RepeatedField<unsigned __int64>::Add(unsigned __int64 const &)" (?Add@?$RepeatedField@_K@protobuf@google@@QEAAXAEB_K@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: void __cdecl google::protobuf::RepeatedField<unsigned __int64>::Clear(void)" (?Clear@?$RepeatedField@_K@protobuf@google@@QEAAXXZ)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: void __cdecl google::protobuf::RepeatedField<unsigned __int64>::MergeFrom(class google::protobuf::RepeatedField<unsigned __int64> const &)" (?MergeFrom@?$RepeatedField@_K@protobuf@google@@QEAAXAEBV123@@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: unsigned __int64 const * __cdecl google::protobuf::RepeatedField<unsigned __int64>::data(void)const " (?data@?$RepeatedField@_K@protobuf@google@@QEBAPEB_KXZ)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: void __cdecl google::protobuf::RepeatedField<unsigned __int64>::InternalSwap(class google::protobuf::RepeatedField<unsigned __int64> *)" (?InternalSwap@?$RepeatedField@_K@protobuf@google@@QEAAXPEAV123@@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "public: static unsigned __int64 __cdecl google::protobuf::internal::WireFormatLite::UInt64Size(class google::protobuf::RepeatedField<unsigned __int64> const &)" (?UInt64Size@WireFormatLite@internal@protobuf@google@@SA_KAEBV?$RepeatedField@_K@34@@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        "char const * __cdecl google::protobuf::internal::PackedUInt64Parser(void *,char const *,class google::protobuf::internal::ParseContext *)" (?PackedUInt64Parser@internal@protobuf@google@@YAPEBDPEAXPEBDPEAVParseContext@123@@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        __IMPORT_DESCRIPTOR_libprotobufd을(를) 찾았습니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+        libprotobufd_NULL_THUNK_DATA을(를) 찾았습니다.
+          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
+          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
+        __imp_WSAGetLastError을(를) 찾았습니다.
+          ServerCore.lib(IocpCore.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_htons을(를) 찾았습니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        InetPtonW을(를) 찾았습니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        InetNtopW을(를) 찾았습니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_WSARecv을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_WSASend을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_bind을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_closesocket을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_htonl을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_listen을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_setsockopt을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_WSAStartup을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_WSACleanup을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_WSAIoctl을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_WSASocketW을(를) 찾았습니다.
+          ServerCore.lib(SocketUtils.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __imp_getpeername을(를) 찾았습니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        __IMPORT_DESCRIPTOR_WS2_32을(를) 찾았습니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+        WS2_32_NULL_THUNK_DATA을(를) 찾았습니다.
+          ws2_32.lib(WS2_32.dll)에서 참조됩니다.
+          ws2_32.lib(WS2_32.dll)을(를) 로드했습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
+        memmove을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        memset을(를) 찾았습니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __std_exception_copy을(를) 찾았습니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          MSVCRTD.lib(throw_bad_alloc.obj)에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __std_exception_destroy을(를) 찾았습니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          MSVCRTD.lib(throw_bad_alloc.obj)에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __std_type_info_compare을(를) 찾았습니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        _CxxThrowException을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          MSVCRTD.lib(throw_bad_alloc.obj)에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __CxxFrameHandler4을(를) 찾았습니다.
+          ServerCore.lib(IocpEvent.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ServerCore.lib(IocpCore.obj)에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          MSVCRTD.lib(gshandlereh4.obj)에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSession.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140_1D.dll)을(를) 로드했습니다.
+        memcpy을(를) 찾았습니다.
+          ServerCore.lib(Lock.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __std_type_info_name을(를) 찾았습니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        _purecall을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        memcmp을(를) 찾았습니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __C_specific_handler을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(ehvecctr.obj)에서 참조됩니다.
+          MSVCRTD.lib(ehvecdtr.obj)에서 참조됩니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __std_type_info_destroy_list을(를) 찾았습니다.
+          MSVCRTD.lib(tncleanup.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __current_exception을(를) 찾았습니다.
+          MSVCRTD.lib(ehvecdtr.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __current_exception_context을(를) 찾았습니다.
+          MSVCRTD.lib(ehvecdtr.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __C_specific_handler_noexcept을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __vcrt_GetModuleFileNameW을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __vcrt_GetModuleHandleW을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __vcrt_LoadLibraryExW을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __IMPORT_DESCRIPTOR_VCRUNTIME140D을(를) 찾았습니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        __IMPORT_DESCRIPTOR_VCRUNTIME140_1D을(를) 찾았습니다.
+          vcruntimed.lib(VCRUNTIME140_1D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140_1D.dll)을(를) 로드했습니다.
+        VCRUNTIME140D_NULL_THUNK_DATA을(를) 찾았습니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
+        VCRUNTIME140_1D_NULL_THUNK_DATA을(를) 찾았습니다.
+          vcruntimed.lib(VCRUNTIME140_1D.dll)에서 참조됩니다.
+          vcruntimed.lib(VCRUNTIME140_1D.dll)을(를) 로드했습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+        __imp__invalid_parameter을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(MemoryPool.obj)에서 참조됩니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          ServerCore.lib(Lock.obj)에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp__CrtDbgReport을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(MemoryPool.obj)에서 참조됩니다.
+          ServerCore.lib(Memory.obj)에서 참조됩니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          ServerCore.lib(Lock.obj)에서 참조됩니다.
+          Struct.pb.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          GameObject.obj에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp_wcslen을(를) 찾았습니다.
+          GameServer.obj에서 참조됩니다.
+          ServerCore.lib(NetAddress.obj)에서 참조됩니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        strlen을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          GameServer.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          Room.obj에서 참조됩니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp_ceilf을(를) 찾았습니다.
+          ClientPacketHandler.obj에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _CrtDbgReportW을(를) 찾았습니다.
+          MSVCRTD.lib(init.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _callnewh을(를) 찾았습니다.
+          MSVCRTD.lib(new_scalar.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        malloc을(를) 찾았습니다.
+          MSVCRTD.lib(new_scalar.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _seh_filter_dll을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _configure_narrow_argv을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _initialize_narrow_environment을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _initialize_onexit_table을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _register_onexit_function을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _execute_onexit_table을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _crt_atexit을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _crt_at_quick_exit을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _cexit을(를) 찾았습니다.
+          MSVCRTD.lib(utility.obj)에서 참조됩니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        terminate을(를) 찾았습니다.
+          MSVCRTD.lib(ehvecdtr.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _seh_filter_exe을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _set_app_type을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __setusermatherr을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _get_initial_narrow_environment을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _initterm을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _initterm_e을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        exit을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _exit을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _set_fmode을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __p___argc을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __p___argv을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _c_exit을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _register_thread_local_exe_atexit_callback을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _configthreadlocale을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _set_new_mode을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __p__commode을(를) 찾았습니다.
+          MSVCRTD.lib(exe_main.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _free_dbg을(를) 찾았습니다.
+          MSVCRTD.lib(delete_scalar.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        strcpy_s을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        strcat_s을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __stdio_common_vsprintf_s을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _wmakepath_s을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        _wsplitpath_s을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        wcscpy_s을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp_free을(를) 찾았습니다.
+          ServerCore.lib(Allocator.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp__beginthreadex을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp___acrt_iob_func을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp___stdio_common_vfprintf을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp__aligned_free을(를) 찾았습니다.
+          ServerCore.lib(MemoryPool.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __imp__aligned_malloc을(를) 찾았습니다.
+          ServerCore.lib(MemoryPool.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        __IMPORT_DESCRIPTOR_ucrtbased을(를) 찾았습니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+        ucrtbased_NULL_THUNK_DATA을(를) 찾았습니다.
+          ucrtd.lib(ucrtbased.dll)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+        __imp_ReleaseSRWLockExclusive을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_ReleaseSRWLockShared을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_AcquireSRWLockExclusive을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_AcquireSRWLockShared을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_TryAcquireSRWLockExclusive을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_TryAcquireSRWLockShared을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_SleepConditionVariableSRW을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_Sleep을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetCurrentThreadId을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          MSVCRTD.lib(debugger_jmc.obj)에서 참조됩니다.
+          MSVCRTD.lib(gs_support.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetTickCount64을(를) 찾았습니다.
+          msvcprtd.lib(sharedmutex.obj)에서 참조됩니다.
+          ServerCore.lib(Lock.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_WakeAllConditionVariable을(를) 찾았습니다.
+          MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_InitializeSListHead을(를) 찾았습니다.
+          MSVCRTD.lib(tncleanup.obj)에서 참조됩니다.
+          ServerCore.lib(MemoryPool.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_IsDebuggerPresent을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_RaiseException을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_MultiByteToWideChar을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_WideCharToMultiByte을(를) 찾았습니다.
+          MSVCRTD.lib(error.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_RtlCaptureContext을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_RtlLookupFunctionEntry을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_RtlVirtualUnwind을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_UnhandledExceptionFilter을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_SetUnhandledExceptionFilter을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetCurrentProcess을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_TerminateProcess을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_IsProcessorFeaturePresent을(를) 찾았습니다.
+          MSVCRTD.lib(gs_report.obj)에서 참조됩니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetStartupInfoW을(를) 찾았습니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetModuleHandleW을(를) 찾았습니다.
+          MSVCRTD.lib(utility_desktop.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_QueryPerformanceCounter을(를) 찾았습니다.
+          MSVCRTD.lib(gs_support.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetCurrentProcessId을(를) 찾았습니다.
+          MSVCRTD.lib(gs_support.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetSystemTimeAsFileTime을(를) 찾았습니다.
+          MSVCRTD.lib(gs_support.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetLastError을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_HeapAlloc을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_HeapFree을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetProcessHeap을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_VirtualQuery을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_FreeLibrary을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetProcAddress을(를) 찾았습니다.
+          MSVCRTD.lib(pdblkup.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_VirtualAlloc을(를) 찾았습니다.
+          ServerCore.lib(Allocator.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_VirtualFree을(를) 찾았습니다.
+          ServerCore.lib(Allocator.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_CloseHandle을(를) 찾았습니다.
+          ServerCore.lib(IocpCore.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_CreateIoCompletionPort을(를) 찾았습니다.
+          ServerCore.lib(IocpCore.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_GetQueuedCompletionStatus을(를) 찾았습니다.
+          ServerCore.lib(IocpCore.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_InterlockedPopEntrySList을(를) 찾았습니다.
+          ServerCore.lib(MemoryPool.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __imp_InterlockedPushEntrySList을(를) 찾았습니다.
+          ServerCore.lib(MemoryPool.obj)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        __IMPORT_DESCRIPTOR_KERNEL32을(를) 찾았습니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+        KERNEL32_NULL_THUNK_DATA을(를) 찾았습니다.
+          kernel32.lib(KERNEL32.dll)에서 참조됩니다.
+          kernel32.lib(KERNEL32.dll)을(를) 로드했습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+        "__declspec(dllimport) public: class std::basic_ostream<char,struct std::char_traits<char> > & __cdecl std::basic_ostream<char,struct std::char_traits<char> >::operator<<(unsigned int)" (__imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@I@Z)을(를) 찾았습니다.
+          ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Mtx_init_in_situ을(를) 찾았습니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Mtx_destroy_in_situ을(를) 찾았습니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "void __cdecl std::_Facet_Register(class std::_Facet_base *)" (?_Facet_Register@std@@YAXPEAV_Facet_base@1@@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(locale0_implib.obj)을(를) 로드했습니다.
+        "__declspec(dllimport) public: __cdecl std::locale::id::operator unsigned __int64(void)" (__imp_??Bid@locale@std@@QEAA_KXZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "private: static class std::locale::_Locimp * __cdecl std::locale::_Getgloballocale(void)" (?_Getgloballocale@locale@std@@CAPEAV_Locimp@12@XZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: wchar_t __cdecl std::ctype<wchar_t>::widen(char)const " (__imp_?widen@?$ctype@_W@std@@QEBA_WD@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: static unsigned __int64 __cdecl std::ctype<wchar_t>::_Getcat(class std::locale::facet const * *,class std::locale const *)" (__imp_?_Getcat@?$ctype@_W@std@@SA_KPEAPEBVfacet@locale@2@PEBV42@@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::locale __cdecl std::ios_base::getloc(void)const " (__imp_?getloc@ios_base@std@@QEBA?AVlocale@2@XZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: unsigned short __cdecl std::basic_streambuf<wchar_t,struct std::char_traits<wchar_t> >::sputc(wchar_t)" (__imp_?sputc@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAAG_W@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: __int64 __cdecl std::basic_streambuf<wchar_t,struct std::char_traits<wchar_t> >::sputn(wchar_t const *,__int64)" (__imp_?sputn@?$basic_streambuf@_WU?$char_traits@_W@std@@@std@@QEAA_JPEB_W_J@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: void __cdecl std::basic_ios<wchar_t,struct std::char_traits<wchar_t> >::setstate(int,bool)" (__imp_?setstate@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEAAXH_N@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> > * __cdecl std::basic_ios<wchar_t,struct std::char_traits<wchar_t> >::tie(void)const " (__imp_?tie@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_ostream@_WU?$char_traits@_W@std@@@2@XZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_streambuf<wchar_t,struct std::char_traits<wchar_t> > * __cdecl std::basic_ios<wchar_t,struct std::char_traits<wchar_t> >::rdbuf(void)const " (__imp_?rdbuf@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@2@XZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: wchar_t __cdecl std::basic_ios<wchar_t,struct std::char_traits<wchar_t> >::fill(void)const " (__imp_?fill@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBA_WXZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: wchar_t __cdecl std::basic_ios<wchar_t,struct std::char_traits<wchar_t> >::widen(char)const " (__imp_?widen@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBA_WD@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: void __cdecl std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> >::_Osfx(void)" (__imp_?_Osfx@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAXXZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> > & __cdecl std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> >::operator<<(class std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> > & (__cdecl*)(class std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> > &))" (__imp_??6?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> > & __cdecl std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> >::put(wchar_t)" (__imp_?put@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV12@_W@Z)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: class std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> > & __cdecl std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> >::flush(void)" (__imp_?flush@?$basic_ostream@_WU?$char_traits@_W@std@@@std@@QEAAAEAV12@XZ)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) public: static class std::locale::id std::ctype<wchar_t>::id" (__imp_?id@?$ctype@_W@std@@2V0locale@2@A)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "__declspec(dllimport) class std::basic_ostream<wchar_t,struct std::char_traits<wchar_t> > std::wcout" (__imp_?wcout@std@@3V?$basic_ostream@_WU?$char_traits@_W@std@@@1@A)을(를) 찾았습니다.
+          ServerCore.lib(Session.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Thrd_join을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Thrd_id을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Mtx_lock을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Mtx_unlock을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Cnd_do_broadcast_at_thread_exit을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "void __cdecl std::_Throw_C_error(int)" (?_Throw_C_error@std@@YAXH@Z)을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "void __cdecl std::_Throw_Cpp_error(int)" (?_Throw_Cpp_error@std@@YAXH@Z)을(를) 찾았습니다.
+          ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        _Thrd_yield을(를) 찾았습니다.
+          ServerCore.lib(Lock.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "void __cdecl std::_Xbad_alloc(void)" (?_Xbad_alloc@std@@YAXXZ)을(를) 찾았습니다.
+          msvcprtd.lib(locale0_implib.obj)에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
+        __tlregdtor을(를) 찾았습니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          MSVCRTD.lib(tlsdtor.obj)을(를) 로드했습니다.
+        __dyn_tls_init을(를) 찾았습니다.
+          ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
+          MSVCRTD.lib(tlsdyn.obj)을(를) 로드했습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+        __imp__malloc_dbg을(를) 찾았습니다.
+          msvcprtd.lib(locale0_implib.obj)에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+  
+  라이브러리가 검색되었습니다.
+  
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
+        __scrt_stub_for_acrt_initialize을(를) 찾았습니다.
+          MSVCRTD.lib(ucrt_stubs.obj)을(를) 로드했습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+  
+  라이브러리가 검색되었습니다.
+  
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+  
+  라이브러리가 검색되었습니다.
+  
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+  
+  라이브러리가 검색되었습니다.
+  
+  Pass 1이 끝났습니다.
+  
+  
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
+        _load_config_used을(를) 찾았습니다.
+          MSVCRTD.lib(loadcfg.obj)을(를) 로드했습니다.
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
+        __guard_memcpy_fptr을(를) 찾았습니다.
+          MSVCRTD.lib(loadcfg.obj)에서 참조됩니다.
+          vcruntimed.lib(softmemtag.obj)을(를) 로드했습니다.
+  
+  라이브러리가 검색되었습니다.
+  
+  rc.exe 호출 중:
+   /v
+   /x
+   /fo
+   "C:\Users\hj577\AppData\Local\Temp\lnk{9CC16C0D-FF8B-4200-A4BF-38CA3E224916}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{99F6A3B6-148A-4294-AF2E-09EC5D7A7D32}.tmp"
+  Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+  
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  
+  Using codepage 949 as default
+  Creating C:\Users\hj577\AppData\Local\Temp\lnk{9CC16C0D-FF8B-4200-A4BF-38CA3E224916}.tmp
+  
+  
+  C:\Users\hj577\AppData\Local\Temp\lnk{99F6A3B6-148A-4294-AF2E-09EC5D7A7D32}.tmp.
+  Writing 24:1,	lang:0x409,	size 381
+  
+  cvtres.exe 호출 중:
+   /machine:amd64
+   /verbose
+   /out:"C:\Users\hj577\AppData\Local\Temp\lnk{6D3F2FC8-B7C6-4FB4-92C7-E01816D13B42}.tmp"
+   /readonly
+   "C:\Users\hj577\AppData\Local\Temp\lnk{9CC16C0D-FF8B-4200-A4BF-38CA3E224916}.tmp"
+  Microsoft (R) Windows Resource To Object Converter 버전 14.42.34436.0
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  
+  리소스를 추가하고 있습니다. 형식:MANIFEST, 이름:1, 언어:0x0409, 플래그:0x30, 크기:381
+  
+  
+  사용되지 않은 라이브러리:
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib
+    C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib
+    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib
+  
+  Pass 2를 시작하고 있습니다.
+       * linker generated manifest res *
+       Struct.pb.obj
+       RoomManager.obj
+       Room.obj
+       Grid.obj
+       ClientPacketHandler.obj
+       Protocol.pb.obj
+       pch.obj
+       GameSessionManager.obj
+       GameSession.obj
+       GameServer.obj
+       GameObject.obj
+       Enum.pb.obj
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(sharedmutex.obj)
+       msvcprtd.lib(locale0_implib.obj)
+       MSVCRTD.lib(argv_mode.obj)
+       MSVCRTD.lib(commit_mode.obj)
+       MSVCRTD.lib(default_local_stdio_options.obj)
+       MSVCRTD.lib(denormal_control.obj)
+       MSVCRTD.lib(env_mode.obj)
+       MSVCRTD.lib(file_mode.obj)
+       MSVCRTD.lib(fltused.obj)
+       MSVCRTD.lib(invalid_parameter_handler.obj)
+       MSVCRTD.lib(matherr.obj)
+       MSVCRTD.lib(new_mode.obj)
+       MSVCRTD.lib(thread_locale.obj)
+       MSVCRTD.lib(ehvecctr.obj)
+       MSVCRTD.lib(ehvecdtr.obj)
+       MSVCRTD.lib(std_type_info_static.obj)
+       MSVCRTD.lib(tncleanup.obj)
+       MSVCRTD.lib(delete_scalar.obj)
+       MSVCRTD.lib(delete_scalar_size.obj)
+       MSVCRTD.lib(new_scalar.obj)
+       MSVCRTD.lib(throw_bad_alloc.obj)
+       MSVCRTD.lib(thread_safe_statics.obj)
+       MSVCRTD.lib(exe_main.obj)
+       MSVCRTD.lib(tlsdtor.obj)
+       MSVCRTD.lib(tlsdyn.obj)
+       MSVCRTD.lib(tlssup.obj)
+       MSVCRTD.lib(initializers.obj)
+       MSVCRTD.lib(utility.obj)
+       MSVCRTD.lib(ucrt_stubs.obj)
+       MSVCRTD.lib(gs_cookie.obj)
+       MSVCRTD.lib(gs_report.obj)
+       MSVCRTD.lib(gs_support.obj)
+       MSVCRTD.lib(debugger_jmc.obj)
+       MSVCRTD.lib(guard_support.obj)
+       MSVCRTD.lib(loadcfg.obj)
+       MSVCRTD.lib(dyn_tls_dtor.obj)
+       MSVCRTD.lib(dyn_tls_init.obj)
+       MSVCRTD.lib(matherr_detection.obj)
+       MSVCRTD.lib(ucrt_detection.obj)
+       MSVCRTD.lib(cpu_disp.obj)
+       MSVCRTD.lib(utility_desktop.obj)
+       MSVCRTD.lib(error.obj)
+       MSVCRTD.lib(init.obj)
+       MSVCRTD.lib(initsect.obj)
+       MSVCRTD.lib(pdblkup.obj)
+       MSVCRTD.lib(stack.obj)
+       MSVCRTD.lib(userapi.obj)
+       MSVCRTD.lib(gshandler.obj)
+       MSVCRTD.lib(gshandlereh4.obj)
+       MSVCRTD.lib(amdsecgs.obj)
+       MSVCRTD.lib(guard_dispatch.obj)
+       MSVCRTD.lib(guard_xfg_dispatch.obj)
+       ServerCore.lib(Allocator.obj)
+       ServerCore.lib(CoreGlobal.obj)
+       ServerCore.lib(CoreTLS.obj)
+       ServerCore.lib(DeadLockProfiler.obj)
+       ServerCore.lib(IocpCore.obj)
+       ServerCore.lib(IocpEvent.obj)
+       ServerCore.lib(Listener.obj)
+       ServerCore.lib(Lock.obj)
+       ServerCore.lib(Memory.obj)
+       ServerCore.lib(MemoryPool.obj)
+       ServerCore.lib(NetAddress.obj)
+       ServerCore.lib(pch.obj)
+       ServerCore.lib(RecvBuffer.obj)
+       ServerCore.lib(SendBuffer.obj)
+       ServerCore.lib(Service.obj)
+       ServerCore.lib(Session.obj)
+       ServerCore.lib(SocketUtils.obj)
+       ServerCore.lib(ThreadManager.obj)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       vcruntimed.lib(VCRUNTIME140_1D.dll)
+       vcruntimed.lib(VCRUNTIME140_1D.dll)
+       vcruntimed.lib(VCRUNTIME140_1D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(softmemtag.obj)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+  Pass 2가 끝났습니다.
+  GameServer.vcxproj -> C:\Users\hj577\Desktop\TankIOServerClient\ServerExCode\Binary\Debug\GameServer.exe

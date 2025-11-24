@@ -1,0 +1,97 @@
+syntax = "proto3";
+package Protocol;
+
+import "Enum.proto";
+import "Struct.proto";
+
+message C_LOGIN
+{
+	uint64 loginCode= 1;
+}
+
+message C_MOVE 
+{
+	int32 roomCode = 1;
+	uint32 objectId = 2;
+	GameObjectState state = 3;
+	Vector3 direction = 4;
+}
+
+// Room Data Request
+message C_ROOM_DATA
+{
+	uint32 dummy = 1;
+}
+
+// Room Access Request
+message C_ROOM_REQUEST
+{
+	int32 roomCode = 1;
+}
+
+message C_ATTACK
+{
+	int32 roomCode = 1;
+	uint32 objectId = 2;
+	ObjectType objectType = 3;
+	Vector3 direction = 4;
+
+}
+
+message C_RTT_PING
+{
+	int64 client_time = 1;
+}
+
+message S_RTT_PONG
+{
+	int64 client_time = 1;
+	int64 server_time = 2;
+}
+
+message S_LOGIN
+{
+	uint64 gameId = 1;
+	bool loginAccept = 2;
+}
+
+// Room Data Response
+message S_ROOM_DATA
+{
+	repeated RoomData roomData = 1;
+}
+
+// Room Accept & Ingame Objects Data
+message S_ROOM_RESPONSE
+{
+	bool roomAccept = 1;
+	int32 roomCode = 2;
+	uint32 playerObjectId = 3;
+	// Ingame Objects Data
+	repeated ObjectData objectData = 4;
+}
+
+message S_MOVE
+{
+	uint32 objectId = 1;
+	GameObjectState state = 2;
+	Vector3 position = 3;
+}
+
+message S_OBJECT_SPAWN
+{
+	ObjectData objectData = 1;
+	int64 spawnTime = 2;
+}
+
+message S_OBJECT_DEAD
+{
+	uint32 objectId = 1;
+	GameObjectState state = 2;
+}
+
+message S_OBJECT_DAMAGE
+{
+	uint32 objectId = 1;
+	float hp = 2;
+}

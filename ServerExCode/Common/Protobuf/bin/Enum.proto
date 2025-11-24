@@ -1,0 +1,19 @@
+syntax = "proto3";
+package Protocol;
+
+enum ObjectType
+{
+	NONE = 0;
+	PLAYER = 1;
+	ENEMY = 2;
+	BULLET = 3;
+}
+
+enum GameObjectState
+{
+	IDLE = 0;
+	MOVE = 1;
+	ATTACK = 2;
+	DEAD = 3;
+	SPAWN = 4;
+}
