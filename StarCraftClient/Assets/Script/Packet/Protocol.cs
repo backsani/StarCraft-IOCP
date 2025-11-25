@@ -45,9 +45,9 @@ namespace Protocol {
             "b3RvY29sLlZlY3RvcjMiTQoOU19PQkpFQ1RfU1BBV04SKAoKb2JqZWN0RGF0",
             "YRgBIAEoCzIULlByb3RvY29sLk9iamVjdERhdGESEQoJc3Bhd25UaW1lGAIg",
             "ASgDIksKDVNfT0JKRUNUX0RFQUQSEAoIb2JqZWN0SWQYASABKA0SKAoFc3Rh",
-            "dGUYAiABKA4yGS5Qcm90b2NvbC5HYW1lT2JqZWN0U3RhdGUiLwoPU19PQkpF",
-            "Q1RfREFNQUdFEhAKCG9iamVjdElkGAEgASgNEgoKAmhwGAIgASgCYgZwcm90",
-            "bzM="));
+            "dGUYAiABKA4yGS5Qcm90b2NvbC5HYW1lT2JqZWN0U3RhdGUiQAoPU19PQkpF",
+            "Q1RfREFNQUdFEhAKCG9iamVjdElkGAEgASgNEgoKAmhwGAIgASgCEg8KB3Rp",
+            "bGVNYXAYAyABKAxiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -64,7 +64,7 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_MOVE), global::Protocol.S_MOVE.Parser, new[]{ "ObjectId", "State", "Position" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_OBJECT_SPAWN), global::Protocol.S_OBJECT_SPAWN.Parser, new[]{ "ObjectData", "SpawnTime" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_OBJECT_DEAD), global::Protocol.S_OBJECT_DEAD.Parser, new[]{ "ObjectId", "State" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_OBJECT_DAMAGE), global::Protocol.S_OBJECT_DAMAGE.Parser, new[]{ "ObjectId", "Hp" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_OBJECT_DAMAGE), global::Protocol.S_OBJECT_DAMAGE.Parser, new[]{ "ObjectId", "Hp", "TileMap" }, null, null, null, null)
           }));
     }
     #endregion
@@ -2907,6 +2907,7 @@ namespace Protocol {
     public S_OBJECT_DAMAGE(S_OBJECT_DAMAGE other) : this() {
       objectId_ = other.objectId_;
       hp_ = other.hp_;
+      tileMap_ = other.tileMap_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2937,6 +2938,17 @@ namespace Protocol {
       }
     }
 
+    /// <summary>Field number for the "tileMap" field.</summary>
+    public const int TileMapFieldNumber = 3;
+    private pb::ByteString tileMap_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString TileMap {
+      get { return tileMap_; }
+      set {
+        tileMap_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as S_OBJECT_DAMAGE);
@@ -2952,6 +2964,7 @@ namespace Protocol {
       }
       if (ObjectId != other.ObjectId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Hp, other.Hp)) return false;
+      if (TileMap != other.TileMap) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2960,6 +2973,7 @@ namespace Protocol {
       int hash = 1;
       if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
       if (Hp != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Hp);
+      if (TileMap.Length != 0) hash ^= TileMap.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2984,6 +2998,10 @@ namespace Protocol {
         output.WriteRawTag(21);
         output.WriteFloat(Hp);
       }
+      if (TileMap.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteBytes(TileMap);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3001,6 +3019,10 @@ namespace Protocol {
         output.WriteRawTag(21);
         output.WriteFloat(Hp);
       }
+      if (TileMap.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteBytes(TileMap);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -3015,6 +3037,9 @@ namespace Protocol {
       }
       if (Hp != 0F) {
         size += 1 + 4;
+      }
+      if (TileMap.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(TileMap);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3032,6 +3057,9 @@ namespace Protocol {
       }
       if (other.Hp != 0F) {
         Hp = other.Hp;
+      }
+      if (other.TileMap.Length != 0) {
+        TileMap = other.TileMap;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -3055,6 +3083,10 @@ namespace Protocol {
             Hp = input.ReadFloat();
             break;
           }
+          case 26: {
+            TileMap = input.ReadBytes();
+            break;
+          }
         }
       }
     #endif
@@ -3075,6 +3107,10 @@ namespace Protocol {
           }
           case 21: {
             Hp = input.ReadFloat();
+            break;
+          }
+          case 26: {
+            TileMap = input.ReadBytes();
             break;
           }
         }

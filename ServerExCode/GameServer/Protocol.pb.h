@@ -2162,9 +2162,24 @@ class S_OBJECT_DAMAGE final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTileMapFieldNumber = 3,
     kObjectIdFieldNumber = 1,
     kHpFieldNumber = 2,
   };
+  // bytes tileMap = 3;
+  void clear_tilemap();
+  const std::string& tilemap() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tilemap(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tilemap();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_tilemap();
+  void set_allocated_tilemap(std::string* tilemap);
+  private:
+  const std::string& _internal_tilemap() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tilemap(const std::string& value);
+  std::string* _internal_mutable_tilemap();
+  public:
+
   // uint32 objectId = 1;
   void clear_objectid();
   ::PROTOBUF_NAMESPACE_ID::uint32 objectid() const;
@@ -2190,6 +2205,7 @@ class S_OBJECT_DAMAGE final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tilemap_;
   ::PROTOBUF_NAMESPACE_ID::uint32 objectid_;
   float hp_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -3124,6 +3140,51 @@ inline void S_OBJECT_DAMAGE::_internal_set_hp(float value) {
 inline void S_OBJECT_DAMAGE::set_hp(float value) {
   _internal_set_hp(value);
   // @@protoc_insertion_point(field_set:Protocol.S_OBJECT_DAMAGE.hp)
+}
+
+// bytes tileMap = 3;
+inline void S_OBJECT_DAMAGE::clear_tilemap() {
+  tilemap_.ClearToEmpty();
+}
+inline const std::string& S_OBJECT_DAMAGE::tilemap() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_OBJECT_DAMAGE.tileMap)
+  return _internal_tilemap();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_OBJECT_DAMAGE::set_tilemap(ArgT0&& arg0, ArgT... args) {
+ 
+ tilemap_.SetBytes(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_OBJECT_DAMAGE.tileMap)
+}
+inline std::string* S_OBJECT_DAMAGE::mutable_tilemap() {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_OBJECT_DAMAGE.tileMap)
+  return _internal_mutable_tilemap();
+}
+inline const std::string& S_OBJECT_DAMAGE::_internal_tilemap() const {
+  return tilemap_.Get();
+}
+inline void S_OBJECT_DAMAGE::_internal_set_tilemap(const std::string& value) {
+  
+  tilemap_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* S_OBJECT_DAMAGE::_internal_mutable_tilemap() {
+  
+  return tilemap_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* S_OBJECT_DAMAGE::release_tilemap() {
+  // @@protoc_insertion_point(field_release:Protocol.S_OBJECT_DAMAGE.tileMap)
+  return tilemap_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void S_OBJECT_DAMAGE::set_allocated_tilemap(std::string* tilemap) {
+  if (tilemap != nullptr) {
+    
+  } else {
+    
+  }
+  tilemap_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), tilemap,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_OBJECT_DAMAGE.tileMap)
 }
 
 #ifdef __GNUC__

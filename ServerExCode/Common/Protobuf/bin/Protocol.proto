@@ -94,4 +94,5 @@ message S_OBJECT_DAMAGE
 {
 	uint32 objectId = 1;
 	float hp = 2;
+	bytes tileMap = 3;
 }

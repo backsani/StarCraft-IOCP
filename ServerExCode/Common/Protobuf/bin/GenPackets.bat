@@ -16,9 +16,9 @@ XCOPY /Y Protocol.pb.h "../../../GameServer"
 XCOPY /Y Protocol.pb.cc "../../../GameServer"
 XCOPY /Y ClientPacketHandler.h "../../../GameServer"
 
-XCOPY /Y Enum.cs "../../../../UnityActionPVP/Assets/Script/Packet"
-XCOPY /Y Struct.cs "../../../../UnityActionPVP/Assets/Script/Packet"
-XCOPY /Y Protocol.cs "../../../../UnityActionPVP/Assets/Script/Packet"
+XCOPY /Y Enum.cs "../../../../StarCraftClient/Assets/Script/Packet"
+XCOPY /Y Struct.cs "../../../../StarCraftClient/Assets/Script/Packet"
+XCOPY /Y Protocol.cs "../../../../StarCraftClient/Assets/Script/Packet"
 
 
 DEL /Q /F *.pb.h
