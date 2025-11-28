@@ -194,8 +194,7 @@ struct S_OBJECT_DEADDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_OBJECT_DEADDefaultTypeInternal _S_OBJECT_DEAD_default_instance_;
 constexpr S_OBJECT_DAMAGE::S_OBJECT_DAMAGE(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : tilemap_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
-  , objectid_(0u)
+  : objectid_(0u)
   , hp_(0){}
 struct S_OBJECT_DAMAGEDefaultTypeInternal {
   constexpr S_OBJECT_DAMAGEDefaultTypeInternal()
@@ -312,7 +311,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_OBJECT_DAMAGE, objectid_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_OBJECT_DAMAGE, hp_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_OBJECT_DAMAGE, tilemap_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Protocol::C_LOGIN)},
@@ -373,9 +371,8 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "WN\022(\n\nobjectData\030\001 \001(\0132\024.Protocol.Object"
   "Data\022\021\n\tspawnTime\030\002 \001(\003\"K\n\rS_OBJECT_DEAD"
   "\022\020\n\010objectId\030\001 \001(\r\022(\n\005state\030\002 \001(\0162\031.Prot"
-  "ocol.GameObjectState\"@\n\017S_OBJECT_DAMAGE\022"
-  "\020\n\010objectId\030\001 \001(\r\022\n\n\002hp\030\002 \001(\002\022\017\n\007tileMap"
-  "\030\003 \001(\014b\006proto3"
+  "ocol.GameObjectState\"/\n\017S_OBJECT_DAMAGE\022"
+  "\020\n\010objectId\030\001 \001(\r\022\n\n\002hp\030\002 \001(\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -383,7 +380,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 1054, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 1037, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 14,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -3430,11 +3427,6 @@ S_OBJECT_DAMAGE::S_OBJECT_DAMAGE(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 S_OBJECT_DAMAGE::S_OBJECT_DAMAGE(const S_OBJECT_DAMAGE& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  tilemap_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_tilemap().empty()) {
-    tilemap_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_tilemap(), 
-      GetArenaForAllocation());
-  }
   ::memcpy(&objectid_, &from.objectid_,
     static_cast<size_t>(reinterpret_cast<char*>(&hp_) -
     reinterpret_cast<char*>(&objectid_)) + sizeof(hp_));
@@ -3442,7 +3434,6 @@ S_OBJECT_DAMAGE::S_OBJECT_DAMAGE(const S_OBJECT_DAMAGE& from)
 }
 
 void S_OBJECT_DAMAGE::SharedCtor() {
-tilemap_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&objectid_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&hp_) -
@@ -3457,7 +3448,6 @@ S_OBJECT_DAMAGE::~S_OBJECT_DAMAGE() {
 
 void S_OBJECT_DAMAGE::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  tilemap_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void S_OBJECT_DAMAGE::ArenaDtor(void* object) {
@@ -3476,7 +3466,6 @@ void S_OBJECT_DAMAGE::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  tilemap_.ClearToEmpty();
   ::memset(&objectid_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&hp_) -
       reinterpret_cast<char*>(&objectid_)) + sizeof(hp_));
@@ -3501,14 +3490,6 @@ const char* S_OBJECT_DAMAGE::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
           hp_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
-        } else goto handle_unusual;
-        continue;
-      // bytes tileMap = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_tilemap();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -3552,12 +3533,6 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_hp(), target);
   }
 
-  // bytes tileMap = 3;
-  if (!this->tilemap().empty()) {
-    target = stream->WriteBytesMaybeAliased(
-        3, this->_internal_tilemap(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3573,13 +3548,6 @@ size_t S_OBJECT_DAMAGE::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // bytes tileMap = 3;
-  if (!this->tilemap().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
-        this->_internal_tilemap());
-  }
 
   // uint32 objectId = 1;
   if (this->objectid() != 0) {
@@ -3624,9 +3592,6 @@ void S_OBJECT_DAMAGE::MergeFrom(const S_OBJECT_DAMAGE& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from.tilemap().empty()) {
-    _internal_set_tilemap(from._internal_tilemap());
-  }
   if (from.objectid() != 0) {
     _internal_set_objectid(from._internal_objectid());
   }
@@ -3656,11 +3621,6 @@ bool S_OBJECT_DAMAGE::IsInitialized() const {
 void S_OBJECT_DAMAGE::InternalSwap(S_OBJECT_DAMAGE* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      &tilemap_, GetArenaForAllocation(),
-      &other->tilemap_, other->GetArenaForAllocation()
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(S_OBJECT_DAMAGE, hp_)
       + sizeof(S_OBJECT_DAMAGE::hp_)

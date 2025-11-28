@@ -201,19 +201,13 @@
   계속하려면 아무 키나 누르십시오 . . . 
   Enum.pb.cc
   Protocol.pb.cc
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(679,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1136,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1354,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2477,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(676,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1133,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1351,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2474,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Struct.pb.cc
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc(491,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
-  GameObject.cpp
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(181,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
-  
-  GameServer.cpp
-  GameSession.cpp
   ClientPacketHandler.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(27,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
@@ -221,6 +215,13 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPac
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(29,64): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
+  GameObject.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(181,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+  
+  GameServer.cpp
+  GameSession.cpp
+  GameSessionManager.cpp
   Room.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         with
@@ -240,13 +241,14 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
               _Ty=int32
           ]
   
-  VisualManager.cpp
   코드를 생성하고 있습니다...
-  LINK : 새 파일: x64\Debug\VisualManager.obj
-  LINK : 이전 연결 이후로 1개의 새 모듈과 8개(전체 83개 중)의 모듈이 변경되었습니다.
-  LINK : 개체 파일이 추가되었습니다. 전체 링크를 수행하고 있습니다.
+  LINK : 이전 연결 이후로 0개의 새 모듈과 9개(전체 84개 중)의 모듈이 변경되었습니다.
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+  라이브러리가 검색되었습니다.
+  LINK : 이전에 강했던 '"void __cdecl __global_delete(void *,unsigned __int64)" (?__global_delete@@YAXPEAX_K@Z)' 기호가 이제 약합니다. 전체 링크를 수행하고 있습니다.
   LINK.EXE 호출 중:
-   /ERRORREPORT:PROMPT @C:\Users\hj577\AppData\Local\Temp\MSBuildTemp\tmp382184893c7a469394dd7b0df1db13b0.rsp
+   /ERRORREPORT:PROMPT @C:\Users\hj577\AppData\Local\Temp\MSBuildTemp\tmpd4c074beded0489bae71982217b0ca4c.rsp
    /nologo
    /incremental
    /fullbuild
@@ -482,14 +484,15 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           GameSession.obj에서 참조됩니다.
           MSVCRTD.lib(debugger_jmc.obj)을(를) 로드했습니다.
         "void * __cdecl operator new(unsigned __int64)" (??2@YAPEAX_K@Z)을(를) 찾았습니다.
+          Struct.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
           Grid.obj에서 참조됩니다.
           Room.obj에서 참조됩니다.
           RoomManager.obj에서 참조됩니다.
-          Struct.pb.obj에서 참조됩니다.
           GameObject.obj에서 참조됩니다.
           GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           Protocol.pb.obj에서 참조됩니다.
-          ClientPacketHandler.obj에서 참조됩니다.
           MSVCRTD.lib(new_scalar.obj)을(를) 로드했습니다.
         "void __cdecl operator delete(void *,unsigned __int64)" (??3@YAXPEAX_K@Z)을(를) 찾았습니다.
           RoomManager.obj에서 참조됩니다.
@@ -577,13 +580,14 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           GameSessionManager.obj에서 참조됩니다.
           MSVCRTD.lib(gs_cookie.obj)을(를) 로드했습니다.
         _fltused을(를) 찾았습니다.
+          Grid.obj에서 참조됩니다.
           Room.obj에서 참조됩니다.
           RoomManager.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
           GameObject.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           Protocol.pb.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
-          Grid.obj에서 참조됩니다.
           MSVCRTD.lib(fltused.obj)을(를) 로드했습니다.
         atexit을(를) 찾았습니다.
           Struct.pb.obj에서 참조됩니다.
@@ -594,10 +598,12 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           MSVCRTD.lib(utility.obj)을(를) 로드했습니다.
         _Init_thread_header을(를) 찾았습니다.
           GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
           MSVCRTD.lib(thread_safe_statics.obj)을(를) 로드했습니다.
         _tls_index을(를) 찾았습니다.
           GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
           MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
           MSVCRTD.lib(tlssup.obj)을(를) 로드했습니다.
@@ -850,9 +856,6 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           Protocol.pb.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
-        "private: unsigned char * __cdecl google::protobuf::io::EpsCopyOutputStream::WriteStringMaybeAliasedOutline(unsigned int,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,unsigned char *)" (?WriteStringMaybeAliasedOutline@EpsCopyOutputStream@io@protobuf@google@@AEAAPEAEIAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAE@Z)을(를) 찾았습니다.
-          Protocol.pb.obj에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
         "private: static unsigned char * __cdecl google::protobuf::io::CodedOutputStream::WriteVarint32ToArrayOutOfLineHelper(unsigned int,unsigned char *)" (?WriteVarint32ToArrayOutOfLineHelper@CodedOutputStream@io@protobuf@google@@CAPEAEIPEAE@Z)을(를) 찾았습니다.
           Protocol.pb.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
@@ -871,18 +874,6 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
         "private: struct std::pair<void *,struct google::protobuf::internal::SerialArena::CleanupNode *> __cdecl google::protobuf::Arena::AllocateAlignedWithCleanup(unsigned __int64,class type_info const *)" (?AllocateAlignedWithCleanup@Arena@protobuf@google@@AEAA?AU?$pair@PEAXPEAUCleanupNode@SerialArena@internal@protobuf@google@@@std@@_KPEBVtype_info@@@Z)을(를) 찾았습니다.
           Protocol.pb.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
-        "public: void __cdecl google::protobuf::internal::ArenaStringPtr::Set(struct google::protobuf::internal::ArenaStringPtr::EmptyDefault,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class google::protobuf::Arena *)" (?Set@ArenaStringPtr@internal@protobuf@google@@QEAAXUEmptyDefault@1234@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAVArena@34@@Z)을(를) 찾았습니다.
-          Protocol.pb.obj에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
-        "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > * __cdecl google::protobuf::internal::ArenaStringPtr::Mutable(struct google::protobuf::internal::ArenaStringPtr::EmptyDefault,class google::protobuf::Arena *)" (?Mutable@ArenaStringPtr@internal@protobuf@google@@QEAAPEAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@UEmptyDefault@1234@PEAVArena@34@@Z)을(를) 찾았습니다.
-          Protocol.pb.obj에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
-        "public: void __cdecl google::protobuf::internal::ArenaStringPtr::ClearToEmpty(void)" (?ClearToEmpty@ArenaStringPtr@internal@protobuf@google@@QEAAXXZ)을(를) 찾았습니다.
-          Protocol.pb.obj에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
-        "private: void __cdecl google::protobuf::internal::ArenaStringPtr::DestroyNoArenaSlowPath(void)" (?DestroyNoArenaSlowPath@ArenaStringPtr@internal@protobuf@google@@AEAAXXZ)을(를) 찾았습니다.
-          Protocol.pb.obj에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
         "public: virtual class google::protobuf::MessageLite * __cdecl google::protobuf::MessageLite::New(class google::protobuf::Arena *)const " (?New@MessageLite@protobuf@google@@UEBAPEAV123@PEAVArena@23@@Z)을(를) 찾았습니다.
           Protocol.pb.obj에서 참조됩니다.
@@ -918,9 +909,6 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
         "struct std::pair<char const *,unsigned int> __cdecl google::protobuf::internal::ReadTagFallback(char const *,unsigned int)" (?ReadTagFallback@internal@protobuf@google@@YA?AU?$pair@PEBDI@std@@PEBDI@Z)을(를) 찾았습니다.
           Protocol.pb.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
-        "char const * __cdecl google::protobuf::internal::InlineGreedyStringParser(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > *,char const *,class google::protobuf::internal::ParseContext *)" (?InlineGreedyStringParser@internal@protobuf@google@@YAPEBDPEAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEBDPEAVParseContext@123@@Z)을(를) 찾았습니다.
-          Protocol.pb.obj에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
         "public: void __cdecl google::protobuf::UnknownFieldSet::MergeFrom(class google::protobuf::UnknownFieldSet const &)" (?MergeFrom@UnknownFieldSet@protobuf@google@@QEAAXAEBV123@@Z)을(를) 찾았습니다.
           Protocol.pb.obj에서 참조됩니다.
@@ -1020,12 +1008,6 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           Struct.pb.obj에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
         __IMPORT_DESCRIPTOR_libprotobufd을(를) 찾았습니다.
-          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
-          libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)에서 참조됩니다.
@@ -1181,81 +1163,85 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           Struct.pb.obj에서 참조됩니다.
           vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
         __std_exception_copy을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
           ServerCore.lib(Memory.obj)에서 참조됩니다.
           ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
           ServerCore.lib(Listener.obj)에서 참조됩니다.
-          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
           ServerCore.lib(NetAddress.obj)에서 참조됩니다.
           ServerCore.lib(Session.obj)에서 참조됩니다.
           ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
-          ServerCore.lib(Service.obj)에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
           MSVCRTD.lib(throw_bad_alloc.obj)에서 참조됩니다.
           ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
-          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
           Grid.obj에서 참조됩니다.
           Room.obj에서 참조됩니다.
-          RoomManager.obj에서 참조됩니다.
           GameObject.obj에서 참조됩니다.
           GameServer.obj에서 참조됩니다.
           GameSession.obj에서 참조됩니다.
-          Protocol.pb.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
         __std_exception_destroy을(를) 찾았습니다.
+          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
           ServerCore.lib(Memory.obj)에서 참조됩니다.
           ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
           ServerCore.lib(Listener.obj)에서 참조됩니다.
-          ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
           ServerCore.lib(NetAddress.obj)에서 참조됩니다.
           ServerCore.lib(Session.obj)에서 참조됩니다.
           ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
-          ServerCore.lib(Service.obj)에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
           MSVCRTD.lib(throw_bad_alloc.obj)에서 참조됩니다.
           ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
-          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
           Grid.obj에서 참조됩니다.
           Room.obj에서 참조됩니다.
-          RoomManager.obj에서 참조됩니다.
           GameObject.obj에서 참조됩니다.
           GameServer.obj에서 참조됩니다.
           GameSession.obj에서 참조됩니다.
-          Protocol.pb.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
         __std_type_info_compare을(를) 찾았습니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
+          Grid.obj에서 참조됩니다.
           Room.obj에서 참조됩니다.
           RoomManager.obj에서 참조됩니다.
           ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
-          ServerCore.lib(Service.obj)에서 참조됩니다.
           GameObject.obj에서 참조됩니다.
           GameServer.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
-          Grid.obj에서 참조됩니다.
           vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
         _CxxThrowException을(를) 찾았습니다.
+          ServerCore.lib(Listener.obj)에서 참조됩니다.
           ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
+          ServerCore.lib(Service.obj)에서 참조됩니다.
           ServerCore.lib(Memory.obj)에서 참조됩니다.
           ServerCore.lib(CoreTLS.obj)에서 참조됩니다.
           ServerCore.lib(RecvBuffer.obj)에서 참조됩니다.
-          ServerCore.lib(Listener.obj)에서 참조됩니다.
+          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
           ServerCore.lib(NetAddress.obj)에서 참조됩니다.
           ServerCore.lib(Session.obj)에서 참조됩니다.
           ServerCore.lib(ThreadManager.obj)에서 참조됩니다.
-          ServerCore.lib(Service.obj)에서 참조됩니다.
+          RoomManager.obj에서 참조됩니다.
           Struct.pb.obj에서 참조됩니다.
           MSVCRTD.lib(throw_bad_alloc.obj)에서 참조됩니다.
           ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
-          ServerCore.lib(CoreGlobal.obj)에서 참조됩니다.
+          Protocol.pb.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
           Grid.obj에서 참조됩니다.
           Room.obj에서 참조됩니다.
-          RoomManager.obj에서 참조됩니다.
           GameObject.obj에서 참조됩니다.
           GameServer.obj에서 참조됩니다.
           GameSession.obj에서 참조됩니다.
-          Protocol.pb.obj에서 참조됩니다.
+          GameSessionManager.obj에서 참조됩니다.
           vcruntimed.lib(VCRUNTIME140D.dll)을(를) 로드했습니다.
         __CxxFrameHandler4을(를) 찾았습니다.
           ServerCore.lib(IocpEvent.obj)에서 참조됩니다.
@@ -1428,6 +1414,7 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           ServerCore.lib(SendBuffer.obj)에서 참조됩니다.
           ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
         __imp_ceilf을(를) 찾았습니다.
+          GameSessionManager.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
           RoomManager.obj에서 참조됩니다.
           ServerCore.lib(DeadLockProfiler.obj)에서 참조됩니다.
@@ -2050,20 +2037,6 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
         __guard_memcpy_fptr을(를) 찾았습니다.
           MSVCRTD.lib(loadcfg.obj)에서 참조됩니다.
           vcruntimed.lib(softmemtag.obj)을(를) 로드했습니다.
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
   
   라이브러리가 검색되었습니다.
   
@@ -2071,32 +2044,31 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
    /v
    /x
    /fo
-   "C:\Users\hj577\AppData\Local\Temp\lnk{70EB4FAF-0129-422F-A3CC-B93A9A1440B7}.tmp"
-   "C:\Users\hj577\AppData\Local\Temp\lnk{D9CB3743-8924-48B7-9DEE-0BC03CB6F995}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{6C594112-4BEE-453B-83C5-93D671FB64B3}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{A8380338-5165-4B09-AE7E-244074561A7A}.tmp"
   Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
   
   Copyright (C) Microsoft Corporation.  All rights reserved.
   
   
   Using codepage 949 as default
-  Creating C:\Users\hj577\AppData\Local\Temp\lnk{70EB4FAF-0129-422F-A3CC-B93A9A1440B7}.tmp
+  Creating C:\Users\hj577\AppData\Local\Temp\lnk{6C594112-4BEE-453B-83C5-93D671FB64B3}.tmp
   
   
-  C:\Users\hj577\AppData\Local\Temp\lnk{D9CB3743-8924-48B7-9DEE-0BC03CB6F995}.tmp.
+  C:\Users\hj577\AppData\Local\Temp\lnk{A8380338-5165-4B09-AE7E-244074561A7A}.tmp.
   Writing 24:1,	lang:0x409,	size 381
   
   cvtres.exe 호출 중:
    /machine:amd64
    /verbose
-   /out:"C:\Users\hj577\AppData\Local\Temp\lnk{EDEA3F76-03C4-4F1A-BEC1-F7B7972C06B6}.tmp"
+   /out:"C:\Users\hj577\AppData\Local\Temp\lnk{A08B3B97-FCED-4607-BC60-48B8B7A38711}.tmp"
    /readonly
-   "C:\Users\hj577\AppData\Local\Temp\lnk{70EB4FAF-0129-422F-A3CC-B93A9A1440B7}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{6C594112-4BEE-453B-83C5-93D671FB64B3}.tmp"
   Microsoft (R) Windows Resource To Object Converter 버전 14.42.34436.0
   Copyright (c) Microsoft Corporation. All rights reserved.
   
   리소스를 추가하고 있습니다. 형식:MANIFEST, 이름:1, 언어:0x0409, 플래그:0x30, 크기:381
   
-Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "class google::protobuf::internal::ExplicitlyConstructed<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > google::protobuf::internal::fixed_address_empty_string" (?fixed_address_empty_string@internal@protobuf@google@@3V?$ExplicitlyConstructed@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@123@A)
   
   사용되지 않은 라이브러리:
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib
@@ -2112,4 +2084,344 @@ Protocol.pb.obj : error LNK2001: 확인할 수 없는 외부 기호 "class googl
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib
     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib
   
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Binary\Debug\GameServer.exe : fatal error LNK1120: 1개의 확인할 수 없는 외부 참조입니다.
+  Pass 2를 시작하고 있습니다.
+       * linker generated manifest res *
+       VisualManager.obj
+       Struct.pb.obj
+       RoomManager.obj
+       Room.obj
+       Grid.obj
+       ClientPacketHandler.obj
+       Protocol.pb.obj
+       pch.obj
+       GameSessionManager.obj
+       GameSession.obj
+       GameServer.obj
+       GameObject.obj
+       Enum.pb.obj
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       kernel32.lib(KERNEL32.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(MSVCP140D.dll)
+       msvcprtd.lib(sharedmutex.obj)
+       msvcprtd.lib(locale0_implib.obj)
+       MSVCRTD.lib(argv_mode.obj)
+       MSVCRTD.lib(commit_mode.obj)
+       MSVCRTD.lib(default_local_stdio_options.obj)
+       MSVCRTD.lib(denormal_control.obj)
+       MSVCRTD.lib(env_mode.obj)
+       MSVCRTD.lib(file_mode.obj)
+       MSVCRTD.lib(fltused.obj)
+       MSVCRTD.lib(invalid_parameter_handler.obj)
+       MSVCRTD.lib(matherr.obj)
+       MSVCRTD.lib(new_mode.obj)
+       MSVCRTD.lib(thread_locale.obj)
+       MSVCRTD.lib(ehvecctr.obj)
+       MSVCRTD.lib(ehvecdtr.obj)
+       MSVCRTD.lib(std_type_info_static.obj)
+       MSVCRTD.lib(tncleanup.obj)
+       MSVCRTD.lib(delete_scalar.obj)
+       MSVCRTD.lib(delete_scalar_size.obj)
+       MSVCRTD.lib(new_scalar.obj)
+       MSVCRTD.lib(throw_bad_alloc.obj)
+       MSVCRTD.lib(thread_safe_statics.obj)
+       MSVCRTD.lib(exe_main.obj)
+       MSVCRTD.lib(tlsdtor.obj)
+       MSVCRTD.lib(tlsdyn.obj)
+       MSVCRTD.lib(tlssup.obj)
+       MSVCRTD.lib(initializers.obj)
+       MSVCRTD.lib(utility.obj)
+       MSVCRTD.lib(ucrt_stubs.obj)
+       MSVCRTD.lib(gs_cookie.obj)
+       MSVCRTD.lib(gs_report.obj)
+       MSVCRTD.lib(gs_support.obj)
+       MSVCRTD.lib(debugger_jmc.obj)
+       MSVCRTD.lib(guard_support.obj)
+       MSVCRTD.lib(loadcfg.obj)
+       MSVCRTD.lib(dyn_tls_dtor.obj)
+       MSVCRTD.lib(dyn_tls_init.obj)
+       MSVCRTD.lib(matherr_detection.obj)
+       MSVCRTD.lib(ucrt_detection.obj)
+       MSVCRTD.lib(cpu_disp.obj)
+       MSVCRTD.lib(utility_desktop.obj)
+       MSVCRTD.lib(error.obj)
+       MSVCRTD.lib(init.obj)
+       MSVCRTD.lib(initsect.obj)
+       MSVCRTD.lib(pdblkup.obj)
+       MSVCRTD.lib(stack.obj)
+       MSVCRTD.lib(userapi.obj)
+       MSVCRTD.lib(gshandler.obj)
+       MSVCRTD.lib(gshandlereh4.obj)
+       MSVCRTD.lib(amdsecgs.obj)
+       MSVCRTD.lib(guard_dispatch.obj)
+       MSVCRTD.lib(guard_xfg_dispatch.obj)
+       ServerCore.lib(Allocator.obj)
+       ServerCore.lib(CoreGlobal.obj)
+       ServerCore.lib(CoreTLS.obj)
+       ServerCore.lib(DeadLockProfiler.obj)
+       ServerCore.lib(IocpCore.obj)
+       ServerCore.lib(IocpEvent.obj)
+       ServerCore.lib(Listener.obj)
+       ServerCore.lib(Lock.obj)
+       ServerCore.lib(Memory.obj)
+       ServerCore.lib(MemoryPool.obj)
+       ServerCore.lib(NetAddress.obj)
+       ServerCore.lib(pch.obj)
+       ServerCore.lib(RecvBuffer.obj)
+       ServerCore.lib(SendBuffer.obj)
+       ServerCore.lib(Service.obj)
+       ServerCore.lib(Session.obj)
+       ServerCore.lib(SocketUtils.obj)
+       ServerCore.lib(ThreadManager.obj)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       libprotobufd.lib(libprotobufd.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       ws2_32.lib(WS2_32.dll)
+       vcruntimed.lib(VCRUNTIME140_1D.dll)
+       vcruntimed.lib(VCRUNTIME140_1D.dll)
+       vcruntimed.lib(VCRUNTIME140_1D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(VCRUNTIME140D.dll)
+       vcruntimed.lib(softmemtag.obj)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+  Pass 2가 끝났습니다.
+  GameServer.vcxproj -> C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Binary\Debug\GameServer.exe

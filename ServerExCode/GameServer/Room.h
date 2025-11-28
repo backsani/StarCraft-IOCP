@@ -14,6 +14,7 @@ using GridManagerRef = shared_ptr<GridManager>;
 class Room : public std::enable_shared_from_this<Room>
 {
 	Set<GameSessionRef> _sessions;
+	Map<GameSessionRef, int> _sessionPlayers;
 
 	// roomId
 	int roomId;

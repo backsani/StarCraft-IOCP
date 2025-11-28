@@ -18,7 +18,9 @@ int Room::Add(GameSessionRef session)
 	WRITE_LOCK;
 	_sessions.insert(session);
 	playerCount++;
+	session->SetRoomId(roomId);
 	GameObjectRef player = AddPlayer();
+	_sessionPlayers[session] = player->GetId();
 	SendBufferRef sendBuffer = player->spawn();
 
 	for (GameSessionRef player : _sessions)
@@ -55,8 +57,30 @@ GameObjectRef Room::AddPlayer()
 void Room::Remove(GameSessionRef session)
 {
 	WRITE_LOCK;
-	_sessions.erase(session);
-	playerCount;
+
+	if (_sessions.erase(session) == 0)
+		return;
+
+	auto sessionPlayerIt = _sessionPlayers.find(session);
+	if (sessionPlayerIt == _sessionPlayers.end())
+		return;
+
+	int objectId = sessionPlayerIt->second;
+	_sessionPlayers.erase(sessionPlayerIt);
+
+	auto objectIt = objects.find(objectId);
+	if (objectIt == objects.end() || idList.find(objectId) == idList.end())
+		return;
+
+	GameObjectRef object = objectIt->second;
+
+	grid->RemoveObject(object);
+	ObjectRemove(object);
+
+	playerCount--;
+
+	//_sessions.erase(session);
+	//playerCount;
 }
 
 void Room::Broadcast(SendBufferRef sendBuffer)
