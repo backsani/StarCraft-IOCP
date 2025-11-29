@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: c6c08915a4183074889b03ca60d4bdae
+  - enabled: 1
+    path: Assets/Scenes/RoomMaking.unity
+    guid: 3ec8478ed9ac60a49a0567cd3d821710
   m_configObjects: {}

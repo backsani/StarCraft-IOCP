@@ -17,6 +17,8 @@ void GameSessionManager::Remove(GameSessionRef session)
 	WRITE_LOCK;
 
 	RoomManagerRef roomManager = RoomManager::GetInstance();
+	if (session->GetRoomId() == INT_MAX)
+		return;
 	roomManager->rooms[session->GetRoomId()]->Remove(session);
 }
 

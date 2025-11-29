@@ -5,10 +5,6 @@
 RoomManager::RoomManager()
 {
 	roomIdCount = 0;
-	RoomRef room1 = MakeShared<Room>(roomIdCount);
-	AddRoom(room1);
-	RoomRef room2 = MakeShared<Room>(roomIdCount);
-	AddRoom(room2);
 }
 
 void RoomManager::AddRoom(RoomRef room)

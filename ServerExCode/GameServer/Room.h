@@ -14,7 +14,6 @@ using GridManagerRef = shared_ptr<GridManager>;
 class Room : public std::enable_shared_from_this<Room>
 {
 	Set<GameSessionRef> _sessions;
-	Map<GameSessionRef, int> _sessionPlayers;
 
 	// roomId
 	int roomId;
@@ -24,13 +23,22 @@ class Room : public std::enable_shared_from_this<Room>
 	Set<int> idList;
 	int playerCount;
 
+
 public:
+	Map<GameSessionRef, int> _sessionPlayers;
 	map<int, GameObjectRef> objects;
 	queue<JobRef> jobQueue;
 	GridManagerRef grid;
+
+	int hostId;
+
+	vector<INT32> GameName;
+	vector<INT32> GamePassWord;
+	INT32 mapId;
+
 	USE_LOCK;
 
-	Room(int roomId);
+	Room(int roomId, int hostId, vector<INT32> GameName, vector<INT32> GamePassWord, INT32 mapId);
 	int Add(GameSessionRef session);
 	GameObjectRef AddPlayer();
 	void Remove(GameSessionRef session);

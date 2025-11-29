@@ -10,9 +10,12 @@
 #include "Protocol.pb.h"
 #include "Room.h"
 #include "RoomManager.h"
+#include "MapMaker.h"
 
 int main()
 {
+	MakeShared<MapMaker>();
+
 	ClientPacketHandler::Init();
 
 	ServerServiceRef service = MakeShared<ServerService>(

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 
@@ -12,18 +13,24 @@ public enum PacketType
 {
     PKT_C_LOGIN = 1000,
     PKT_C_MOVE = 1001,
-    PKT_C_ROOM_DATA = 1002,
-    PKT_C_ROOM_REQUEST = 1003,
-    PKT_C_ATTACK = 1004,
-    PKT_C_RTT_PING = 1005,
-    PKT_S_RTT_PONG = 1006,
-    PKT_S_LOGIN = 1007,
-    PKT_S_ROOM_DATA = 1008,
-    PKT_S_ROOM_RESPONSE = 1009,
-    PKT_S_MOVE = 1010,
-    PKT_S_OBJECT_SPAWN = 1011,
-    PKT_S_OBJECT_DEAD = 1012,
-    PKT_S_OBJECT_DAMAGE = 1013,
+    PKT_C_ROOM_CREATE = 1002,
+    PKT_C_ROOM_DATA = 1003,
+    PKT_C_ROOM_REQUEST = 1004,
+    PKT_C_ROOM_PLAYER_LIST_REQUEST = 1005,
+    PKT_C_START_GAME = 1006,
+    PKT_C_ATTACK = 1007,
+    PKT_C_RTT_PING = 1008,
+    PKT_S_RTT_PONG = 1009,
+    PKT_S_LOGIN = 1010,
+    PKT_S_ROOM_LOBBY = 1011,
+    PKT_S_LOBBY_PLAYER_INFO = 1012,
+    PKT_S_GAME_START = 1013,
+    PKT_S_ROOM_DATA = 1014,
+    PKT_S_ROOM_RESPONSE = 1015,
+    PKT_S_MOVE = 1016,
+    PKT_S_OBJECT_SPAWN = 1017,
+    PKT_S_OBJECT_DEAD = 1018,
+    PKT_S_OBJECT_DAMAGE = 1019,
 }
 
 public static class PacketManager
@@ -36,6 +43,12 @@ public static class PacketManager
         { PacketType.PKT_S_RTT_PONG, (buffer) => PacketMaker<Protocol.S_RTT_PONG>.HandlePacket(buffer, PacketType.PKT_S_RTT_PONG) },
 
         { PacketType.PKT_S_LOGIN, (buffer) => PacketMaker<Protocol.S_LOGIN>.HandlePacket(buffer, PacketType.PKT_S_LOGIN) },
+        
+        { PacketType.PKT_S_ROOM_LOBBY, (buffer) => PacketMaker<Protocol.S_ROOM_LOBBY>.HandlePacket(buffer, PacketType.PKT_S_ROOM_LOBBY) },
+
+        { PacketType.PKT_S_LOBBY_PLAYER_INFO, (buffer) => PacketMaker<Protocol.S_LOBBY_PLAYER_INFO>.HandlePacket(buffer, PacketType.PKT_S_LOBBY_PLAYER_INFO) },
+
+        { PacketType.PKT_S_GAME_START, (buffer) => PacketMaker<Protocol.S_GAME_START>.HandlePacket(buffer, PacketType.PKT_S_GAME_START) },
 
         { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA) },
 
@@ -67,6 +80,11 @@ public static class PacketManager
     {
         PacketMaker<Protocol.C_MOVE>.MakeSendBuffer(pkt, PacketType.PKT_C_MOVE);
     }
+    public static void Send(Protocol.C_ROOM_CREATE pkt)
+    {
+        PacketMaker<Protocol.C_ROOM_CREATE>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_CREATE);
+    }
+
     public static void Send(Protocol.C_ROOM_DATA pkt)
     {
         PacketMaker<Protocol.C_ROOM_DATA>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_DATA);
@@ -74,6 +92,15 @@ public static class PacketManager
     public static void Send(Protocol.C_ROOM_REQUEST pkt)
     {
         PacketMaker<Protocol.C_ROOM_REQUEST>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_REQUEST);
+    }
+    public static void Send(Protocol.C_ROOM_PLAYER_LIST_REQUEST pkt)
+    {
+        PacketMaker<Protocol.C_ROOM_PLAYER_LIST_REQUEST>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_PLAYER_LIST_REQUEST);
+    }
+
+    public static void Send(Protocol.C_START_GAME pkt)
+    {
+        PacketMaker<Protocol.C_START_GAME>.MakeSendBuffer(pkt, PacketType.PKT_C_START_GAME);
     }
 
     public static void Send(Protocol.C_ATTACK pkt)
@@ -153,45 +180,78 @@ public static class PacketManager
                 }
                 break;
 
+            case PacketType.PKT_S_ROOM_LOBBY:
+                S_ROOM_LOBBY s_ROOM_LOBBY = packet as S_ROOM_LOBBY;
+
+                string roomName = GlobalUtils.UnpackBytesToString(s_ROOM_LOBBY.GameName);
+                string roomPassWord = GlobalUtils.UnpackBytesToString(s_ROOM_LOBBY.GamePassWord);
+
+                RoomData.Instance.SaveLobbyData(s_ROOM_LOBBY.HostId, roomName, roomPassWord, s_ROOM_LOBBY.MapId);
+                SceneManager.LoadScene("MatchMakingScene");
+                break;
+
+            case PacketType.PKT_S_LOBBY_PLAYER_INFO:
+                S_LOBBY_PLAYER_INFO s_LOBBY_PLAYER_INFO = packet as S_LOBBY_PLAYER_INFO;
+
+                ServerConnect.Instance.playerInfo.Clear();
+
+                foreach (Protocol.PlayerInfo playerInfo in s_LOBBY_PLAYER_INFO.PlayerData)
+                {
+                    PlayerInfo info = new PlayerInfo();
+                    info.PlayerId = playerInfo.PlayerId;
+
+                    ServerConnect.Instance.playerInfo.Add(info);
+                }
+                ServerConnect.Instance.callback?.Invoke();
+
+                break;
+
+            case PacketType.PKT_S_GAME_START:
+                S_GAME_START s_GAME_START = packet as S_GAME_START;
+
+                PacketRelay.Instance.MapLeader(s_GAME_START.MapSectionCount, s_GAME_START.MapData);
+
+                break;
+
             case PacketType.PKT_S_ROOM_DATA:
                 S_ROOM_DATA s_ROOM_DATA = packet as S_ROOM_DATA;
                 
                 foreach(Protocol.RoomData data in s_ROOM_DATA.RoomData)
                 {
-                    ServerConnect.Instance.showRoomInfoAction(data.RoomCode, data.PlayerCount);
-                }
+                    string name = GlobalUtils.UnpackBytesToString(data.RoomName);
 
-                
+                    ServerConnect.Instance.showRoomInfoAction(data.RoomCode, data.PlayerCount, name, data.IsPassWord);
+                }
                 break;
 
             case PacketType.PKT_S_ROOM_RESPONSE:
                 S_ROOM_RESPONSE s_ROOM_RESPONSE = packet as S_ROOM_RESPONSE;
 
-                if(s_ROOM_RESPONSE.RoomAccept)
-                {
-                    ServerConnect.Instance.playerObjectId = s_ROOM_RESPONSE.PlayerObjectId;
+                ServerConnect.Instance.callback?.Invoke();
 
-                    //UnitManager.Instance;
+                //if(s_ROOM_RESPONSE.RoomAccept)
+                //{
+                //    //UnitManager.Instance;
 
-                    ServerConnect.Instance.SceneChange("BattleScene");
+                //    ServerConnect.Instance.SceneChange("BattleScene");
 
-                    ServerConnect.Instance.currentRoomCode = s_ROOM_RESPONSE.RoomCode;
+                //    ServerConnect.Instance.currentRoomCode = s_ROOM_RESPONSE.RoomCode;
 
-                    foreach (Protocol.ObjectData data in s_ROOM_RESPONSE.ObjectData)
-                    {
-                        UnityEngine.Vector3 pos = new UnityEngine.Vector3(data.Position.X, data.Position.Y, data.Position.Z);
+                //    foreach (Protocol.ObjectData data in s_ROOM_RESPONSE.ObjectData)
+                //    {
+                //        UnityEngine.Vector3 pos = new UnityEngine.Vector3(data.Position.X, data.Position.Y, data.Position.Z);
 
-                        UnityEngine.Vector3 dir = new UnityEngine.Vector3(data.Direction.X, data.Direction.Y, data.Direction.Z);
+                //        UnityEngine.Vector3 dir = new UnityEngine.Vector3(data.Direction.X, data.Direction.Y, data.Direction.Z);
 
-                        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                //        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-                        ServerConnect.Instance.EnqueueSpawn((UnitCode)data.Type, data.ObjectId, pos, Quaternion.Euler(0, 0, angle));
-                    }
-                }
-                else
-                {
-                    Debug.Log("방 입장 거부됨");
-                }
+                //        ServerConnect.Instance.EnqueueSpawn((UnitCode)data.Type, data.ObjectId, pos, Quaternion.Euler(0, 0, angle));
+                //    }
+                //}
+                //else
+                //{
+                //    Debug.Log("방 입장 거부됨");
+                //}
 
                 break;
 
@@ -224,7 +284,7 @@ public static class PacketManager
 
                     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-                    ServerConnect.Instance.EnqueueSpawn((UnitCode)data.Type, data.ObjectId, pos, Quaternion.Euler(0, 0, angle - 90.0f), s_OBJECT_SPAWN.SpawnTime);
+                    ServerConnect.Instance.EnqueueSpawn((UnitCode)data.Type, data.ObjectId, pos, UnityEngine.Quaternion.Euler(0, 0, angle - 90.0f), s_OBJECT_SPAWN.SpawnTime);
 
                     break;
                 }

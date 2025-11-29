@@ -47,7 +47,7 @@ struct TableStruct_Struct_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -61,6 +61,9 @@ extern BuffDataDefaultTypeInternal _BuffData_default_instance_;
 class ObjectData;
 struct ObjectDataDefaultTypeInternal;
 extern ObjectDataDefaultTypeInternal _ObjectData_default_instance_;
+class PlayerInfo;
+struct PlayerInfoDefaultTypeInternal;
+extern PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
 class RoomData;
 struct RoomDataDefaultTypeInternal;
 extern RoomDataDefaultTypeInternal _RoomData_default_instance_;
@@ -71,6 +74,7 @@ extern Vector3DefaultTypeInternal _Vector3_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Protocol::BuffData* Arena::CreateMaybeMessage<::Protocol::BuffData>(Arena*);
 template<> ::Protocol::ObjectData* Arena::CreateMaybeMessage<::Protocol::ObjectData>(Arena*);
+template<> ::Protocol::PlayerInfo* Arena::CreateMaybeMessage<::Protocol::PlayerInfo>(Arena*);
 template<> ::Protocol::RoomData* Arena::CreateMaybeMessage<::Protocol::RoomData>(Arena*);
 template<> ::Protocol::Vector3* Arena::CreateMaybeMessage<::Protocol::Vector3>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -354,9 +358,33 @@ class RoomData final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kRoomNameFieldNumber = 3,
     kRoomCodeFieldNumber = 1,
     kPlayerCountFieldNumber = 2,
+    kIsPassWordFieldNumber = 4,
   };
+  // repeated uint32 roomName = 3;
+  int roomname_size() const;
+  private:
+  int _internal_roomname_size() const;
+  public:
+  void clear_roomname();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_roomname(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      _internal_roomname() const;
+  void _internal_add_roomname(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      _internal_mutable_roomname();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::uint32 roomname(int index) const;
+  void set_roomname(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
+  void add_roomname(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      roomname() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      mutable_roomname();
+
   // int32 roomCode = 1;
   void clear_roomcode();
   ::PROTOBUF_NAMESPACE_ID::int32 roomcode() const;
@@ -375,6 +403,15 @@ class RoomData final :
   void _internal_set_playercount(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // bool isPassWord = 4;
+  void clear_ispassword();
+  bool ispassword() const;
+  void set_ispassword(bool value);
+  private:
+  bool _internal_ispassword() const;
+  void _internal_set_ispassword(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.RoomData)
  private:
   class _Internal;
@@ -382,8 +419,143 @@ class RoomData final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > roomname_;
+  mutable std::atomic<int> _roomname_cached_byte_size_;
   ::PROTOBUF_NAMESPACE_ID::int32 roomcode_;
   ::PROTOBUF_NAMESPACE_ID::uint32 playercount_;
+  bool ispassword_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Struct_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PlayerInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.PlayerInfo) */ {
+ public:
+  inline PlayerInfo() : PlayerInfo(nullptr) {}
+  ~PlayerInfo() override;
+  explicit constexpr PlayerInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PlayerInfo(const PlayerInfo& from);
+  PlayerInfo(PlayerInfo&& from) noexcept
+    : PlayerInfo() {
+    *this = ::std::move(from);
+  }
+
+  inline PlayerInfo& operator=(const PlayerInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PlayerInfo& operator=(PlayerInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PlayerInfo& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PlayerInfo* internal_default_instance() {
+    return reinterpret_cast<const PlayerInfo*>(
+               &_PlayerInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(PlayerInfo& a, PlayerInfo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PlayerInfo* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PlayerInfo* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PlayerInfo* New() const final {
+    return new PlayerInfo();
+  }
+
+  PlayerInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PlayerInfo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const PlayerInfo& from);
+  void MergeFrom(const PlayerInfo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PlayerInfo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.PlayerInfo";
+  }
+  protected:
+  explicit PlayerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPlayerIdFieldNumber = 1,
+  };
+  // int64 playerId = 1;
+  void clear_playerid();
+  ::PROTOBUF_NAMESPACE_ID::int64 playerid() const;
+  void set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_playerid() const;
+  void _internal_set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.PlayerInfo)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int64 playerid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Struct_2eproto;
 };
@@ -433,7 +605,7 @@ class Vector3 final :
                &_Vector3_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(Vector3& a, Vector3& b) {
     a.Swap(&b);
@@ -587,7 +759,7 @@ class ObjectData final :
                &_ObjectData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(ObjectData& a, ObjectData& b) {
     a.Swap(&b);
@@ -864,6 +1036,97 @@ inline void RoomData::_internal_set_playercount(::PROTOBUF_NAMESPACE_ID::uint32 
 inline void RoomData::set_playercount(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_playercount(value);
   // @@protoc_insertion_point(field_set:Protocol.RoomData.playerCount)
+}
+
+// repeated uint32 roomName = 3;
+inline int RoomData::_internal_roomname_size() const {
+  return roomname_.size();
+}
+inline int RoomData::roomname_size() const {
+  return _internal_roomname_size();
+}
+inline void RoomData::clear_roomname() {
+  roomname_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 RoomData::_internal_roomname(int index) const {
+  return roomname_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 RoomData::roomname(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.RoomData.roomName)
+  return _internal_roomname(index);
+}
+inline void RoomData::set_roomname(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  roomname_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Protocol.RoomData.roomName)
+}
+inline void RoomData::_internal_add_roomname(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  roomname_.Add(value);
+}
+inline void RoomData::add_roomname(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_add_roomname(value);
+  // @@protoc_insertion_point(field_add:Protocol.RoomData.roomName)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+RoomData::_internal_roomname() const {
+  return roomname_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+RoomData::roomname() const {
+  // @@protoc_insertion_point(field_list:Protocol.RoomData.roomName)
+  return _internal_roomname();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+RoomData::_internal_mutable_roomname() {
+  return &roomname_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+RoomData::mutable_roomname() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.RoomData.roomName)
+  return _internal_mutable_roomname();
+}
+
+// bool isPassWord = 4;
+inline void RoomData::clear_ispassword() {
+  ispassword_ = false;
+}
+inline bool RoomData::_internal_ispassword() const {
+  return ispassword_;
+}
+inline bool RoomData::ispassword() const {
+  // @@protoc_insertion_point(field_get:Protocol.RoomData.isPassWord)
+  return _internal_ispassword();
+}
+inline void RoomData::_internal_set_ispassword(bool value) {
+  
+  ispassword_ = value;
+}
+inline void RoomData::set_ispassword(bool value) {
+  _internal_set_ispassword(value);
+  // @@protoc_insertion_point(field_set:Protocol.RoomData.isPassWord)
+}
+
+// -------------------------------------------------------------------
+
+// PlayerInfo
+
+// int64 playerId = 1;
+inline void PlayerInfo::clear_playerid() {
+  playerid_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 PlayerInfo::_internal_playerid() const {
+  return playerid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 PlayerInfo::playerid() const {
+  // @@protoc_insertion_point(field_get:Protocol.PlayerInfo.playerId)
+  return _internal_playerid();
+}
+inline void PlayerInfo::_internal_set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  playerid_ = value;
+}
+inline void PlayerInfo::set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_playerid(value);
+  // @@protoc_insertion_point(field_set:Protocol.PlayerInfo.playerId)
 }
 
 // -------------------------------------------------------------------
@@ -1143,6 +1406,8 @@ inline void ObjectData::set_allocated_direction(::Protocol::Vector3* direction) 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

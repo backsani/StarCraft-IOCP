@@ -51,6 +51,9 @@
     <ClCompile Include="VisualManager.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="MapMaker.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -87,6 +90,9 @@
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="VisualManager.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MapMaker.h">
       <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>

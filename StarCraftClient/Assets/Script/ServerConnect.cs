@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,6 +25,12 @@ public class ClientInfo
     public UnityEngine.Vector3 mTransform;
     public string mName;
 }
+
+public struct PlayerInfo
+{
+    public long PlayerId;
+}
+
 
 public class ServerConnect : MonoBehaviour
 {
@@ -107,8 +114,12 @@ public class ServerConnect : MonoBehaviour
     private Text message;
 
     //room 정보 함수
-    public Action<int, uint> showRoomInfoAction;
+    public Action<int, uint, string, bool> showRoomInfoAction;
     public int currentRoomCode;
+    public Action callback;
+
+    // MatchPlayerInfo
+    public List<PlayerInfo> playerInfo = new List<PlayerInfo>();
 
     //스폰할 Unit을 저장
     public Queue<Action> spawnQueue = new Queue<Action>();
@@ -237,7 +248,7 @@ public class ServerConnect : MonoBehaviour
     }
 
 
-    public void EnqueueSpawn(UnitCode code, uint id, UnityEngine.Vector3 pos, Quaternion dir, long spawnTime = 0)
+    public void EnqueueSpawn(UnitCode code, uint id, UnityEngine.Vector3 pos, UnityEngine.Quaternion dir, long spawnTime = 0)
     {
         spawnQueue.Enqueue(() => UnitManager.Instance.SpawnUnit(code, id, pos, dir, spawnTime));
     }

@@ -26,17 +26,20 @@ namespace Protocol {
           string.Concat(
             "CgxTdHJ1Y3QucHJvdG8SCFByb3RvY29sGgpFbnVtLnByb3RvIj8KCEJ1ZmZE",
             "YXRhEg4KBmJ1ZmZJZBgBIAEoBBISCgpyZW1haW5UaW1lGAIgASgCEg8KB3Zp",
-            "Y3RpbXMYAyADKAQiMQoIUm9vbURhdGESEAoIcm9vbUNvZGUYASABKAUSEwoL",
-            "cGxheWVyQ291bnQYAiABKA0iKgoHVmVjdG9yMxIJCgF4GAEgASgCEgkKAXkY",
-            "AiABKAISCQoBehgDIAEoAiKNAQoKT2JqZWN0RGF0YRIiCgR0eXBlGAEgASgO",
-            "MhQuUHJvdG9jb2wuT2JqZWN0VHlwZRIQCghvYmplY3RJZBgCIAEoDRIjCghw",
-            "b3NpdGlvbhgDIAEoCzIRLlByb3RvY29sLlZlY3RvcjMSJAoJZGlyZWN0aW9u",
-            "GAQgASgLMhEuUHJvdG9jb2wuVmVjdG9yM2IGcHJvdG8z"));
+            "Y3RpbXMYAyADKAQiVwoIUm9vbURhdGESEAoIcm9vbUNvZGUYASABKAUSEwoL",
+            "cGxheWVyQ291bnQYAiABKA0SEAoIcm9vbU5hbWUYAyADKA0SEgoKaXNQYXNz",
+            "V29yZBgEIAEoCCIeCgpQbGF5ZXJJbmZvEhAKCHBsYXllcklkGAEgASgDIioK",
+            "B1ZlY3RvcjMSCQoBeBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAIijQEK",
+            "Ck9iamVjdERhdGESIgoEdHlwZRgBIAEoDjIULlByb3RvY29sLk9iamVjdFR5",
+            "cGUSEAoIb2JqZWN0SWQYAiABKA0SIwoIcG9zaXRpb24YAyABKAsyES5Qcm90",
+            "b2NvbC5WZWN0b3IzEiQKCWRpcmVjdGlvbhgEIAEoCzIRLlByb3RvY29sLlZl",
+            "Y3RvcjNiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.BuffData), global::Protocol.BuffData.Parser, new[]{ "BuffId", "RemainTime", "Victims" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.RoomData), global::Protocol.RoomData.Parser, new[]{ "RoomCode", "PlayerCount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.RoomData), global::Protocol.RoomData.Parser, new[]{ "RoomCode", "PlayerCount", "RoomName", "IsPassWord" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PlayerInfo), global::Protocol.PlayerInfo.Parser, new[]{ "PlayerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.Vector3), global::Protocol.Vector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.ObjectData), global::Protocol.ObjectData.Parser, new[]{ "Type", "ObjectId", "Position", "Direction" }, null, null, null, null)
           }));
@@ -311,6 +314,8 @@ namespace Protocol {
     public RoomData(RoomData other) : this() {
       roomCode_ = other.roomCode_;
       playerCount_ = other.playerCount_;
+      roomName_ = other.roomName_.Clone();
+      isPassWord_ = other.isPassWord_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -341,6 +346,27 @@ namespace Protocol {
       }
     }
 
+    /// <summary>Field number for the "roomName" field.</summary>
+    public const int RoomNameFieldNumber = 3;
+    private static readonly pb::FieldCodec<uint> _repeated_roomName_codec
+        = pb::FieldCodec.ForUInt32(26);
+    private readonly pbc::RepeatedField<uint> roomName_ = new pbc::RepeatedField<uint>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<uint> RoomName {
+      get { return roomName_; }
+    }
+
+    /// <summary>Field number for the "isPassWord" field.</summary>
+    public const int IsPassWordFieldNumber = 4;
+    private bool isPassWord_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsPassWord {
+      get { return isPassWord_; }
+      set {
+        isPassWord_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as RoomData);
@@ -356,6 +382,8 @@ namespace Protocol {
       }
       if (RoomCode != other.RoomCode) return false;
       if (PlayerCount != other.PlayerCount) return false;
+      if(!roomName_.Equals(other.roomName_)) return false;
+      if (IsPassWord != other.IsPassWord) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -364,6 +392,8 @@ namespace Protocol {
       int hash = 1;
       if (RoomCode != 0) hash ^= RoomCode.GetHashCode();
       if (PlayerCount != 0) hash ^= PlayerCount.GetHashCode();
+      hash ^= roomName_.GetHashCode();
+      if (IsPassWord != false) hash ^= IsPassWord.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -388,6 +418,11 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(PlayerCount);
       }
+      roomName_.WriteTo(output, _repeated_roomName_codec);
+      if (IsPassWord != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(IsPassWord);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -405,6 +440,11 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(PlayerCount);
       }
+      roomName_.WriteTo(ref output, _repeated_roomName_codec);
+      if (IsPassWord != false) {
+        output.WriteRawTag(32);
+        output.WriteBool(IsPassWord);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -419,6 +459,10 @@ namespace Protocol {
       }
       if (PlayerCount != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(PlayerCount);
+      }
+      size += roomName_.CalculateSize(_repeated_roomName_codec);
+      if (IsPassWord != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -436,6 +480,10 @@ namespace Protocol {
       }
       if (other.PlayerCount != 0) {
         PlayerCount = other.PlayerCount;
+      }
+      roomName_.Add(other.roomName_);
+      if (other.IsPassWord != false) {
+        IsPassWord = other.IsPassWord;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -457,6 +505,15 @@ namespace Protocol {
           }
           case 16: {
             PlayerCount = input.ReadUInt32();
+            break;
+          }
+          case 26:
+          case 24: {
+            roomName_.AddEntriesFrom(input, _repeated_roomName_codec);
+            break;
+          }
+          case 32: {
+            IsPassWord = input.ReadBool();
             break;
           }
         }
@@ -481,6 +538,190 @@ namespace Protocol {
             PlayerCount = input.ReadUInt32();
             break;
           }
+          case 26:
+          case 24: {
+            roomName_.AddEntriesFrom(ref input, _repeated_roomName_codec);
+            break;
+          }
+          case 32: {
+            IsPassWord = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class PlayerInfo : pb::IMessage<PlayerInfo>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<PlayerInfo> _parser = new pb::MessageParser<PlayerInfo>(() => new PlayerInfo());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<PlayerInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protocol.StructReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerInfo(PlayerInfo other) : this() {
+      playerId_ = other.playerId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public PlayerInfo Clone() {
+      return new PlayerInfo(this);
+    }
+
+    /// <summary>Field number for the "playerId" field.</summary>
+    public const int PlayerIdFieldNumber = 1;
+    private long playerId_;
+    /// <summary>
+    ///repeated uint32 playerName = 2;
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long PlayerId {
+      get { return playerId_; }
+      set {
+        playerId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as PlayerInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(PlayerInfo other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (PlayerId != other.PlayerId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (PlayerId != 0L) hash ^= PlayerId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (PlayerId != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(PlayerId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (PlayerId != 0L) {
+        output.WriteRawTag(8);
+        output.WriteInt64(PlayerId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (PlayerId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(PlayerId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(PlayerInfo other) {
+      if (other == null) {
+        return;
+      }
+      if (other.PlayerId != 0L) {
+        PlayerId = other.PlayerId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            PlayerId = input.ReadInt64();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            PlayerId = input.ReadInt64();
+            break;
+          }
         }
       }
     }
@@ -500,7 +741,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.StructReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Protocol.StructReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -744,7 +985,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.StructReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Protocol.StructReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

@@ -15,7 +15,10 @@ public:
 	virtual void OnSend(int32 len) override;
 	void SetRoomId(int id) { currentRoom = id; }
 	int GetRoomId() { return currentRoom; }
+	void SetPlayerName(int name) { playerName = name; }
+	int GetPlayerName() { return playerName;  }
 
 private:
 	int currentRoom = INT_MAX;
+	int playerName;
 };

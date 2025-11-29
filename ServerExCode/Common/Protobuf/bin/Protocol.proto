@@ -17,6 +17,14 @@ message C_MOVE
 	Vector3 direction = 4;
 }
 
+message C_ROOM_CREATE
+{
+	uint64 gameId = 1;
+	repeated uint32 gameName = 2;
+	repeated uint32 gamePassWord = 3;
+	int32 mapId = 4;
+}
+
 // Room Data Request
 message C_ROOM_DATA
 {
@@ -25,6 +33,17 @@ message C_ROOM_DATA
 
 // Room Access Request
 message C_ROOM_REQUEST
+{
+	int32 roomCode = 1;
+	repeated uint32 gamePassWord = 2;
+}
+
+message C_ROOM_PLAYER_LIST_REQUEST
+{
+	int32 roomCode = 1;
+}
+
+message C_START_GAME
 {
 	int32 roomCode = 1;
 }
@@ -55,6 +74,25 @@ message S_LOGIN
 	bool loginAccept = 2;
 }
 
+message S_ROOM_LOBBY
+{
+	uint64 hostId = 1;
+	repeated uint32 gameName = 2;
+	repeated uint32 gamePassWord = 3;
+	int32 mapId = 4;
+}
+
+message S_LOBBY_PLAYER_INFO
+{
+	repeated PlayerInfo playerData = 1;
+}
+
+message S_GAME_START
+{
+	int32 mapSectionCount = 1;
+	repeated int32 mapData = 2;
+}
+
 // Room Data Response
 message S_ROOM_DATA
 {
@@ -66,9 +104,9 @@ message S_ROOM_RESPONSE
 {
 	bool roomAccept = 1;
 	int32 roomCode = 2;
-	uint32 playerObjectId = 3;
+	// uint32 playerObjectId = 3;
 	// Ingame Objects Data
-	repeated ObjectData objectData = 4;
+	// repeated ObjectData objectData = 4;
 }
 
 message S_MOVE

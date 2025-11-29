@@ -5,20 +5,51 @@ using UnityEngine;
 
 public class MatchMakingUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI mUserNameText;
-    [SerializeField] private TextMeshProUGUI mTimer;
+    [SerializeField] private TextMeshProUGUI roomName;
+    [SerializeField] private TextMeshProUGUI roomPassWord;
+    private ulong hostId;
+    [SerializeField] private TextMeshProUGUI mapId;
 
-    private float timer = 0f;
+    LobbyData roomData;
+
+    public List<TextMeshProUGUI> playersId = new List<TextMeshProUGUI>();
+
     // Start is called before the first frame update
     void Start()
     {
-        mUserNameText.text = ServerConnect.Instance.UserId;
+        roomData = RoomData.Instance.currentRoom;
+
+        roomName.text = roomData.gameName;
+        roomPassWord.text = roomData.gamePassWord;
+        mapId.text = "map : " + roomData.mapId.ToString();
+        hostId = roomData.hostId;
+
+        ServerConnect.Instance.callback = null;
+        ServerConnect.Instance.callback = PlayerListApply;
+
+        Protocol.C_ROOM_PLAYER_LIST_REQUEST c_ROOM_PLAYER_LIST_REQUEST = new Protocol.C_ROOM_PLAYER_LIST_REQUEST();
+
+        PacketManager.Send(c_ROOM_PLAYER_LIST_REQUEST);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void PlayerListApply()
     {
-        timer += Time.deltaTime;
-        mTimer.text = "Time : " + timer.ToString("F1");
+        int index = 0;
+
+        foreach (PlayerInfo player in ServerConnect.Instance.playerInfo)
+        {
+            playersId[index].text = player.PlayerId.ToString();
+            index++;
+        }
+        
+    }
+
+    public void OnClickStart()
+    {
+        if(hostId.ToString() == ServerConnect.Instance.UserId)
+        {
+
+        }
     }
 }

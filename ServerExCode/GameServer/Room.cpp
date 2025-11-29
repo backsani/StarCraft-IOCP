@@ -5,7 +5,7 @@
 #include "ClientPacketHandler.h"
 #include "Grid.h"
 
-Room::Room(int roomId) : roomId(roomId)
+Room::Room(int roomId, int hostId, vector<INT32> GameName, vector<INT32> GamePassWord, INT32 mapId) : roomId(roomId), hostId(hostId), GameName(GameName), GamePassWord(GamePassWord), mapId(mapId)
 {
 	idCount = 0;
 	playerCount = 0;

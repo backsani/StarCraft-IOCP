@@ -3,6 +3,7 @@
 #include "RoomManager.h"
 #include "GameSession.h"
 #include "Room.h"
+#include "MapMaker.h"
 
 PacketHandlerFunc GPacketHandler[UINT16_MAX];
 
@@ -19,6 +20,8 @@ bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len)
 
 bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 {
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+
 	cout << pkt.logincode() << endl;
 
 	Protocol::S_LOGIN data;
@@ -29,6 +32,8 @@ bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt)
 		RoomManager::GetInstance()->playerIdList.insert(pkt.logincode());
 
 		data.set_loginaccept(true);
+
+		gameSession->SetPlayerName(pkt.logincode());
 	}
 	else
 	{
@@ -69,6 +74,35 @@ bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt)
 	return true;
 }
 
+bool Handle_C_ROOM_CREATE(PacketSessionRef& session, Protocol::C_ROOM_CREATE& pkt)
+{
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+	RoomManagerRef roomManager = RoomManager::GetInstance();
+
+	int hostId = pkt.gameid();
+	vector<INT32> gameName(pkt.gamename().begin(), pkt.gamename().end());
+	vector<INT32> gamePassWord(pkt.gamepassword().begin(), pkt.gamepassword().end());
+
+	RoomRef room = MakeShared<Room>(roomManager->roomIdCount, hostId, gameName, gamePassWord, pkt.mapid());
+	roomManager->AddRoom(room);
+
+	room->Add(gameSession);
+
+	Protocol::S_ROOM_LOBBY packet;
+
+	packet.set_hostid(hostId);
+	for (INT32 u : gameName)
+		packet.add_gamename(u);
+	for (INT32 u : gamePassWord)
+		packet.add_gamepassword(u);
+	packet.set_mapid(room->mapId);
+
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+	session->Send(sendBuffer);
+
+	return false;
+}
+
 
 bool Handle_C_ROOM_DATA(PacketSessionRef& session, Protocol::C_ROOM_DATA& pkt)
 {
@@ -81,6 +115,14 @@ bool Handle_C_ROOM_DATA(PacketSessionRef& session, Protocol::C_ROOM_DATA& pkt)
 		Protocol::RoomData* data = packet.add_roomdata();
 		data->set_roomcode(room.first);
 		data->set_playercount(room.second->GetPlayerCount());
+		Vector<INT32> name(room.second->GameName.begin(), room.second->GameName.end());
+		Vector<INT32> passWord(room.second->GamePassWord.begin(), room.second->GamePassWord.end());
+		if (passWord.size() == 0)
+			data->set_ispassword(false);
+		else
+			data->set_ispassword(true);
+		for (INT32 i : name)
+			data->add_roomname(i);
 	}
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
@@ -95,18 +137,35 @@ bool Handle_C_ROOM_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_REQUEST& 
 
 	RoomManagerRef roomManager = RoomManager::GetInstance();
 	RoomRef room = roomManager->rooms[pkt.roomcode()];
+	vector<INT32> passWord(pkt.gamepassword().begin(), pkt.gamepassword().end());
 
-	Protocol::S_ROOM_RESPONSE packet;
+	if (room->GamePassWord.size() == 0 || room->GamePassWord == passWord)
+	{
+		room->Add(gameSession);
 
-	packet.set_roomaccept(true);
+		Protocol::S_ROOM_LOBBY packet;
+		packet.set_hostid(room->hostId);
+		for (INT32 u : room->GameName)
+			packet.add_gamename(u);
+		for (INT32 u : room->GamePassWord)
+			packet.add_gamepassword(u);
+		packet.set_mapid(room->mapId);
 
-	packet.set_roomcode(room->GetRoomId());
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+		session->Send(sendBuffer);
+	}
+	else
+	{
+		Protocol::S_ROOM_RESPONSE packet;
+		packet.set_roomaccept(false);
+		packet.set_roomcode(room->GetRoomId());
 
-	int playerId = room->Add(gameSession);
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+		session->Send(sendBuffer);
+	}
 
-	packet.set_playerobjectid(playerId);
 
-
+	/*
 	{
 		room->_locks;
 		for (auto object : room->objects)
@@ -133,8 +192,54 @@ bool Handle_C_ROOM_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_REQUEST& 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
 		session->Send(sendBuffer);
 	}
-
+	
 	cout << "Object 정보 전송 : " << playerId << endl;
+	*/
+
+	return false;
+}
+
+bool Handle_C_ROOM_PLAYER_LIST_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_PLAYER_LIST_REQUEST& pkt)
+{
+	RoomManagerRef roomManager = RoomManager::GetInstance();
+
+	RoomRef room = roomManager->GetRoom(pkt.roomcode());
+	Protocol::S_LOBBY_PLAYER_INFO packet;
+
+	for (pair<GameSessionRef, int> player : room->_sessionPlayers)
+	{
+		Protocol::PlayerInfo* data = packet.add_playerdata();
+		
+		data->set_playerid(player.first->GetPlayerName());
+		//data->set_playername()
+	}
+
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+	room->Broadcast(sendBuffer);
+
+	return false;
+}
+
+bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt)
+{
+	RoomManagerRef roomManager = RoomManager::GetInstance();
+
+	RoomRef room = roomManager->GetRoom(pkt.roomcode());
+
+	Protocol::S_GAME_START packet;
+
+	MapMakerRef map = MapMaker::GetInstance();
+
+	packet.set_mapsectioncount(map->GetSectionCount());
+	for (int32 data : map->GetBuffer())
+	{
+		packet.add_mapdata(data);
+	}
+
+	// 넥서스, 프로브 등 만들기
+
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+	room->Broadcast(sendBuffer);
 
 	return false;
 }

@@ -3,6 +3,7 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObjec
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameServer.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\GameServer.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameSession.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\GameSession.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameSessionManager.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\GameSessionManager.obj
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\MapMaker.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\MapMaker.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\pch.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\pch.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Protocol.pb.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\ClientPacketHandler.obj
