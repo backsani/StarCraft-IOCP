@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
-    [SerializeField] private List<Sprite> tiles = new List<Sprite>();
+    [SerializeField] private List<GameObject> tiles = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
-        
+        ServerConnect.Instance.callback = null;
+        ServerConnect.Instance.callback = Init;
     }
 
     // Update is called once per frame
@@ -17,11 +18,21 @@ public class MapManager : MonoBehaviour
         
     }
 
-    public void BuildTileMap(byte[] map)
+    public void Init()
     {
-        for(int i = 0; i < map.Length / 4;  i++)
-        {
+        BuildTileMap(PacketRelay.Instance.currentMapData);
+    }
 
+    public void BuildTileMap(MapData map)
+    {
+
+        for(int i = 0; i < map.height; i++)
+        {
+            for(int j = 0; j < map.width; j++) 
+            {
+                GameObject tile = Instantiate(tiles[i * map.width + j], new Vector3(j * 0.32f, i * 0.32f, 0), Quaternion.identity);
+                tile.transform.parent = transform;
+            }
         }
     }
 }

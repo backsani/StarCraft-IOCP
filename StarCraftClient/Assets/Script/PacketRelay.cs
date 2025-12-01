@@ -13,9 +13,40 @@ public enum MapSection : int
     SPOS = 4,   // 플레이어의 시작 위치
 }
 
+public struct ResourceData
+{
+    public enum ResourceCode
+    {
+        Mineral,
+        Gas,
+    }
+    public ResourceCode ResourceType;
+    public int x;
+    public int y;
+}
+
+public struct MapData
+{
+    public int PlayerNumber;
+    public int MapSize;
+    public int width;
+    public int height;
+    public int scale;
+    public int[] map;
+
+}
+
+public struct PlayerStartPosition
+{
+    public int index;
+    public int x;
+    public int y;
+}
+
 public class PacketRelay : MonoBehaviour
 {
     private static PacketRelay instance;
+
 
     public static PacketRelay Instance
     {
@@ -37,6 +68,10 @@ public class PacketRelay : MonoBehaviour
             return instance;
         }
     }
+
+    public PlayerStartPosition[] playerStartPositions;
+    public MapData currentMapData;
+    public ResourceData[] currentResourceData;
 
     // 생성자와 초기화
     private void Awake()
@@ -72,14 +107,47 @@ public class PacketRelay : MonoBehaviour
             switch (sectionType)
             {
                 case MapSection.OWNR:
+                    playerStartPositions = new PlayerStartPosition[temp[0]];
+                    currentMapData.PlayerNumber = temp[0];
                     break;
+
                 case MapSection.SIZE:
+                    currentMapData.width = temp[0];
+                    currentMapData.height = temp[1];
+                    currentMapData.scale = temp[2];
+                    currentMapData.map = new int[currentMapData.width * currentMapData.height];
                     break;
+
                 case MapSection.MTXM:
+                    currentMapData.MapSize = temp.Length;
+                    currentMapData.map = temp;
+                    for(int y = 0; y < currentMapData.height; y++)
+                    {
+                        for(int x = 0; x < currentMapData.width; x++)
+                        {
+                            currentMapData.map[y * currentMapData.height + x] = temp[0];
+                        }
+                    }
                     break;
+
                 case MapSection.RESO:
+                    currentResourceData = new ResourceData[temp.Length / 3];
+
+                    for(int j = 0; j < temp.Length / 3; j++)
+                    {
+                        currentResourceData[j].ResourceType = (ResourceData.ResourceCode)temp[j * 3];
+                        currentResourceData[j].x = temp[j * 3 + 1];
+                        currentResourceData[j].y = temp[j * 3 + 2];
+                    }
                     break;
+
                 case MapSection.SPOS:
+                    for(int j = 0; j < temp.Length / 3; j++)
+                    {
+                        playerStartPositions[j].index = temp[j * 3];
+                        playerStartPositions[j].x = temp[j * 3 + 1];
+                        playerStartPositions[j].y = temp[j * 3 + 2];
+                    }
                     break;
                 default:
                     break;

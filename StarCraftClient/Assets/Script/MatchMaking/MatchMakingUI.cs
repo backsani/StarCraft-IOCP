@@ -49,7 +49,14 @@ public class MatchMakingUI : MonoBehaviour
     {
         if(hostId.ToString() == ServerConnect.Instance.UserId)
         {
+            Protocol.C_START_GAME start = new Protocol.C_START_GAME();
 
+            start.RoomCode = ServerConnect.Instance.currentRoomCode;
+
+            PacketManager.Send(start);
+            Debug.Log("시작 요청 성공");
+            return;
         }
+        Debug.Log("시작 요청 실패");
     }
 }

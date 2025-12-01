@@ -244,6 +244,19 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.
   Struct.pb.cc
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc(521,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
+  ClientPacketHandler.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(30,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(32,64): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(36,43): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(82,13): warning C4244: '초기화 중': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
   GameObject.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(181,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
@@ -251,19 +264,6 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObjec
   GameServer.cpp
   GameSession.cpp
   MapMaker.cpp
-  ClientPacketHandler.cpp
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(29,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(31,64): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(35,43): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
-  
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(81,13): warning C4244: '초기화 중': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
-  
   Room.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         with
@@ -283,8 +283,18 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
               _Ty=int32
           ]
   
-  VisualManager.cpp
   코드를 생성하고 있습니다...
+  LINK : 이전 연결 이후로 0개의 새 모듈과 9개(전체 85개 중)의 모듈이 변경되었습니다.
+  라이브러리를 검색하고 있습니다.
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+  라이브러리가 검색되었습니다.
+  LINK : 이전에 강했던 '"void __cdecl __global_delete(void *,unsigned __int64)" (?__global_delete@@YAXPEAX_K@Z)' 기호가 이제 약합니다. 전체 링크를 수행하고 있습니다.
+  LINK.EXE 호출 중:
+   /ERRORREPORT:PROMPT @C:\Users\hj577\AppData\Local\Temp\MSBuildTemp\tmp0481c9d377d6448e9e40c6c3d0d535ff.rsp
+   /nologo
+   /incremental
+   /fullbuild
+  
   Pass 1을 시작하고 있습니다.
   /DEFAULTLIB:msvcprtd을(를) 처리했습니다.
   /DEFAULTLIB:MSVCRTD을(를) 처리했습니다.
@@ -292,6 +302,7 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
   /DEFAULTLIB:ServerCore\Debug\ServerCore.lib을(를) 처리했습니다.
   /DEFAULTLIB:Protobuf\Debug\libprotobufd.lib을(를) 처리했습니다.
   /DEFAULTLIB:ws2_32.lib을(를) 처리했습니다.
+  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -548,6 +559,9 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
         "struct _iobuf * __cdecl std::_Fiopen(char const *,int,int)" (?_Fiopen@std@@YAPEAU_iobuf@@PEBDHH@Z)을(를) 찾았습니다.
           MapMaker.obj에서 참조됩니다.
           msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
+        "unsigned int __cdecl std::_Random_device(void)" (?_Random_device@std@@YAIXZ)을(를) 찾았습니다.
+          MapMaker.obj에서 참조됩니다.
+          msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
         "protected: virtual __int64 __cdecl std::basic_streambuf<char,struct std::char_traits<char> >::showmanyc(void)" (?showmanyc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@MEAA_JXZ)을(를) 찾았습니다.
           MapMaker.obj에서 참조됩니다.
           msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
@@ -564,6 +578,7 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           Room.obj에서 참조됩니다.
           msvcprtd.lib(MSVCP140D.dll)을(를) 로드했습니다.
         __IMPORT_DESCRIPTOR_MSVCP140D을(를) 찾았습니다.
+          msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
           msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
           msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
           msvcprtd.lib(MSVCP140D.dll)에서 참조됩니다.
@@ -795,13 +810,15 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
         _Init_thread_header을(를) 찾았습니다.
           GameServer.obj에서 참조됩니다.
           GameSessionManager.obj에서 참조됩니다.
+          MapMaker.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
           MSVCRTD.lib(thread_safe_statics.obj)을(를) 로드했습니다.
         _tls_index을(를) 찾았습니다.
+          MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
           GameServer.obj에서 참조됩니다.
           GameSessionManager.obj에서 참조됩니다.
+          MapMaker.obj에서 참조됩니다.
           ClientPacketHandler.obj에서 참조됩니다.
-          MSVCRTD.lib(thread_safe_statics.obj)에서 참조됩니다.
           MSVCRTD.lib(tlssup.obj)을(를) 로드했습니다.
         "struct __type_info_node __type_info_root_node" (?__type_info_root_node@@3U__type_info_node@@A)을(를) 찾았습니다.
           GameSessionManager.obj에서 참조됩니다.
@@ -1100,6 +1117,7 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
           libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
         "public: void __cdecl google::protobuf::RepeatedField<int>::Add(int const &)" (?Add@?$RepeatedField@H@protobuf@google@@QEAAXAEBH@Z)을(를) 찾았습니다.
           Protocol.pb.obj에서 참조됩니다.
+          ClientPacketHandler.obj에서 참조됩니다.
           libprotobufd.lib(libprotobufd.dll)을(를) 로드했습니다.
         "public: void __cdecl google::protobuf::RepeatedField<int>::Clear(void)" (?Clear@?$RepeatedField@H@protobuf@google@@QEAAXXZ)을(를) 찾았습니다.
           Protocol.pb.obj에서 참조됩니다.
@@ -2291,7 +2309,9 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+  
   라이브러리가 검색되었습니다.
+  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -2315,7 +2335,9 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+  
   라이브러리가 검색되었습니다.
+  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -2337,7 +2359,9 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+  
   라이브러리가 검색되었습니다.
+  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -2359,8 +2383,12 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
       C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+  
   라이브러리가 검색되었습니다.
+  
   Pass 1이 끝났습니다.
+  
+  
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
@@ -2386,34 +2414,39 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
         __guard_memcpy_fptr을(를) 찾았습니다.
           MSVCRTD.lib(loadcfg.obj)에서 참조됩니다.
           vcruntimed.lib(softmemtag.obj)을(를) 로드했습니다.
+  
   라이브러리가 검색되었습니다.
+  
   rc.exe 호출 중:
    /v
    /x
    /fo
-   "C:\Users\hj577\AppData\Local\Temp\lnk{97BE989A-634A-4543-BFF7-005D687EE2F5}.tmp"
-   "C:\Users\hj577\AppData\Local\Temp\lnk{DA0115CD-DDF2-44A7-9FB6-9F7D73464DE6}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{8D120AE1-EE28-461C-B606-3911BFD7C67B}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{2E8E441A-9CC3-4D2F-9BCD-3AFD42F0935A}.tmp"
   Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
   
   Copyright (C) Microsoft Corporation.  All rights reserved.
   
   
   Using codepage 949 as default
-  Creating C:\Users\hj577\AppData\Local\Temp\lnk{97BE989A-634A-4543-BFF7-005D687EE2F5}.tmp
+  Creating C:\Users\hj577\AppData\Local\Temp\lnk{8D120AE1-EE28-461C-B606-3911BFD7C67B}.tmp
   
   
-  C:\Users\hj577\AppData\Local\Temp\lnk{DA0115CD-DDF2-44A7-9FB6-9F7D73464DE6}.tmp.
+  C:\Users\hj577\AppData\Local\Temp\lnk{2E8E441A-9CC3-4D2F-9BCD-3AFD42F0935A}.tmp.
   Writing 24:1,	lang:0x409,	size 381
+  
   cvtres.exe 호출 중:
    /machine:amd64
    /verbose
-   /out:"C:\Users\hj577\AppData\Local\Temp\lnk{A2FF6C15-53A5-4160-B396-F16AB8C67BB1}.tmp"
+   /out:"C:\Users\hj577\AppData\Local\Temp\lnk{148E23EA-3E9B-43EB-8F56-1E1875D49BD3}.tmp"
    /readonly
-   "C:\Users\hj577\AppData\Local\Temp\lnk{97BE989A-634A-4543-BFF7-005D687EE2F5}.tmp"
+   "C:\Users\hj577\AppData\Local\Temp\lnk{8D120AE1-EE28-461C-B606-3911BFD7C67B}.tmp"
   Microsoft (R) Windows Resource To Object Converter 버전 14.42.34436.0
   Copyright (c) Microsoft Corporation. All rights reserved.
   
   리소스를 추가하고 있습니다. 형식:MANIFEST, 이름:1, 언어:0x0409, 플래그:0x30, 크기:381
+  
+  
   사용되지 않은 라이브러리:
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib
@@ -2427,6 +2460,7 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib
     C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib
     C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib
+  
   Pass 2를 시작하고 있습니다.
        * linker generated manifest res *
        VisualManager.obj
@@ -2488,6 +2522,7 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
        kernel32.lib(KERNEL32.dll)
        kernel32.lib(KERNEL32.dll)
        kernel32.lib(KERNEL32.dll)
+       msvcprtd.lib(MSVCP140D.dll)
        msvcprtd.lib(MSVCP140D.dll)
        msvcprtd.lib(MSVCP140D.dll)
        msvcprtd.lib(MSVCP140D.dll)

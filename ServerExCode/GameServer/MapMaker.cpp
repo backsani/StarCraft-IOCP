@@ -32,7 +32,7 @@ void MapMaker::BuildSampleMap()
     // 플레이어 수 4명
     {
         vector<int32> data;
-        uint32 numPlayers = 4;
+        int32 numPlayers = 4;
         data.push_back(numPlayers);
 
         AppendSection(MapSection::OWNR, data);
@@ -64,15 +64,18 @@ void MapMaker::BuildSampleMap()
     
     {
         vector<int32> data;
-        data.reserve(width * height);
-        for (int32 y = 0; y < height; y++)
-        {
-            for (int32 x = 0; x < width; x++)
-            {
-                // 평지
-                data.push_back(0);
-            }
-        }
+        data.push_back(0);
+
+        // 맵 크기 불러오는 중 오류 발생
+        //data.reserve(width * height);
+        //for (int32 y = 0; y < height; y++)
+        //{
+        //    for (int32 x = 0; x < width; x++)
+        //    {
+        //        // 평지
+        //        data.push_back(0);
+        //    }
+        //}
 
         AppendSection(MapSection::MTXM, data);
     }
