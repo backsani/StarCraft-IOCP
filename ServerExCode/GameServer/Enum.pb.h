@@ -56,33 +56,6 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
-enum ObjectType : int {
-  NONE = 0,
-  PLAYER = 1,
-  ENEMY = 2,
-  BULLET = 3,
-  ObjectType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  ObjectType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool ObjectType_IsValid(int value);
-constexpr ObjectType ObjectType_MIN = NONE;
-constexpr ObjectType ObjectType_MAX = BULLET;
-constexpr int ObjectType_ARRAYSIZE = ObjectType_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ObjectType_descriptor();
-template<typename T>
-inline const std::string& ObjectType_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, ObjectType>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function ObjectType_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    ObjectType_descriptor(), enum_t_value);
-}
-inline bool ObjectType_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, ObjectType* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ObjectType>(
-    ObjectType_descriptor(), name, value);
-}
 enum GameObjectState : int {
   IDLE = 0,
   MOVE = 1,
@@ -111,6 +84,66 @@ inline bool GameObjectState_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<GameObjectState>(
     GameObjectState_descriptor(), name, value);
 }
+enum ObjectType : int {
+  NONE = 0,
+  PLAYER = 1,
+  ENEMY = 2,
+  BULLET = 3,
+  MINERAL = 4,
+  GAS = 5,
+  PROBE = 6,
+  ZEALOT = 7,
+  DARKTEMPLLAR = 8,
+  DRAGOON = 9,
+  REAVER = 10,
+  SHUTTLE = 11,
+  SCOUT = 12,
+  ARBITER = 13,
+  ARCHON = 14,
+  DARKARCHON = 15,
+  OBSERVER = 16,
+  CARRIER = 17,
+  INTERCEPTOR = 18,
+  CORSAIR = 19,
+  HIGHTEMPLAR = 20,
+  NEXUS = 21,
+  PYLON = 22,
+  ASSIMILATOR = 23,
+  GATEWAY = 24,
+  FORGE = 25,
+  PHOTON_CANNON = 26,
+  CYBERNETICS_CORE = 27,
+  SHIELD_BATTERY = 28,
+  ROBOTICS_FACILITY = 29,
+  STARGATE = 30,
+  CITADEL_OF_ADUN = 31,
+  ROBOTICS_SUPPORT_BAY = 32,
+  FLEET_BEACON = 33,
+  TEMPLAR_ARCHIVES = 34,
+  OBSERVATORY = 35,
+  ARBITER_TRIBUNAL = 36,
+  ObjectType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  ObjectType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool ObjectType_IsValid(int value);
+constexpr ObjectType ObjectType_MIN = NONE;
+constexpr ObjectType ObjectType_MAX = ARBITER_TRIBUNAL;
+constexpr int ObjectType_ARRAYSIZE = ObjectType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ObjectType_descriptor();
+template<typename T>
+inline const std::string& ObjectType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, ObjectType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function ObjectType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    ObjectType_descriptor(), enum_t_value);
+}
+inline bool ObjectType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, ObjectType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ObjectType>(
+    ObjectType_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -133,15 +166,15 @@ inline bool GameObjectState_Parse(
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::Protocol::ObjectType> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::ObjectType>() {
-  return ::Protocol::ObjectType_descriptor();
-}
 template <> struct is_proto_enum< ::Protocol::GameObjectState> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::GameObjectState>() {
   return ::Protocol::GameObjectState_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::ObjectType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::ObjectType>() {
+  return ::Protocol::ObjectType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

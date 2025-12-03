@@ -10,6 +10,9 @@
     <Filter Include="Protocol">
       <UniqueIdentifier>{603496b5-138a-4725-951a-b0a8ee8dfe85}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\Ingame">
+      <UniqueIdentifier>{996f404a-05e3-4ab5-b5d2-8dedfc5a9bcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -54,6 +57,18 @@
     <ClCompile Include="MapMaker.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="Building.cpp">
+      <Filter>Main\Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit.cpp">
+      <Filter>Main\Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossUnit.cpp">
+      <Filter>Main\Ingame</Filter>
+    </ClCompile>
+    <ClCompile Include="ProtossBuilding.cpp">
+      <Filter>Main\Ingame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -94,6 +109,18 @@
     </ClInclude>
     <ClInclude Include="MapMaker.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Building.h">
+      <Filter>Main\Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit.h">
+      <Filter>Main\Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossUnit.h">
+      <Filter>Main\Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="ProtossBuilding.h">
+      <Filter>Main\Ingame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

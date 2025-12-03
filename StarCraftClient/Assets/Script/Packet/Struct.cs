@@ -29,11 +29,11 @@ namespace Protocol {
             "Y3RpbXMYAyADKAQiVwoIUm9vbURhdGESEAoIcm9vbUNvZGUYASABKAUSEwoL",
             "cGxheWVyQ291bnQYAiABKA0SEAoIcm9vbU5hbWUYAyADKA0SEgoKaXNQYXNz",
             "V29yZBgEIAEoCCIeCgpQbGF5ZXJJbmZvEhAKCHBsYXllcklkGAEgASgDIioK",
-            "B1ZlY3RvcjMSCQoBeBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAIijQEK",
+            "B1ZlY3RvcjMSCQoBeBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAIiqwEK",
             "Ck9iamVjdERhdGESIgoEdHlwZRgBIAEoDjIULlByb3RvY29sLk9iamVjdFR5",
-            "cGUSEAoIb2JqZWN0SWQYAiABKA0SIwoIcG9zaXRpb24YAyABKAsyES5Qcm90",
-            "b2NvbC5WZWN0b3IzEiQKCWRpcmVjdGlvbhgEIAEoCzIRLlByb3RvY29sLlZl",
-            "Y3RvcjNiBnByb3RvMw=="));
+            "cGUSEAoIb2JqZWN0SWQYAiABKA0SEAoIcGxheWVySWQYAyABKAMSIwoIcG9z",
+            "aXRpb24YBCABKAsyES5Qcm90b2NvbC5WZWN0b3IzEiQKCWRpcmVjdGlvbhgF",
+            "IAEoCzIRLlByb3RvY29sLlZlY3RvcjMSCgoCaHAYBiABKAJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -41,7 +41,7 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.RoomData), global::Protocol.RoomData.Parser, new[]{ "RoomCode", "PlayerCount", "RoomName", "IsPassWord" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PlayerInfo), global::Protocol.PlayerInfo.Parser, new[]{ "PlayerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.Vector3), global::Protocol.Vector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.ObjectData), global::Protocol.ObjectData.Parser, new[]{ "Type", "ObjectId", "Position", "Direction" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.ObjectData), global::Protocol.ObjectData.Parser, new[]{ "Type", "ObjectId", "PlayerId", "Position", "Direction", "Hp" }, null, null, null, null)
           }));
     }
     #endregion
@@ -1004,8 +1004,10 @@ namespace Protocol {
     public ObjectData(ObjectData other) : this() {
       type_ = other.type_;
       objectId_ = other.objectId_;
+      playerId_ = other.playerId_;
       position_ = other.position_ != null ? other.position_.Clone() : null;
       direction_ = other.direction_ != null ? other.direction_.Clone() : null;
+      hp_ = other.hp_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1036,8 +1038,19 @@ namespace Protocol {
       }
     }
 
+    /// <summary>Field number for the "playerId" field.</summary>
+    public const int PlayerIdFieldNumber = 3;
+    private long playerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long PlayerId {
+      get { return playerId_; }
+      set {
+        playerId_ = value;
+      }
+    }
+
     /// <summary>Field number for the "position" field.</summary>
-    public const int PositionFieldNumber = 3;
+    public const int PositionFieldNumber = 4;
     private global::Protocol.Vector3 position_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Protocol.Vector3 Position {
@@ -1048,13 +1061,24 @@ namespace Protocol {
     }
 
     /// <summary>Field number for the "direction" field.</summary>
-    public const int DirectionFieldNumber = 4;
+    public const int DirectionFieldNumber = 5;
     private global::Protocol.Vector3 direction_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Protocol.Vector3 Direction {
       get { return direction_; }
       set {
         direction_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "hp" field.</summary>
+    public const int HpFieldNumber = 6;
+    private float hp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Hp {
+      get { return hp_; }
+      set {
+        hp_ = value;
       }
     }
 
@@ -1073,8 +1097,10 @@ namespace Protocol {
       }
       if (Type != other.Type) return false;
       if (ObjectId != other.ObjectId) return false;
+      if (PlayerId != other.PlayerId) return false;
       if (!object.Equals(Position, other.Position)) return false;
       if (!object.Equals(Direction, other.Direction)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Hp, other.Hp)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1083,8 +1109,10 @@ namespace Protocol {
       int hash = 1;
       if (Type != global::Protocol.ObjectType.None) hash ^= Type.GetHashCode();
       if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
+      if (PlayerId != 0L) hash ^= PlayerId.GetHashCode();
       if (position_ != null) hash ^= Position.GetHashCode();
       if (direction_ != null) hash ^= Direction.GetHashCode();
+      if (Hp != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Hp);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1109,13 +1137,21 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(ObjectId);
       }
+      if (PlayerId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(PlayerId);
+      }
       if (position_ != null) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteMessage(Position);
       }
       if (direction_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteMessage(Direction);
+      }
+      if (Hp != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(Hp);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1134,13 +1170,21 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(ObjectId);
       }
+      if (PlayerId != 0L) {
+        output.WriteRawTag(24);
+        output.WriteInt64(PlayerId);
+      }
       if (position_ != null) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteMessage(Position);
       }
       if (direction_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteMessage(Direction);
+      }
+      if (Hp != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(Hp);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1157,11 +1201,17 @@ namespace Protocol {
       if (ObjectId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ObjectId);
       }
+      if (PlayerId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(PlayerId);
+      }
       if (position_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Position);
       }
       if (direction_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Direction);
+      }
+      if (Hp != 0F) {
+        size += 1 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1180,6 +1230,9 @@ namespace Protocol {
       if (other.ObjectId != 0) {
         ObjectId = other.ObjectId;
       }
+      if (other.PlayerId != 0L) {
+        PlayerId = other.PlayerId;
+      }
       if (other.position_ != null) {
         if (position_ == null) {
           Position = new global::Protocol.Vector3();
@@ -1191,6 +1244,9 @@ namespace Protocol {
           Direction = new global::Protocol.Vector3();
         }
         Direction.MergeFrom(other.Direction);
+      }
+      if (other.Hp != 0F) {
+        Hp = other.Hp;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1214,18 +1270,26 @@ namespace Protocol {
             ObjectId = input.ReadUInt32();
             break;
           }
-          case 26: {
+          case 24: {
+            PlayerId = input.ReadInt64();
+            break;
+          }
+          case 34: {
             if (position_ == null) {
               Position = new global::Protocol.Vector3();
             }
             input.ReadMessage(Position);
             break;
           }
-          case 34: {
+          case 42: {
             if (direction_ == null) {
               Direction = new global::Protocol.Vector3();
             }
             input.ReadMessage(Direction);
+            break;
+          }
+          case 53: {
+            Hp = input.ReadFloat();
             break;
           }
         }
@@ -1250,18 +1314,26 @@ namespace Protocol {
             ObjectId = input.ReadUInt32();
             break;
           }
-          case 26: {
+          case 24: {
+            PlayerId = input.ReadInt64();
+            break;
+          }
+          case 34: {
             if (position_ == null) {
               Position = new global::Protocol.Vector3();
             }
             input.ReadMessage(Position);
             break;
           }
-          case 34: {
+          case 42: {
             if (direction_ == null) {
               Direction = new global::Protocol.Vector3();
             }
             input.ReadMessage(Direction);
+            break;
+          }
+          case 53: {
+            Hp = input.ReadFloat();
             break;
           }
         }

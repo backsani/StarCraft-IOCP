@@ -13,6 +13,15 @@ void RoomManager::AddRoom(RoomRef room)
 	roomIdCount++;
 }
 
+void RoomManager::RemoveRoom(RoomRef room)
+{
+	for (pair<int, GameObjectRef> object : room->objects)
+	{
+		room->ObjectRemove(object.second);
+	}
+	rooms.erase(room->GetRoomId());
+}
+
 RoomRef RoomManager::GetRoom(int id)
 {
 	if (rooms.find(id) != rooms.end())

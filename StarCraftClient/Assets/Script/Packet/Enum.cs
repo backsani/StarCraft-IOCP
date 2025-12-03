@@ -24,31 +24,76 @@ namespace Protocol {
     static EnumReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgpFbnVtLnByb3RvEghQcm90b2NvbCo5CgpPYmplY3RUeXBlEggKBE5PTkUQ",
-            "ABIKCgZQTEFZRVIQARIJCgVFTkVNWRACEgoKBkJVTExFVBADKkYKD0dhbWVP",
-            "YmplY3RTdGF0ZRIICgRJRExFEAASCAoETU9WRRABEgoKBkFUVEFDSxACEggK",
-            "BERFQUQQAxIJCgVTUEFXThAEYgZwcm90bzM="));
+            "CgpFbnVtLnByb3RvEghQcm90b2NvbCpGCg9HYW1lT2JqZWN0U3RhdGUSCAoE",
+            "SURMRRAAEggKBE1PVkUQARIKCgZBVFRBQ0sQAhIICgRERUFEEAMSCQoFU1BB",
+            "V04QBCq7BAoKT2JqZWN0VHlwZRIICgROT05FEAASCgoGUExBWUVSEAESCQoF",
+            "RU5FTVkQAhIKCgZCVUxMRVQQAxILCgdNSU5FUkFMEAQSBwoDR0FTEAUSCQoF",
+            "UFJPQkUQBhIKCgZaRUFMT1QQBxIQCgxEQVJLVEVNUExMQVIQCBILCgdEUkFH",
+            "T09OEAkSCgoGUkVBVkVSEAoSCwoHU0hVVFRMRRALEgkKBVNDT1VUEAwSCwoH",
+            "QVJCSVRFUhANEgoKBkFSQ0hPThAOEg4KCkRBUktBUkNIT04QDxIMCghPQlNF",
+            "UlZFUhAQEgsKB0NBUlJJRVIQERIPCgtJTlRFUkNFUFRPUhASEgsKB0NPUlNB",
+            "SVIQExIPCgtISUdIVEVNUExBUhAUEgkKBU5FWFVTEBUSCQoFUFlMT04QFhIP",
+            "CgtBU1NJTUlMQVRPUhAXEgsKB0dBVEVXQVkQGBIJCgVGT1JHRRAZEhEKDVBI",
+            "T1RPTl9DQU5OT04QGhIUChBDWUJFUk5FVElDU19DT1JFEBsSEgoOU0hJRUxE",
+            "X0JBVFRFUlkQHBIVChFST0JPVElDU19GQUNJTElUWRAdEgwKCFNUQVJHQVRF",
+            "EB4SEwoPQ0lUQURFTF9PRl9BRFVOEB8SGAoUUk9CT1RJQ1NfU1VQUE9SVF9C",
+            "QVkQIBIQCgxGTEVFVF9CRUFDT04QIRIUChBURU1QTEFSX0FSQ0hJVkVTECIS",
+            "DwoLT0JTRVJWQVRPUlkQIxIUChBBUkJJVEVSX1RSSUJVTkFMECRiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.ObjectType), typeof(global::Protocol.GameObjectState), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.GameObjectState), typeof(global::Protocol.ObjectType), }, null, null));
     }
     #endregion
 
   }
   #region Enums
-  public enum ObjectType {
-    [pbr::OriginalName("NONE")] None = 0,
-    [pbr::OriginalName("PLAYER")] Player = 1,
-    [pbr::OriginalName("ENEMY")] Enemy = 2,
-    [pbr::OriginalName("BULLET")] Bullet = 3,
-  }
-
   public enum GameObjectState {
     [pbr::OriginalName("IDLE")] Idle = 0,
     [pbr::OriginalName("MOVE")] Move = 1,
     [pbr::OriginalName("ATTACK")] Attack = 2,
     [pbr::OriginalName("DEAD")] Dead = 3,
     [pbr::OriginalName("SPAWN")] Spawn = 4,
+  }
+
+  public enum ObjectType {
+    [pbr::OriginalName("NONE")] None = 0,
+    [pbr::OriginalName("PLAYER")] Player = 1,
+    [pbr::OriginalName("ENEMY")] Enemy = 2,
+    [pbr::OriginalName("BULLET")] Bullet = 3,
+    [pbr::OriginalName("MINERAL")] Mineral = 4,
+    [pbr::OriginalName("GAS")] Gas = 5,
+    [pbr::OriginalName("PROBE")] Probe = 6,
+    [pbr::OriginalName("ZEALOT")] Zealot = 7,
+    [pbr::OriginalName("DARKTEMPLLAR")] Darktempllar = 8,
+    [pbr::OriginalName("DRAGOON")] Dragoon = 9,
+    [pbr::OriginalName("REAVER")] Reaver = 10,
+    [pbr::OriginalName("SHUTTLE")] Shuttle = 11,
+    [pbr::OriginalName("SCOUT")] Scout = 12,
+    [pbr::OriginalName("ARBITER")] Arbiter = 13,
+    [pbr::OriginalName("ARCHON")] Archon = 14,
+    [pbr::OriginalName("DARKARCHON")] Darkarchon = 15,
+    [pbr::OriginalName("OBSERVER")] Observer = 16,
+    [pbr::OriginalName("CARRIER")] Carrier = 17,
+    [pbr::OriginalName("INTERCEPTOR")] Interceptor = 18,
+    [pbr::OriginalName("CORSAIR")] Corsair = 19,
+    [pbr::OriginalName("HIGHTEMPLAR")] Hightemplar = 20,
+    [pbr::OriginalName("NEXUS")] Nexus = 21,
+    [pbr::OriginalName("PYLON")] Pylon = 22,
+    [pbr::OriginalName("ASSIMILATOR")] Assimilator = 23,
+    [pbr::OriginalName("GATEWAY")] Gateway = 24,
+    [pbr::OriginalName("FORGE")] Forge = 25,
+    [pbr::OriginalName("PHOTON_CANNON")] PhotonCannon = 26,
+    [pbr::OriginalName("CYBERNETICS_CORE")] CyberneticsCore = 27,
+    [pbr::OriginalName("SHIELD_BATTERY")] ShieldBattery = 28,
+    [pbr::OriginalName("ROBOTICS_FACILITY")] RoboticsFacility = 29,
+    [pbr::OriginalName("STARGATE")] Stargate = 30,
+    [pbr::OriginalName("CITADEL_OF_ADUN")] CitadelOfAdun = 31,
+    [pbr::OriginalName("ROBOTICS_SUPPORT_BAY")] RoboticsSupportBay = 32,
+    [pbr::OriginalName("FLEET_BEACON")] FleetBeacon = 33,
+    [pbr::OriginalName("TEMPLAR_ARCHIVES")] TemplarArchives = 34,
+    [pbr::OriginalName("OBSERVATORY")] Observatory = 35,
+    [pbr::OriginalName("ARBITER_TRIBUNAL")] ArbiterTribunal = 36,
   }
 
   #endregion

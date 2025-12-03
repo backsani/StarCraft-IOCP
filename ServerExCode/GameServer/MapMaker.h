@@ -13,6 +13,20 @@ enum class MapSection : int32
     SPOS = 4,   // 플레이어의 시작 위치
 };
 
+struct ResourceEntry
+{
+    int32 type; // 0: 미네랄, 1: 가스
+    int32 x;
+    int32 y;
+};
+
+struct PlayerStartPos
+{
+    int32 playerIndex;
+    int32 x;
+    int32 y;
+};
+
 class MapMaker
 {
 public:
@@ -30,6 +44,9 @@ public:
 
     const vector<int32>& GetBuffer() const { return m_buffer; }
     const int32 GetSectionCount() { return SectionCount; }
+
+    vector<ResourceEntry> resources;
+    vector<PlayerStartPos> sposv;
 
 private:
     vector<int32> m_buffer;

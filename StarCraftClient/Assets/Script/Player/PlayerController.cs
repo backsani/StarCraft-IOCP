@@ -82,14 +82,13 @@ public class PlayerController : MonoBehaviour
 
             c_MOVE.RoomCode = UnitManager.Instance.roomCode;
             c_MOVE.ObjectId = player.GetObjectId();
-            c_MOVE.State = (Protocol.GameObjectState)currentState;
 
             Protocol.Vector3 direction = new Protocol.Vector3();
             direction.X = dir.x;
             direction.Y = dir.y;
             direction.Z = dir.z;
 
-            c_MOVE.Direction = direction;
+            c_MOVE.Position = direction;
 
             PacketManager.Send(c_MOVE);
         }

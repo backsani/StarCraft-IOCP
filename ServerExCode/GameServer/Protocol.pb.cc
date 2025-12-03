@@ -31,11 +31,9 @@ struct C_LOGINDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT C_LOGINDefaultTypeInternal _C_LOGIN_default_instance_;
 constexpr C_MOVE::C_MOVE(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : direction_(nullptr)
+  : position_(nullptr)
   , roomcode_(0)
-  , objectid_(0u)
-  , state_(0)
-{}
+  , objectid_(0u){}
 struct C_MOVEDefaultTypeInternal {
   constexpr C_MOVEDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -173,7 +171,8 @@ constexpr S_ROOM_LOBBY::S_ROOM_LOBBY(
   , gamepassword_()
   , _gamepassword_cached_byte_size_()
   , hostid_(uint64_t{0u})
-  , mapid_(0){}
+  , mapid_(0)
+  , roomcode_(0){}
 struct S_ROOM_LOBBYDefaultTypeInternal {
   constexpr S_ROOM_LOBBYDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -308,8 +307,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::Protocol::C_MOVE, roomcode_),
   PROTOBUF_FIELD_OFFSET(::Protocol::C_MOVE, objectid_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C_MOVE, state_),
-  PROTOBUF_FIELD_OFFSET(::Protocol::C_MOVE, direction_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::C_MOVE, position_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::C_ROOM_CREATE, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -382,6 +380,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_LOBBY, gamename_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_LOBBY, gamepassword_),
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_LOBBY, mapid_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_LOBBY, roomcode_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_LOBBY_PLAYER_INFO, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -441,16 +440,16 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Protocol::C_LOGIN)},
   { 6, -1, sizeof(::Protocol::C_MOVE)},
-  { 15, -1, sizeof(::Protocol::C_ROOM_CREATE)},
-  { 24, -1, sizeof(::Protocol::C_ROOM_DATA)},
-  { 30, -1, sizeof(::Protocol::C_ROOM_REQUEST)},
-  { 37, -1, sizeof(::Protocol::C_ROOM_PLAYER_LIST_REQUEST)},
-  { 43, -1, sizeof(::Protocol::C_START_GAME)},
-  { 49, -1, sizeof(::Protocol::C_ATTACK)},
-  { 58, -1, sizeof(::Protocol::C_RTT_PING)},
-  { 64, -1, sizeof(::Protocol::S_RTT_PONG)},
-  { 71, -1, sizeof(::Protocol::S_LOGIN)},
-  { 78, -1, sizeof(::Protocol::S_ROOM_LOBBY)},
+  { 14, -1, sizeof(::Protocol::C_ROOM_CREATE)},
+  { 23, -1, sizeof(::Protocol::C_ROOM_DATA)},
+  { 29, -1, sizeof(::Protocol::C_ROOM_REQUEST)},
+  { 36, -1, sizeof(::Protocol::C_ROOM_PLAYER_LIST_REQUEST)},
+  { 42, -1, sizeof(::Protocol::C_START_GAME)},
+  { 48, -1, sizeof(::Protocol::C_ATTACK)},
+  { 57, -1, sizeof(::Protocol::C_RTT_PING)},
+  { 63, -1, sizeof(::Protocol::S_RTT_PONG)},
+  { 70, -1, sizeof(::Protocol::S_LOGIN)},
+  { 77, -1, sizeof(::Protocol::S_ROOM_LOBBY)},
   { 87, -1, sizeof(::Protocol::S_LOBBY_PLAYER_INFO)},
   { 93, -1, sizeof(::Protocol::S_GAME_START)},
   { 100, -1, sizeof(::Protocol::S_ROOM_DATA)},
@@ -487,39 +486,38 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\016Protocol.proto\022\010Protocol\032\nEnum.proto\032\014"
   "Struct.proto\"\034\n\007C_LOGIN\022\021\n\tloginCode\030\001 \001"
-  "(\004\"|\n\006C_MOVE\022\020\n\010roomCode\030\001 \001(\005\022\020\n\010object"
-  "Id\030\002 \001(\r\022(\n\005state\030\003 \001(\0162\031.Protocol.GameO"
-  "bjectState\022$\n\tdirection\030\004 \001(\0132\021.Protocol"
-  ".Vector3\"V\n\rC_ROOM_CREATE\022\016\n\006gameId\030\001 \001("
-  "\004\022\020\n\010gameName\030\002 \003(\r\022\024\n\014gamePassWord\030\003 \003("
-  "\r\022\r\n\005mapId\030\004 \001(\005\"\034\n\013C_ROOM_DATA\022\r\n\005dummy"
-  "\030\001 \001(\r\"8\n\016C_ROOM_REQUEST\022\020\n\010roomCode\030\001 \001"
-  "(\005\022\024\n\014gamePassWord\030\002 \003(\r\".\n\032C_ROOM_PLAYE"
-  "R_LIST_REQUEST\022\020\n\010roomCode\030\001 \001(\005\" \n\014C_ST"
-  "ART_GAME\022\020\n\010roomCode\030\001 \001(\005\"~\n\010C_ATTACK\022\020"
-  "\n\010roomCode\030\001 \001(\005\022\020\n\010objectId\030\002 \001(\r\022(\n\nob"
-  "jectType\030\003 \001(\0162\024.Protocol.ObjectType\022$\n\t"
-  "direction\030\004 \001(\0132\021.Protocol.Vector3\"!\n\nC_"
-  "RTT_PING\022\023\n\013client_time\030\001 \001(\003\"6\n\nS_RTT_P"
-  "ONG\022\023\n\013client_time\030\001 \001(\003\022\023\n\013server_time\030"
-  "\002 \001(\003\".\n\007S_LOGIN\022\016\n\006gameId\030\001 \001(\004\022\023\n\013logi"
-  "nAccept\030\002 \001(\010\"U\n\014S_ROOM_LOBBY\022\016\n\006hostId\030"
-  "\001 \001(\004\022\020\n\010gameName\030\002 \003(\r\022\024\n\014gamePassWord\030"
-  "\003 \003(\r\022\r\n\005mapId\030\004 \001(\005\"\?\n\023S_LOBBY_PLAYER_I"
-  "NFO\022(\n\nplayerData\030\001 \003(\0132\024.Protocol.Playe"
-  "rInfo\"8\n\014S_GAME_START\022\027\n\017mapSectionCount"
-  "\030\001 \001(\005\022\017\n\007mapData\030\002 \003(\005\"3\n\013S_ROOM_DATA\022$"
-  "\n\010roomData\030\001 \003(\0132\022.Protocol.RoomData\"7\n\017"
-  "S_ROOM_RESPONSE\022\022\n\nroomAccept\030\001 \001(\010\022\020\n\010r"
-  "oomCode\030\002 \001(\005\"i\n\006S_MOVE\022\020\n\010objectId\030\001 \001("
-  "\r\022(\n\005state\030\002 \001(\0162\031.Protocol.GameObjectSt"
-  "ate\022#\n\010position\030\003 \001(\0132\021.Protocol.Vector3"
-  "\"M\n\016S_OBJECT_SPAWN\022(\n\nobjectData\030\001 \001(\0132\024"
-  ".Protocol.ObjectData\022\021\n\tspawnTime\030\002 \001(\003\""
-  "K\n\rS_OBJECT_DEAD\022\020\n\010objectId\030\001 \001(\r\022(\n\005st"
-  "ate\030\002 \001(\0162\031.Protocol.GameObjectState\"/\n\017"
-  "S_OBJECT_DAMAGE\022\020\n\010objectId\030\001 \001(\r\022\n\n\002hp\030"
-  "\002 \001(\002b\006proto3"
+  "(\004\"Q\n\006C_MOVE\022\020\n\010roomCode\030\001 \001(\005\022\020\n\010object"
+  "Id\030\002 \001(\r\022#\n\010position\030\004 \001(\0132\021.Protocol.Ve"
+  "ctor3\"V\n\rC_ROOM_CREATE\022\016\n\006gameId\030\001 \001(\004\022\020"
+  "\n\010gameName\030\002 \003(\r\022\024\n\014gamePassWord\030\003 \003(\r\022\r"
+  "\n\005mapId\030\004 \001(\005\"\034\n\013C_ROOM_DATA\022\r\n\005dummy\030\001 "
+  "\001(\r\"8\n\016C_ROOM_REQUEST\022\020\n\010roomCode\030\001 \001(\005\022"
+  "\024\n\014gamePassWord\030\002 \003(\r\".\n\032C_ROOM_PLAYER_L"
+  "IST_REQUEST\022\020\n\010roomCode\030\001 \001(\005\" \n\014C_START"
+  "_GAME\022\020\n\010roomCode\030\001 \001(\005\"~\n\010C_ATTACK\022\020\n\010r"
+  "oomCode\030\001 \001(\005\022\020\n\010objectId\030\002 \001(\r\022(\n\nobjec"
+  "tType\030\003 \001(\0162\024.Protocol.ObjectType\022$\n\tdir"
+  "ection\030\004 \001(\0132\021.Protocol.Vector3\"!\n\nC_RTT"
+  "_PING\022\023\n\013client_time\030\001 \001(\003\"6\n\nS_RTT_PONG"
+  "\022\023\n\013client_time\030\001 \001(\003\022\023\n\013server_time\030\002 \001"
+  "(\003\".\n\007S_LOGIN\022\016\n\006gameId\030\001 \001(\004\022\023\n\013loginAc"
+  "cept\030\002 \001(\010\"g\n\014S_ROOM_LOBBY\022\016\n\006hostId\030\001 \001"
+  "(\004\022\020\n\010gameName\030\002 \003(\r\022\024\n\014gamePassWord\030\003 \003"
+  "(\r\022\r\n\005mapId\030\004 \001(\005\022\020\n\010roomCode\030\005 \001(\005\"\?\n\023S"
+  "_LOBBY_PLAYER_INFO\022(\n\nplayerData\030\001 \003(\0132\024"
+  ".Protocol.PlayerInfo\"8\n\014S_GAME_START\022\027\n\017"
+  "mapSectionCount\030\001 \001(\005\022\017\n\007mapData\030\002 \003(\005\"3"
+  "\n\013S_ROOM_DATA\022$\n\010roomData\030\001 \003(\0132\022.Protoc"
+  "ol.RoomData\"7\n\017S_ROOM_RESPONSE\022\022\n\nroomAc"
+  "cept\030\001 \001(\010\022\020\n\010roomCode\030\002 \001(\005\"i\n\006S_MOVE\022\020"
+  "\n\010objectId\030\001 \001(\r\022(\n\005state\030\002 \001(\0162\031.Protoc"
+  "ol.GameObjectState\022#\n\010position\030\003 \001(\0132\021.P"
+  "rotocol.Vector3\"M\n\016S_OBJECT_SPAWN\022(\n\nobj"
+  "ectData\030\001 \001(\0132\024.Protocol.ObjectData\022\021\n\ts"
+  "pawnTime\030\002 \001(\003\"K\n\rS_OBJECT_DEAD\022\020\n\010objec"
+  "tId\030\001 \001(\r\022(\n\005state\030\002 \001(\0162\031.Protocol.Game"
+  "ObjectState\"/\n\017S_OBJECT_DAMAGE\022\020\n\010object"
+  "Id\030\001 \001(\r\022\n\n\002hp\030\002 \001(\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Protocol_2eproto_deps[2] = {
   &::descriptor_table_Enum_2eproto,
@@ -527,7 +525,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto = {
-  false, false, 1373, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
+  false, false, 1348, descriptor_table_protodef_Protocol_2eproto, "Protocol.proto", 
   &descriptor_table_Protocol_2eproto_once, descriptor_table_Protocol_2eproto_deps, 2, 20,
   schemas, file_default_instances, TableStruct_Protocol_2eproto::offsets,
   file_level_metadata_Protocol_2eproto, file_level_enum_descriptors_Protocol_2eproto, file_level_service_descriptors_Protocol_2eproto,
@@ -734,18 +732,18 @@ void C_LOGIN::InternalSwap(C_LOGIN* other) {
 
 class C_MOVE::_Internal {
  public:
-  static const ::Protocol::Vector3& direction(const C_MOVE* msg);
+  static const ::Protocol::Vector3& position(const C_MOVE* msg);
 };
 
 const ::Protocol::Vector3&
-C_MOVE::_Internal::direction(const C_MOVE* msg) {
-  return *msg->direction_;
+C_MOVE::_Internal::position(const C_MOVE* msg) {
+  return *msg->position_;
 }
-void C_MOVE::clear_direction() {
-  if (GetArenaForAllocation() == nullptr && direction_ != nullptr) {
-    delete direction_;
+void C_MOVE::clear_position() {
+  if (GetArenaForAllocation() == nullptr && position_ != nullptr) {
+    delete position_;
   }
-  direction_ = nullptr;
+  position_ = nullptr;
 }
 C_MOVE::C_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
@@ -756,22 +754,22 @@ C_MOVE::C_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 C_MOVE::C_MOVE(const C_MOVE& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_direction()) {
-    direction_ = new ::Protocol::Vector3(*from.direction_);
+  if (from._internal_has_position()) {
+    position_ = new ::Protocol::Vector3(*from.position_);
   } else {
-    direction_ = nullptr;
+    position_ = nullptr;
   }
   ::memcpy(&roomcode_, &from.roomcode_,
-    static_cast<size_t>(reinterpret_cast<char*>(&state_) -
-    reinterpret_cast<char*>(&roomcode_)) + sizeof(state_));
+    static_cast<size_t>(reinterpret_cast<char*>(&objectid_) -
+    reinterpret_cast<char*>(&roomcode_)) + sizeof(objectid_));
   // @@protoc_insertion_point(copy_constructor:Protocol.C_MOVE)
 }
 
 void C_MOVE::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&direction_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&state_) -
-    reinterpret_cast<char*>(&direction_)) + sizeof(state_));
+    reinterpret_cast<char*>(&position_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&objectid_) -
+    reinterpret_cast<char*>(&position_)) + sizeof(objectid_));
 }
 
 C_MOVE::~C_MOVE() {
@@ -782,7 +780,7 @@ C_MOVE::~C_MOVE() {
 
 void C_MOVE::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete direction_;
+  if (this != internal_default_instance()) delete position_;
 }
 
 void C_MOVE::ArenaDtor(void* object) {
@@ -801,13 +799,13 @@ void C_MOVE::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && direction_ != nullptr) {
-    delete direction_;
+  if (GetArenaForAllocation() == nullptr && position_ != nullptr) {
+    delete position_;
   }
-  direction_ = nullptr;
+  position_ = nullptr;
   ::memset(&roomcode_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&state_) -
-      reinterpret_cast<char*>(&roomcode_)) + sizeof(state_));
+      reinterpret_cast<char*>(&objectid_) -
+      reinterpret_cast<char*>(&roomcode_)) + sizeof(objectid_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -831,18 +829,10 @@ const char* C_MOVE::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .Protocol.GameObjectState state = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-          _internal_set_state(static_cast<::Protocol::GameObjectState>(val));
-        } else goto handle_unusual;
-        continue;
-      // .Protocol.Vector3 direction = 4;
+      // .Protocol.Vector3 position = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_direction(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_position(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -887,19 +877,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_objectid(), target);
   }
 
-  // .Protocol.GameObjectState state = 3;
-  if (this->state() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      3, this->_internal_state(), target);
-  }
-
-  // .Protocol.Vector3 direction = 4;
-  if (this->has_direction()) {
+  // .Protocol.Vector3 position = 4;
+  if (this->has_position()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(
-        4, _Internal::direction(this), target, stream);
+        4, _Internal::position(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -918,11 +901,11 @@ size_t C_MOVE::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .Protocol.Vector3 direction = 4;
-  if (this->has_direction()) {
+  // .Protocol.Vector3 position = 4;
+  if (this->has_position()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *direction_);
+        *position_);
   }
 
   // int32 roomCode = 1;
@@ -937,12 +920,6 @@ size_t C_MOVE::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_objectid());
-  }
-
-  // .Protocol.GameObjectState state = 3;
-  if (this->state() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_state());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -976,17 +953,14 @@ void C_MOVE::MergeFrom(const C_MOVE& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_direction()) {
-    _internal_mutable_direction()->::Protocol::Vector3::MergeFrom(from._internal_direction());
+  if (from.has_position()) {
+    _internal_mutable_position()->::Protocol::Vector3::MergeFrom(from._internal_position());
   }
   if (from.roomcode() != 0) {
     _internal_set_roomcode(from._internal_roomcode());
   }
   if (from.objectid() != 0) {
     _internal_set_objectid(from._internal_objectid());
-  }
-  if (from.state() != 0) {
-    _internal_set_state(from._internal_state());
   }
 }
 
@@ -1012,11 +986,11 @@ void C_MOVE::InternalSwap(C_MOVE* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(C_MOVE, state_)
-      + sizeof(C_MOVE::state_)
-      - PROTOBUF_FIELD_OFFSET(C_MOVE, direction_)>(
-          reinterpret_cast<char*>(&direction_),
-          reinterpret_cast<char*>(&other->direction_));
+      PROTOBUF_FIELD_OFFSET(C_MOVE, objectid_)
+      + sizeof(C_MOVE::objectid_)
+      - PROTOBUF_FIELD_OFFSET(C_MOVE, position_)>(
+          reinterpret_cast<char*>(&position_),
+          reinterpret_cast<char*>(&other->position_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C_MOVE::GetMetadata() const {
@@ -3080,16 +3054,16 @@ S_ROOM_LOBBY::S_ROOM_LOBBY(const S_ROOM_LOBBY& from)
       gamepassword_(from.gamepassword_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&hostid_, &from.hostid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&mapid_) -
-    reinterpret_cast<char*>(&hostid_)) + sizeof(mapid_));
+    static_cast<size_t>(reinterpret_cast<char*>(&roomcode_) -
+    reinterpret_cast<char*>(&hostid_)) + sizeof(roomcode_));
   // @@protoc_insertion_point(copy_constructor:Protocol.S_ROOM_LOBBY)
 }
 
 void S_ROOM_LOBBY::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&hostid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&mapid_) -
-    reinterpret_cast<char*>(&hostid_)) + sizeof(mapid_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&roomcode_) -
+    reinterpret_cast<char*>(&hostid_)) + sizeof(roomcode_));
 }
 
 S_ROOM_LOBBY::~S_ROOM_LOBBY() {
@@ -3121,8 +3095,8 @@ void S_ROOM_LOBBY::Clear() {
   gamename_.Clear();
   gamepassword_.Clear();
   ::memset(&hostid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&mapid_) -
-      reinterpret_cast<char*>(&hostid_)) + sizeof(mapid_));
+      reinterpret_cast<char*>(&roomcode_) -
+      reinterpret_cast<char*>(&hostid_)) + sizeof(roomcode_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3163,6 +3137,13 @@ const char* S_ROOM_LOBBY::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           mapid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 roomCode = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          roomcode_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -3225,6 +3206,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_mapid(), target);
   }
 
+  // int32 roomCode = 5;
+  if (this->roomcode() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_roomcode(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3285,6 +3272,13 @@ size_t S_ROOM_LOBBY::ByteSizeLong() const {
         this->_internal_mapid());
   }
 
+  // int32 roomCode = 5;
+  if (this->roomcode() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_roomcode());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -3324,6 +3318,9 @@ void S_ROOM_LOBBY::MergeFrom(const S_ROOM_LOBBY& from) {
   if (from.mapid() != 0) {
     _internal_set_mapid(from._internal_mapid());
   }
+  if (from.roomcode() != 0) {
+    _internal_set_roomcode(from._internal_roomcode());
+  }
 }
 
 void S_ROOM_LOBBY::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -3350,8 +3347,8 @@ void S_ROOM_LOBBY::InternalSwap(S_ROOM_LOBBY* other) {
   gamename_.InternalSwap(&other->gamename_);
   gamepassword_.InternalSwap(&other->gamepassword_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(S_ROOM_LOBBY, mapid_)
-      + sizeof(S_ROOM_LOBBY::mapid_)
+      PROTOBUF_FIELD_OFFSET(S_ROOM_LOBBY, roomcode_)
+      + sizeof(S_ROOM_LOBBY::roomcode_)
       - PROTOBUF_FIELD_OFFSET(S_ROOM_LOBBY, hostid_)>(
           reinterpret_cast<char*>(&hostid_),
           reinterpret_cast<char*>(&other->hostid_));

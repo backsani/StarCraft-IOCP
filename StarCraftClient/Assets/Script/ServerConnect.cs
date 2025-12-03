@@ -79,7 +79,6 @@ public class ServerConnect : MonoBehaviour
     private static Queue<byte[]> recvQueue = new Queue<byte[]>();
 
     //ClientInfo
-    public List<ClientInfo> clientInfo = new List<ClientInfo>();
     public uint playerObjectId;
 
     private PacketReceiver packetReceiver;
@@ -124,11 +123,12 @@ public class ServerConnect : MonoBehaviour
     //스폰할 Unit을 저장
     public Queue<Action> spawnQueue = new Queue<Action>();
 
+    public uint currentUnitId;
+    public long playerIndex;
+
     void Start()
     {
         asyncSocketClient = new AsyncSocketClient();
-        clientInfo.Add(new ClientInfo());
-        clientInfo.Add(new ClientInfo());
 
         ConnectToTcpServer();
 
@@ -248,8 +248,8 @@ public class ServerConnect : MonoBehaviour
     }
 
 
-    public void EnqueueSpawn(UnitCode code, uint id, UnityEngine.Vector3 pos, UnityEngine.Quaternion dir, long spawnTime = 0)
+    public void EnqueueSpawn(UnitCode code, uint id, long owner, UnityEngine.Vector3 pos, UnityEngine.Quaternion dir, float hp, long spawnTime = 0)
     {
-        spawnQueue.Enqueue(() => UnitManager.Instance.SpawnUnit(code, id, pos, dir, spawnTime));
+        spawnQueue.Enqueue(() => UnitManager.Instance.SpawnUnit(code, id, owner, pos, dir, hp, spawnTime));
     }
 }

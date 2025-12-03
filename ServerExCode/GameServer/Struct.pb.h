@@ -823,12 +823,14 @@ class ObjectData final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPositionFieldNumber = 3,
-    kDirectionFieldNumber = 4,
+    kPositionFieldNumber = 4,
+    kDirectionFieldNumber = 5,
     kTypeFieldNumber = 1,
     kObjectIdFieldNumber = 2,
+    kPlayerIdFieldNumber = 3,
+    kHpFieldNumber = 6,
   };
-  // .Protocol.Vector3 position = 3;
+  // .Protocol.Vector3 position = 4;
   bool has_position() const;
   private:
   bool _internal_has_position() const;
@@ -846,7 +848,7 @@ class ObjectData final :
       ::Protocol::Vector3* position);
   ::Protocol::Vector3* unsafe_arena_release_position();
 
-  // .Protocol.Vector3 direction = 4;
+  // .Protocol.Vector3 direction = 5;
   bool has_direction() const;
   private:
   bool _internal_has_direction() const;
@@ -882,6 +884,24 @@ class ObjectData final :
   void _internal_set_objectid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // int64 playerId = 3;
+  void clear_playerid();
+  ::PROTOBUF_NAMESPACE_ID::int64 playerid() const;
+  void set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_playerid() const;
+  void _internal_set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // float hp = 6;
+  void clear_hp();
+  float hp() const;
+  void set_hp(float value);
+  private:
+  float _internal_hp() const;
+  void _internal_set_hp(float value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.ObjectData)
  private:
   class _Internal;
@@ -893,6 +913,8 @@ class ObjectData final :
   ::Protocol::Vector3* direction_;
   int type_;
   ::PROTOBUF_NAMESPACE_ID::uint32 objectid_;
+  ::PROTOBUF_NAMESPACE_ID::int64 playerid_;
+  float hp_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Struct_2eproto;
 };
@@ -1237,7 +1259,27 @@ inline void ObjectData::set_objectid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:Protocol.ObjectData.objectId)
 }
 
-// .Protocol.Vector3 position = 3;
+// int64 playerId = 3;
+inline void ObjectData::clear_playerid() {
+  playerid_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 ObjectData::_internal_playerid() const {
+  return playerid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 ObjectData::playerid() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectData.playerId)
+  return _internal_playerid();
+}
+inline void ObjectData::_internal_set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  playerid_ = value;
+}
+inline void ObjectData::set_playerid(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_playerid(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectData.playerId)
+}
+
+// .Protocol.Vector3 position = 4;
 inline bool ObjectData::_internal_has_position() const {
   return this != internal_default_instance() && position_ != nullptr;
 }
@@ -1320,7 +1362,7 @@ inline void ObjectData::set_allocated_position(::Protocol::Vector3* position) {
   // @@protoc_insertion_point(field_set_allocated:Protocol.ObjectData.position)
 }
 
-// .Protocol.Vector3 direction = 4;
+// .Protocol.Vector3 direction = 5;
 inline bool ObjectData::_internal_has_direction() const {
   return this != internal_default_instance() && direction_ != nullptr;
 }
@@ -1401,6 +1443,26 @@ inline void ObjectData::set_allocated_direction(::Protocol::Vector3* direction) 
   }
   direction_ = direction;
   // @@protoc_insertion_point(field_set_allocated:Protocol.ObjectData.direction)
+}
+
+// float hp = 6;
+inline void ObjectData::clear_hp() {
+  hp_ = 0;
+}
+inline float ObjectData::_internal_hp() const {
+  return hp_;
+}
+inline float ObjectData::hp() const {
+  // @@protoc_insertion_point(field_get:Protocol.ObjectData.hp)
+  return _internal_hp();
+}
+inline void ObjectData::_internal_set_hp(float value) {
+  
+  hp_ = value;
+}
+inline void ObjectData::set_hp(float value) {
+  _internal_set_hp(value);
+  // @@protoc_insertion_point(field_set:Protocol.ObjectData.hp)
 }
 
 #ifdef __GNUC__

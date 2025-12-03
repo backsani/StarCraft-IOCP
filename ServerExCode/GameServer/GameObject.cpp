@@ -2,18 +2,23 @@
 #include "GameObject.h"
 #include "ClientPacketHandler.h"
 #include "Room.h"
+#include "Unit.h"
+#include "ProtossUnit.h"
+#include "ProtossBuilding.h"
 
 /*------------------------------------------
 ****************GameObject******************
 ------------------------------------------*/
 
-GameObject::GameObject(RoomRef room, int id, float hp, GameObjectCode objectCode, Vector3 position, Vector3 direction, float speed) : room(room), id(id), hp(hp), objectCode(objectCode), position(position), direction(direction), speed(speed)
+GameObject::GameObject(RoomRef room, int id, float hp, GameObjectCode objectCode, Vector3 position, Vector3 direction, float speed, Race race) : room(room), id(id), hp(hp), objectCode(objectCode), position(position), direction(direction), speed(speed), race(race)
 {
+	this->position = position;
 	currentState = GameObjectState::IDLE;
 	width = 0.0f;
 	height = 0.0f;
 	spawnTime = 0;
 	damage = 0;
+	ownerId = -1;
 }
 
 SendBufferRef GameObject::Update()
@@ -46,6 +51,10 @@ SendBufferRef GameObject::Update()
 	}
 
 	return sendBuffer;
+}
+
+void GameObject::attack()
+{
 }
 
 SendBufferRef GameObject::move()
@@ -82,6 +91,8 @@ SendBufferRef GameObject::spawn()
 	data->set_type((Protocol::ObjectType)GetObjectCode());
 	data->set_objectid(GetId());
 
+	data->set_playerid(ownerId);
+
 	Protocol::Vector3* position = data->mutable_position();
 	Vector3 pos = GetPosition();
 	position->set_x(pos.x);
@@ -93,6 +104,8 @@ SendBufferRef GameObject::spawn()
 	direction->set_x(dir.x);
 	direction->set_y(dir.y);
 	direction->set_z(dir.z);
+
+	data->set_hp(hp);
 
 	spawnTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 	packet.set_spawntime(spawnTime);
@@ -124,13 +137,6 @@ void GameObject::SetMove(GameObjectState state, Vector3 direction)
 void GameObject::SetAttack(Vector3 targetPos)
 {
 	currentState = GameObjectState::ATTACK;
-}
-
-
-
-void GameObject::attack()
-{
-
 }
 
 void GameObject::UpdateBounds()
@@ -211,4 +217,11 @@ SendBufferRef Bullet::move()
 
 Bullet::~Bullet()
 {
+}
+
+float Clamp(float v, float minV, float maxV)
+{
+	if (v < minV) return minV;
+	if (v > maxV) return maxV;
+	return v;
 }

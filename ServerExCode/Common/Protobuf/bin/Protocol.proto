@@ -13,8 +13,7 @@ message C_MOVE
 {
 	int32 roomCode = 1;
 	uint32 objectId = 2;
-	GameObjectState state = 3;
-	Vector3 direction = 4;
+	Vector3 position = 4;
 }
 
 message C_ROOM_CREATE
@@ -80,6 +79,7 @@ message S_ROOM_LOBBY
 	repeated uint32 gameName = 2;
 	repeated uint32 gamePassWord = 3;
 	int32 mapId = 4;
+	int32 roomCode = 5;
 }
 
 message S_LOBBY_PLAYER_INFO

@@ -92,29 +92,37 @@ void MapMaker::BuildSampleMap()
     //
     // 총 1 + 2 + 2 = 5바이트 per entry
 
-    struct ResourceEntry
-    {
-        int32 type; // 0: 미네랄, 1: 가스
-        int32 x;
-        int32 y;
-    };
-
-    vector<ResourceEntry> resources;
+   
 
     // (2,2)에 미네랄
-    resources.push_back({ 0, 2, 2 });
-    // (3,2)에 미네랄
-    resources.push_back({ 0, 3, 2 });
-    // (4,2)에 미네랄
     resources.push_back({ 0, 4, 2 });
+    // (3,2)에 미네랄
+    resources.push_back({ 0, 6, 2 });
+    // (4,2)에 미네랄
+    resources.push_back({ 0, 8, 2 });
     // (2,2)에 가스
-    resources.push_back({ 1, 2, 2 });
+    resources.push_back({ 1, 2, 4 });
+
+    resources.push_back({ 0, 4, 30 });
+    resources.push_back({ 0, 6, 30 });
+    resources.push_back({ 0, 8, 30 });
+    resources.push_back({ 1, 2, 28 });
+
+    resources.push_back({ 0, 28, 30 });
+    resources.push_back({ 0, 26, 30 });
+    resources.push_back({ 0, 24, 30 });
+    resources.push_back({ 1, 30, 28 });
+
+    resources.push_back({ 0, 28, 2 });
+    resources.push_back({ 0, 26, 2 });
+    resources.push_back({ 0, 24, 2 });
+    resources.push_back({ 1, 30, 4 });
 
     {
         vector<int32> data;
         int32 resCount = static_cast<int32>(resources.size());
 
-        data.push_back(resCount);
+        //data.push_back(resCount);
 
         for (ResourceEntry res : resources)
         {
@@ -129,19 +137,10 @@ void MapMaker::BuildSampleMap()
     // 플레이어 시작 위치
     // (3,5), (3,27), (29, 27), (29,5)
 
-    struct PlayerStartPos
-    {
-        int32 playerIndex;
-        int32 x;
-        int32 y;
-    };
-
-    vector<PlayerStartPos> spos;
-
     {
         vector<int32> data;
         vector<int32> randomIndex = { 0, 1, 2, 3 };
-        vector<pair<int32, int32>> spos = { {3,5}, {3,27}, {29,27}, {29,5} };
+        vector<pair<int32, int32>> spos = { {5.5, 4.5}, {5.5,27.5}, {26.5,27.5}, {26.5,4.5} };
 
         static std::mt19937 rng(std::random_device{}());
 
@@ -152,6 +151,9 @@ void MapMaker::BuildSampleMap()
             data.push_back(randomIndex[i]);
             data.push_back(spos[i].first);
             data.push_back(spos[i].second);
+
+            PlayerStartPos temp = { randomIndex[i], spos[i].first, spos[i].second };
+            sposv.push_back(temp);
         }
 
         AppendSection(MapSection::SPOS, data);

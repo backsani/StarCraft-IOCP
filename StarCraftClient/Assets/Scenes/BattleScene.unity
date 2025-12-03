@@ -153,6 +153,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tiles:
   - {fileID: 3829516011989051414, guid: f25396d2c0c45f547bb70738d7b3d256, type: 3}
+  resourceTiles:
+  - {fileID: 3074841167391172273, guid: 392258c5697989d49be00e459de8dc18, type: 3}
+  - {fileID: 724210498723207206, guid: 8828a9c04d573624e86f4d99b55202d7, type: 3}
 --- !u!4 &40656261
 Transform:
   m_ObjectHideFlags: 0
@@ -231,6 +234,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &459178267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 459178268}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &459178268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459178267}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.519817, y: 0.5207287, z: 0.047024507}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -391,7 +425,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 1.2712967
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -482,10 +516,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f16038769939bcb4eb208cceeddc46bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3233708270805762290, guid: e86de96342759d947aae833f5d2c02a3, type: 3}
-  enemyPrefab: {fileID: 0}
-  bulletPrefab: {fileID: 9180154521564249645, guid: 427dc7e4b0e2122488d255cffbf7719f, type: 3}
-  hpSliderPrefab: {fileID: 6801033815650543135, guid: 530798b1f02c3e240ada65075e5de246, type: 3}
+  unitPrefabs:
+  - code: 4
+    prefab: {fileID: 3074841167391172273, guid: 392258c5697989d49be00e459de8dc18, type: 3}
+  - code: 5
+    prefab: {fileID: 724210498723207206, guid: 8828a9c04d573624e86f4d99b55202d7, type: 3}
+  - code: 6
+    prefab: {fileID: 9167642158681075093, guid: eac64c16267f5ac47b21d4c9b76cad31, type: 3}
+  - code: 7
+    prefab: {fileID: 7354904809597824706, guid: 742ae89bc09ab1048a67025ff67a8fce, type: 3}
+  - code: 21
+    prefab: {fileID: 10814337800069973, guid: 4568e1362f005464bac582e452db6052, type: 3}
   roomCode: 0
   serverOffset: 0
   serverNow: 0
@@ -514,3 +555,4 @@ SceneRoots:
   - {fileID: 477414867}
   - {fileID: 1625796177}
   - {fileID: 40656261}
+  - {fileID: 459178268}

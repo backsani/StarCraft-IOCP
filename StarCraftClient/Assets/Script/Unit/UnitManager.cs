@@ -6,10 +6,43 @@ using UnityEngine;
 public enum UnitCode
 {
     NONE,
-    PLAYER,
-    ENEMY,
-    BULLET
-}
+	PLAYER,
+	ENEMY,
+	BULLET,
+	MINERAL,
+	GAS,
+	PROBE,
+	ZEALOT,
+	DARKTEMPLAR,
+	DRAGOON,
+	REAVER,
+	SHUTTLE,
+	SCOUT,
+	ARBITER,
+	ARCHON,
+	DARKARCHON,
+	OBSERVER,
+	CARRIER,
+	INTERCEPTOR,
+	CORSAIR,
+	HIGHTEMPLAR,
+	NEXUS,
+	PYLON,
+	ASSIMILATOR,
+	GATEWAY,
+	FORGE,
+	PHOTON_CANNON,
+	CYBERNETICS_CORE,
+	SHIELD_BATTERY,
+	ROBOTICS_FACILITY,
+	STARGATE,
+	CITADEL_OF_ADUN,
+	ROBOTICS_SUPPORT_BAY,
+	FLEET_BEACON,
+	TEMPLAR_ARCHIVES,
+	OBSERVATORY,
+	ARBITER_TRIBUNAL,
+};
 
 public enum GameObjectState
 {
@@ -41,10 +74,16 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private GameObject hpSliderPrefab;
+    [System.Serializable]
+    public struct UnitPrefabEntry
+    {
+        public UnitCode code;
+        public GameObject prefab;
+    }
+
+    [SerializeField] private UnitPrefabEntry[] unitPrefabs;
+
+    Dictionary<UnitCode, GameObject> _prefabMap;
 
     public int roomCode;
 
@@ -70,6 +109,9 @@ public class UnitManager : MonoBehaviour
         roomCode = ServerConnect.Instance.currentRoomCode;
         PingPong();
 
+        _prefabMap = new Dictionary<UnitCode, GameObject>();
+        foreach (var entry in unitPrefabs)
+            _prefabMap[entry.code] = entry.prefab;
     }
 
     private void Update()
@@ -84,47 +126,22 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    public void SpawnUnit(UnitCode code, uint unitId, Vector3 position, Quaternion direction, long spawnTime = 0)
+    public void SpawnUnit(UnitCode code, uint unitId, long owner, Vector3 position, Quaternion direction, float hp, long spawnTime = 0)
     {
         Debug.Log("SpawnUnit 실행" + code.ToString());
 
-        GameObject spawn = null;
-        switch (code)
+        if(!_prefabMap.TryGetValue(code, out GameObject prefab) || prefab == null)
         {
-            case UnitCode.NONE:
-                break;
+            Debug.LogWarning($"SpawnUnit: 프리팹이 없는 코드 {code}");
+            return;
+        }
 
-            case UnitCode.PLAYER:
-                spawn = Instantiate(playerPrefab, position, direction);
-                spawn.AddComponent<PlayerUnit>();
+        GameObject spawn = Instantiate(prefab, position, direction);
 
-                if (unitId == ServerConnect.Instance.playerObjectId)
-                {
-                    Camera.main.transform.SetParent(spawn.transform, false);
-                    spawn.AddComponent<PlayerController>();
-                }
-
-                GameObject hpSlider = Instantiate(hpSliderPrefab);
-                hpSlider.transform.SetParent(spawn.transform);
-                hpSlider.GetComponent<Canvas>().worldCamera = Camera.main;
-
-                PlayerUnit player = spawn.GetComponent<PlayerUnit>();
-                player.InitHealthBar(hpSlider.transform);
-
-                break;
-
-            case UnitCode.ENEMY:
-                spawn = Instantiate(enemyPrefab, position, direction);
-                break;
-
-            case UnitCode.BULLET:
-                spawn = Instantiate(bulletPrefab, position, direction);
-                spawn.AddComponent<BulletUnit>();
-
-                break;
-
-            default:
-                break;
+        if(owner == ServerConnect.Instance.playerIndex)
+        {
+            spawn.AddComponent<UnitController>();
+            ServerConnect.Instance.currentUnitId = unitId;
         }
 
         if (spawn != null)
@@ -132,7 +149,7 @@ public class UnitManager : MonoBehaviour
             Debug.Log("prefab 매칭 성공");
 
             Unit unit = spawn.GetComponent<Unit>();
-            unit.Init(unitId, position, direction * Vector3.up, spawnTime);
+            unit.Init(unitId, position, direction * Vector3.zero, spawnTime);
             units.Add(unitId, unit);
         }
         

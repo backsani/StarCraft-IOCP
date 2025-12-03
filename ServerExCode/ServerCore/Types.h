@@ -32,6 +32,8 @@ using SendBufferChunkRef	= std::shared_ptr<class SendBufferChunk>;
 using RoomManagerRef		= std::shared_ptr<class RoomManager>;
 using RoomRef				= std::shared_ptr<class Room>;
 using MapMakerRef			= std::shared_ptr<class MapMaker>;
+using UnitRef				= std::shared_ptr<class Unit>;
+using BuildingRef			= std::shared_ptr<class Building>;
 
 #define size16(val)		static_cast<int16>(sizeof(val))
 #define size32(val)		static_cast<int32>(sizeof(val))

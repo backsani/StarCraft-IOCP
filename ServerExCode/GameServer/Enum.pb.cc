@@ -25,15 +25,27 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_Enum_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nEnum.proto\022\010Protocol*9\n\nObjectType\022\010\n\004"
-  "NONE\020\000\022\n\n\006PLAYER\020\001\022\t\n\005ENEMY\020\002\022\n\n\006BULLET\020"
-  "\003*F\n\017GameObjectState\022\010\n\004IDLE\020\000\022\010\n\004MOVE\020\001"
-  "\022\n\n\006ATTACK\020\002\022\010\n\004DEAD\020\003\022\t\n\005SPAWN\020\004b\006proto"
-  "3"
+  "\n\nEnum.proto\022\010Protocol*F\n\017GameObjectStat"
+  "e\022\010\n\004IDLE\020\000\022\010\n\004MOVE\020\001\022\n\n\006ATTACK\020\002\022\010\n\004DEA"
+  "D\020\003\022\t\n\005SPAWN\020\004*\273\004\n\nObjectType\022\010\n\004NONE\020\000\022"
+  "\n\n\006PLAYER\020\001\022\t\n\005ENEMY\020\002\022\n\n\006BULLET\020\003\022\013\n\007MI"
+  "NERAL\020\004\022\007\n\003GAS\020\005\022\t\n\005PROBE\020\006\022\n\n\006ZEALOT\020\007\022"
+  "\020\n\014DARKTEMPLLAR\020\010\022\013\n\007DRAGOON\020\t\022\n\n\006REAVER"
+  "\020\n\022\013\n\007SHUTTLE\020\013\022\t\n\005SCOUT\020\014\022\013\n\007ARBITER\020\r\022"
+  "\n\n\006ARCHON\020\016\022\016\n\nDARKARCHON\020\017\022\014\n\010OBSERVER\020"
+  "\020\022\013\n\007CARRIER\020\021\022\017\n\013INTERCEPTOR\020\022\022\013\n\007CORSA"
+  "IR\020\023\022\017\n\013HIGHTEMPLAR\020\024\022\t\n\005NEXUS\020\025\022\t\n\005PYLO"
+  "N\020\026\022\017\n\013ASSIMILATOR\020\027\022\013\n\007GATEWAY\020\030\022\t\n\005FOR"
+  "GE\020\031\022\021\n\rPHOTON_CANNON\020\032\022\024\n\020CYBERNETICS_C"
+  "ORE\020\033\022\022\n\016SHIELD_BATTERY\020\034\022\025\n\021ROBOTICS_FA"
+  "CILITY\020\035\022\014\n\010STARGATE\020\036\022\023\n\017CITADEL_OF_ADU"
+  "N\020\037\022\030\n\024ROBOTICS_SUPPORT_BAY\020 \022\020\n\014FLEET_B"
+  "EACON\020!\022\024\n\020TEMPLAR_ARCHIVES\020\"\022\017\n\013OBSERVA"
+  "TORY\020#\022\024\n\020ARBITER_TRIBUNAL\020$b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Enum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Enum_2eproto = {
-  false, false, 161, descriptor_table_protodef_Enum_2eproto, "Enum.proto", 
+  false, false, 676, descriptor_table_protodef_Enum_2eproto, "Enum.proto", 
   &descriptor_table_Enum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_Enum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_Enum_2eproto, file_level_service_descriptors_Enum_2eproto,
@@ -45,25 +57,9 @@ PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_Enum_2eproto(&descriptor_table_Enum_2eproto);
 namespace Protocol {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ObjectType_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
-  return file_level_enum_descriptors_Enum_2eproto[0];
-}
-bool ObjectType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return true;
-    default:
-      return false;
-  }
-}
-
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* GameObjectState_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
-  return file_level_enum_descriptors_Enum_2eproto[1];
+  return file_level_enum_descriptors_Enum_2eproto[0];
 }
 bool GameObjectState_IsValid(int value) {
   switch (value) {
@@ -72,6 +68,55 @@ bool GameObjectState_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ObjectType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_Enum_2eproto);
+  return file_level_enum_descriptors_Enum_2eproto[1];
+}
+bool ObjectType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 25:
+    case 26:
+    case 27:
+    case 28:
+    case 29:
+    case 30:
+    case 31:
+    case 32:
+    case 33:
+    case 34:
+    case 35:
+    case 36:
       return true;
     default:
       return false;

@@ -24,6 +24,8 @@ public:
     /// <param name="room"> room 객체 </param>
     void AddRoom(RoomRef room);
 
+    void RemoveRoom(RoomRef room);
+
     /// <summary>
     /// 특정 룸에 대한 정보를 가져오는 함수
     /// </summary>

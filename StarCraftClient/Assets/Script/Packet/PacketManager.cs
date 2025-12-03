@@ -187,6 +187,7 @@ public static class PacketManager
                 string roomPassWord = GlobalUtils.UnpackBytesToString(s_ROOM_LOBBY.GamePassWord);
 
                 RoomData.Instance.SaveLobbyData(s_ROOM_LOBBY.HostId, roomName, roomPassWord, s_ROOM_LOBBY.MapId);
+                ServerConnect.Instance.currentRoomCode = s_ROOM_LOBBY.RoomCode;
                 SceneManager.LoadScene("MatchMakingScene");
                 break;
 
@@ -210,6 +211,8 @@ public static class PacketManager
                 S_GAME_START s_GAME_START = packet as S_GAME_START;
 
                 PacketRelay.Instance.MapLeader(s_GAME_START.MapSectionCount, s_GAME_START.MapData);
+
+                SceneManager.LoadScene("BattleScene");
 
                 break;
 
@@ -284,7 +287,7 @@ public static class PacketManager
 
                     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-                    ServerConnect.Instance.EnqueueSpawn((UnitCode)data.Type, data.ObjectId, pos, UnityEngine.Quaternion.Euler(0, 0, angle - 90.0f), s_OBJECT_SPAWN.SpawnTime);
+                    ServerConnect.Instance.EnqueueSpawn((UnitCode)data.Type, data.ObjectId, data.PlayerId, pos, UnityEngine.Quaternion.Euler(0, 0, angle), data.Hp, s_OBJECT_SPAWN.SpawnTime);
 
                     break;
                 }

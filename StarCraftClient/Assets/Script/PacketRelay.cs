@@ -97,12 +97,12 @@ public class PacketRelay : MonoBehaviour
         for(int i = 0; i < count; i++)
         {
             MapSection sectionType = (MapSection)mapData[index++];
-            int size = mapData[index];
+            int size = mapData[index++];
             int[] temp = new int[size];
 
             Array.Copy(mapData, index, temp, 0, size);
 
-            index += size + 1;
+            index += size;
 
             switch (sectionType)
             {
@@ -119,16 +119,25 @@ public class PacketRelay : MonoBehaviour
                     break;
 
                 case MapSection.MTXM:
-                    currentMapData.MapSize = temp.Length;
-                    currentMapData.map = temp;
-                    for(int y = 0; y < currentMapData.height; y++)
+                    if (currentMapData.map == null)
+                        currentMapData.map = new int[currentMapData.width * currentMapData.height];
+
+                    for (int j = 0; j < currentMapData.map.Length; j++)
                     {
-                        for(int x = 0; x < currentMapData.width; x++)
-                        {
-                            currentMapData.map[y * currentMapData.height + x] = temp[0];
-                        }
+                        currentMapData.map[i] = temp[0];
                     }
+
                     break;
+                //currentMapData.MapSize = temp.Length;
+                //currentMapData.map = temp;
+                //for(int y = 0; y < currentMapData.height; y++)
+                //{
+                //    for(int x = 0; x < currentMapData.width; x++)
+                //    {
+                //        currentMapData.map[y * currentMapData.height + x] = temp[0];
+                //    }
+                //}
+                //break;
 
                 case MapSection.RESO:
                     currentResourceData = new ResourceData[temp.Length / 3];

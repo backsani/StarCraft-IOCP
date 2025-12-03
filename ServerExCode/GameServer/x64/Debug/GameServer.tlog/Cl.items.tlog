@@ -1,3 +1,4 @@
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Building.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Building.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Enum.pb.cc;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Enum.pb.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\GameObject.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameServer.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\GameServer.obj
@@ -8,7 +9,10 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\pch.cpp;C
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Protocol.pb.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\ClientPacketHandler.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Grid.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Grid.obj
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ProtossBuilding.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\ProtossBuilding.obj
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ProtossUnit.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\ProtossUnit.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Room.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Room.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\RoomManager.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\RoomManager.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Struct.pb.obj
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Unit.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\Unit.obj
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\VisualManager.cpp;C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\x64\Debug\VisualManager.obj

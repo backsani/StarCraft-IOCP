@@ -383,28 +383,27 @@ class C_MOVE final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDirectionFieldNumber = 4,
+    kPositionFieldNumber = 4,
     kRoomCodeFieldNumber = 1,
     kObjectIdFieldNumber = 2,
-    kStateFieldNumber = 3,
   };
-  // .Protocol.Vector3 direction = 4;
-  bool has_direction() const;
+  // .Protocol.Vector3 position = 4;
+  bool has_position() const;
   private:
-  bool _internal_has_direction() const;
+  bool _internal_has_position() const;
   public:
-  void clear_direction();
-  const ::Protocol::Vector3& direction() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::Vector3* release_direction();
-  ::Protocol::Vector3* mutable_direction();
-  void set_allocated_direction(::Protocol::Vector3* direction);
+  void clear_position();
+  const ::Protocol::Vector3& position() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::Protocol::Vector3* release_position();
+  ::Protocol::Vector3* mutable_position();
+  void set_allocated_position(::Protocol::Vector3* position);
   private:
-  const ::Protocol::Vector3& _internal_direction() const;
-  ::Protocol::Vector3* _internal_mutable_direction();
+  const ::Protocol::Vector3& _internal_position() const;
+  ::Protocol::Vector3* _internal_mutable_position();
   public:
-  void unsafe_arena_set_allocated_direction(
-      ::Protocol::Vector3* direction);
-  ::Protocol::Vector3* unsafe_arena_release_direction();
+  void unsafe_arena_set_allocated_position(
+      ::Protocol::Vector3* position);
+  ::Protocol::Vector3* unsafe_arena_release_position();
 
   // int32 roomCode = 1;
   void clear_roomcode();
@@ -424,15 +423,6 @@ class C_MOVE final :
   void _internal_set_objectid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // .Protocol.GameObjectState state = 3;
-  void clear_state();
-  ::Protocol::GameObjectState state() const;
-  void set_state(::Protocol::GameObjectState value);
-  private:
-  ::Protocol::GameObjectState _internal_state() const;
-  void _internal_set_state(::Protocol::GameObjectState value);
-  public:
-
   // @@protoc_insertion_point(class_scope:Protocol.C_MOVE)
  private:
   class _Internal;
@@ -440,10 +430,9 @@ class C_MOVE final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::Protocol::Vector3* direction_;
+  ::Protocol::Vector3* position_;
   ::PROTOBUF_NAMESPACE_ID::int32 roomcode_;
   ::PROTOBUF_NAMESPACE_ID::uint32 objectid_;
-  int state_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -1899,6 +1888,7 @@ class S_ROOM_LOBBY final :
     kGamePassWordFieldNumber = 3,
     kHostIdFieldNumber = 1,
     kMapIdFieldNumber = 4,
+    kRoomCodeFieldNumber = 5,
   };
   // repeated uint32 gameName = 2;
   int gamename_size() const;
@@ -1962,6 +1952,15 @@ class S_ROOM_LOBBY final :
   void _internal_set_mapid(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 roomCode = 5;
+  void clear_roomcode();
+  ::PROTOBUF_NAMESPACE_ID::int32 roomcode() const;
+  void set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_roomcode() const;
+  void _internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Protocol.S_ROOM_LOBBY)
  private:
   class _Internal;
@@ -1975,6 +1974,7 @@ class S_ROOM_LOBBY final :
   mutable std::atomic<int> _gamepassword_cached_byte_size_;
   ::PROTOBUF_NAMESPACE_ID::uint64 hostid_;
   ::PROTOBUF_NAMESPACE_ID::int32 mapid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 roomcode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -3236,103 +3236,83 @@ inline void C_MOVE::set_objectid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:Protocol.C_MOVE.objectId)
 }
 
-// .Protocol.GameObjectState state = 3;
-inline void C_MOVE::clear_state() {
-  state_ = 0;
+// .Protocol.Vector3 position = 4;
+inline bool C_MOVE::_internal_has_position() const {
+  return this != internal_default_instance() && position_ != nullptr;
 }
-inline ::Protocol::GameObjectState C_MOVE::_internal_state() const {
-  return static_cast< ::Protocol::GameObjectState >(state_);
+inline bool C_MOVE::has_position() const {
+  return _internal_has_position();
 }
-inline ::Protocol::GameObjectState C_MOVE::state() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.state)
-  return _internal_state();
-}
-inline void C_MOVE::_internal_set_state(::Protocol::GameObjectState value) {
-  
-  state_ = value;
-}
-inline void C_MOVE::set_state(::Protocol::GameObjectState value) {
-  _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_MOVE.state)
-}
-
-// .Protocol.Vector3 direction = 4;
-inline bool C_MOVE::_internal_has_direction() const {
-  return this != internal_default_instance() && direction_ != nullptr;
-}
-inline bool C_MOVE::has_direction() const {
-  return _internal_has_direction();
-}
-inline const ::Protocol::Vector3& C_MOVE::_internal_direction() const {
-  const ::Protocol::Vector3* p = direction_;
+inline const ::Protocol::Vector3& C_MOVE::_internal_position() const {
+  const ::Protocol::Vector3* p = position_;
   return p != nullptr ? *p : reinterpret_cast<const ::Protocol::Vector3&>(
       ::Protocol::_Vector3_default_instance_);
 }
-inline const ::Protocol::Vector3& C_MOVE::direction() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.direction)
-  return _internal_direction();
+inline const ::Protocol::Vector3& C_MOVE::position() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_MOVE.position)
+  return _internal_position();
 }
-inline void C_MOVE::unsafe_arena_set_allocated_direction(
-    ::Protocol::Vector3* direction) {
+inline void C_MOVE::unsafe_arena_set_allocated_position(
+    ::Protocol::Vector3* position) {
   if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(direction_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(position_);
   }
-  direction_ = direction;
-  if (direction) {
+  position_ = position;
+  if (position) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.C_MOVE.direction)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.C_MOVE.position)
 }
-inline ::Protocol::Vector3* C_MOVE::release_direction() {
+inline ::Protocol::Vector3* C_MOVE::release_position() {
   
-  ::Protocol::Vector3* temp = direction_;
-  direction_ = nullptr;
+  ::Protocol::Vector3* temp = position_;
+  position_ = nullptr;
   if (GetArenaForAllocation() != nullptr) {
     temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
   return temp;
 }
-inline ::Protocol::Vector3* C_MOVE::unsafe_arena_release_direction() {
-  // @@protoc_insertion_point(field_release:Protocol.C_MOVE.direction)
+inline ::Protocol::Vector3* C_MOVE::unsafe_arena_release_position() {
+  // @@protoc_insertion_point(field_release:Protocol.C_MOVE.position)
   
-  ::Protocol::Vector3* temp = direction_;
-  direction_ = nullptr;
+  ::Protocol::Vector3* temp = position_;
+  position_ = nullptr;
   return temp;
 }
-inline ::Protocol::Vector3* C_MOVE::_internal_mutable_direction() {
+inline ::Protocol::Vector3* C_MOVE::_internal_mutable_position() {
   
-  if (direction_ == nullptr) {
+  if (position_ == nullptr) {
     auto* p = CreateMaybeMessage<::Protocol::Vector3>(GetArenaForAllocation());
-    direction_ = p;
+    position_ = p;
   }
-  return direction_;
+  return position_;
 }
-inline ::Protocol::Vector3* C_MOVE::mutable_direction() {
-  // @@protoc_insertion_point(field_mutable:Protocol.C_MOVE.direction)
-  return _internal_mutable_direction();
+inline ::Protocol::Vector3* C_MOVE::mutable_position() {
+  // @@protoc_insertion_point(field_mutable:Protocol.C_MOVE.position)
+  return _internal_mutable_position();
 }
-inline void C_MOVE::set_allocated_direction(::Protocol::Vector3* direction) {
+inline void C_MOVE::set_allocated_position(::Protocol::Vector3* position) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(direction_);
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(position_);
   }
-  if (direction) {
+  if (position) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
         ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
             ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(direction));
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(position));
     if (message_arena != submessage_arena) {
-      direction = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, direction, submessage_arena);
+      position = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, position, submessage_arena);
     }
     
   } else {
     
   }
-  direction_ = direction;
-  // @@protoc_insertion_point(field_set_allocated:Protocol.C_MOVE.direction)
+  position_ = position;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_MOVE.position)
 }
 
 // -------------------------------------------------------------------
@@ -4007,6 +3987,26 @@ inline void S_ROOM_LOBBY::_internal_set_mapid(::PROTOBUF_NAMESPACE_ID::int32 val
 inline void S_ROOM_LOBBY::set_mapid(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_mapid(value);
   // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.mapId)
+}
+
+// int32 roomCode = 5;
+inline void S_ROOM_LOBBY::clear_roomcode() {
+  roomcode_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_LOBBY::_internal_roomcode() const {
+  return roomcode_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_LOBBY::roomcode() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ROOM_LOBBY.roomCode)
+  return _internal_roomcode();
+}
+inline void S_ROOM_LOBBY::_internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  roomcode_ = value;
+}
+inline void S_ROOM_LOBBY::set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_roomcode(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.roomCode)
 }
 
 // -------------------------------------------------------------------

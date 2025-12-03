@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include <functional>
 
 class GameSession;
 class Job;
@@ -10,6 +11,9 @@ using JobRef = shared_ptr<Job>;
 
 class GridManager;
 using GridManagerRef = shared_ptr<GridManager>;
+
+using SpawnFunc = std::function<GameObjectRef(RoomRef, int, Vector3)>;
+extern SpawnFunc g_spawners[];
 
 class Room : public std::enable_shared_from_this<Room>
 {
@@ -23,6 +27,7 @@ class Room : public std::enable_shared_from_this<Room>
 	Set<int> idList;
 	int playerCount;
 
+	long long currentRoomTime;
 
 public:
 	Map<GameSessionRef, int> _sessionPlayers;
@@ -46,13 +51,16 @@ public:
 	void Update();
 	void ProcessJob();
 
-	GameObjectRef ObjectAdd(GameObjectCode objectId, Vector3 position, Vector3 direction, GameObjectRef shooter = nullptr);
+	void StartGame(MapMakerRef map);
+
+	GameObjectRef ObjectAdd(GameObjectCode objectId, Vector3 position, Vector3 direction, GameObjectRef shooter = nullptr, int owner = -1);
 	void ObjectRemove(GameObjectRef object);
 
 	void HandleCollisions();
 
-	int GetRoomId() { return roomId; }
-	int GetPlayerCount() { return playerCount; }
+	int GetRoomId() const { return roomId; }
+	int GetPlayerCount() const { return playerCount; }
+	long long GetRoomTime() const { return currentRoomTime; }
 };
 
 class Job
@@ -82,3 +90,5 @@ private:
 	GameObjectCode objectCode;
 	GameObjectRef shooter;
 };
+
+long long GetNowMs();

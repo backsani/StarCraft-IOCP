@@ -57,10 +57,11 @@ bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt)
 	if (room == nullptr)
 		cout << "room Null" << endl;
 
-	const auto& vec = pkt.direction();
-	Vector3 dir(vec.x(), vec.y(), vec.z());
+	GameObjectRef object = room->objects[(int)pkt.objectid()];
+	Vector3 vec = object->GetPosition();
+	Vector3 dir(pkt.position().x() - vec.x, pkt.position().y() - vec.y, 0);
 
-	JobRef job = MakeShared<Job>((int)pkt.objectid(), Vector3(), dir, (GameObjectState)pkt.state());
+	JobRef job = MakeShared<Job>((int)pkt.objectid(), vec, dir, GameObjectState::MOVE);
 
 	{
 		WriteLockGuard guard(room->_locks[0], __FUNCTION__);
@@ -96,6 +97,7 @@ bool Handle_C_ROOM_CREATE(PacketSessionRef& session, Protocol::C_ROOM_CREATE& pk
 	for (INT32 u : gamePassWord)
 		packet.add_gamepassword(u);
 	packet.set_mapid(room->mapId);
+	packet.set_roomcode(room->GetRoomId());
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
 	session->Send(sendBuffer);
@@ -150,6 +152,7 @@ bool Handle_C_ROOM_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_REQUEST& 
 		for (INT32 u : room->GamePassWord)
 			packet.add_gamepassword(u);
 		packet.set_mapid(room->mapId);
+		packet.set_roomcode(pkt.roomcode());
 
 		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
 		session->Send(sendBuffer);
@@ -231,12 +234,13 @@ bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt)
 	MapMakerRef map = MapMaker::GetInstance();
 
 	packet.set_mapsectioncount(map->GetSectionCount());
+
 	for (int32 data : map->GetBuffer())
 	{
 		packet.add_mapdata(data);
 	}
 
-	// 넥서스, 프로브 등 만들기
+	room->StartGame(map);
 
 	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
 	room->Broadcast(sendBuffer);

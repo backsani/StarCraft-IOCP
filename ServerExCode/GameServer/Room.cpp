@@ -4,11 +4,59 @@
 #include "GameSession.h"
 #include "ClientPacketHandler.h"
 #include "Grid.h"
+#include "MapMaker.h"
+#include "Unit.h"
+#include "ProtossUnit.h"
+
+// enum GameObjectCode 순서대로 맞춰주거나, 인덱스를 직접 매핑
+static SpawnFunc g_spawners[] =
+{
+	nullptr, // NONE
+	nullptr, // PLAYER
+	nullptr, // ENEMY
+	nullptr, // BULLET
+	[](RoomRef room, int id, Vector3 pos) { return MakeShared<Mineral>(room, id, pos); },
+
+	[](RoomRef room, int id, Vector3 pos) { return MakeShared<Gas>(room, id, pos); },
+
+	[](RoomRef room, int id, Vector3 pos) { return MakeShared<ProtossProbe>(room, id, pos); },
+	nullptr, // ZEALOT
+	nullptr, // DARKTEMPLAR
+	nullptr, // DRAGOON
+	nullptr, // REAVER
+	nullptr, // SHUTTLE
+	nullptr, // SCOUT
+	nullptr, // ARBITER
+	nullptr, // ARCHON
+	nullptr, // DARKARCHON
+	nullptr, // OBSERVER
+	nullptr, // CARRIER
+	nullptr, // INTERCEPTOR
+	nullptr, // CORSAIR
+	nullptr, // HIGHTEMPLAR
+	nullptr, // NEXUS
+	nullptr, // PYLON
+	nullptr, // ASSIMILATOR
+	nullptr, // GATEWAY
+	nullptr, // FORGE
+	nullptr, // PHOTON_CANNON
+	nullptr, // CYBERNETICS_CORE
+	nullptr, // SHIELD_BATTERY
+	nullptr, // ROBOTICS_FACILITY
+	nullptr, // STARGATE
+	nullptr, // CITADEL_OF_ADUN
+	nullptr, // ROBOTICS_SUPPORT_BAY
+	nullptr, // FLEET_BEACON
+	nullptr, // TEMPLAR_ARCHIVES
+	nullptr, // OBSERVATORY
+	nullptr, // ARBITER_TRIBUNAL
+};
 
 Room::Room(int roomId, int hostId, vector<INT32> GameName, vector<INT32> GamePassWord, INT32 mapId) : roomId(roomId), hostId(hostId), GameName(GameName), GamePassWord(GamePassWord), mapId(mapId)
 {
 	idCount = 0;
 	playerCount = 0;
+	currentRoomTime = 0;
 
 	grid = MakeShared<GridManager>(60, 60, 3, 3);
 }
@@ -19,18 +67,18 @@ int Room::Add(GameSessionRef session)
 	_sessions.insert(session);
 	playerCount++;
 	session->SetRoomId(roomId);
-	GameObjectRef player = AddPlayer();
-	_sessionPlayers[session] = player->GetId();
-	SendBufferRef sendBuffer = player->spawn();
+	//GameObjectRef player = AddPlayer();
+	_sessionPlayers[session] = session->GetPlayerName();
+	//SendBufferRef sendBuffer = player->spawn();
 
-	for (GameSessionRef player : _sessions)
+	/*for (GameSessionRef player : _sessions)
 	{
 		if (player == session)
 			continue;
 		player->Send(sendBuffer);
-	}
+	}*/
 
-	return player->GetId();
+	return session->GetPlayerName();
 }
 
 GameObjectRef Room::AddPlayer()
@@ -68,14 +116,14 @@ void Room::Remove(GameSessionRef session)
 	int objectId = sessionPlayerIt->second;
 	_sessionPlayers.erase(sessionPlayerIt);
 
-	auto objectIt = objects.find(objectId);
+	/*auto objectIt = objects.find(objectId);
 	if (objectIt == objects.end() || idList.find(objectId) == idList.end())
 		return;
 
 	GameObjectRef object = objectIt->second;
 
 	grid->RemoveObject(object);
-	ObjectRemove(object);
+	ObjectRemove(object);*/
 
 	playerCount--;
 
@@ -96,6 +144,7 @@ void Room::Broadcast(SendBufferRef sendBuffer)
 void Room::Update()
 {
 	WRITE_LOCK;
+	long long startTime = GetNowMs();
 
 	ProcessJob();
 
@@ -114,6 +163,8 @@ void Room::Update()
 	}
 
 	HandleCollisions();
+
+	currentRoomTime += GetNowMs() - startTime;
 }
 
 void Room::ProcessJob()
@@ -168,39 +219,42 @@ void Room::ProcessJob()
 	}
 }
 
-GameObjectRef Room::ObjectAdd(GameObjectCode objectCode, Vector3 position, Vector3 direction, GameObjectRef shooter)
+void Room::StartGame(MapMakerRef map)
+{
+	for (ResourceEntry resource : map->resources)
+	{
+		GameObjectCode type = GameObjectCode::NONE;
+
+		if (resource.type == 0)
+			type = GameObjectCode::MINERAL;
+		else if (resource.type == 1)
+			type = GameObjectCode::GAS;
+
+		GameObjectRef object = ObjectAdd(type, { resource.x * 0.32f, resource.y * 0.32f, 0 }, { 0,0,0 });
+	}
+
+	for (PlayerStartPos spos : map->sposv)
+	{
+		GameObjectRef object = ObjectAdd(GameObjectCode::PROBE, { spos.x * 0.32f, spos.y * 0.32f, 0 }, { 0,0,0 }, nullptr, spos.playerIndex);
+	}
+}
+
+GameObjectRef Room::ObjectAdd(GameObjectCode objectCode, Vector3 position, Vector3 direction, GameObjectRef shooter, int owner)
 {
 	GameObjectRef object = nullptr;
 
-	switch (objectCode)
-	{
-	case GameObjectCode::NONE:
-	{
-		break;
-	}
-	case GameObjectCode::PLAYER:
-	{
-		break;
-	}
-	case GameObjectCode::ENEMY:
-	{
-		// 더 보완해야함
-		idList.insert(idCount);
-		break;
-	}
-	case GameObjectCode::BULLET:
-	{
-		object = MakeShared<Bullet>(shared_from_this(), idCount, position, direction, shooter);
-		objects[idCount] = object;
-		idList.insert(idCount);
+	int idx = static_cast<int>(objectCode);
 
-		object->UpdateBounds();
-		break;
-	}
+	int objectId = idCount;
 
-	default:
-		break;
-	}
+	object = g_spawners[idx](shared_from_this(), idCount, position);
+	object->ownerId = owner;
+	//object->SetPosition(position);
+
+	objects[objectId] = object;
+	idList.insert(idCount);
+
+	Broadcast(object->spawn());
 
 	while(idList.find(idCount) != idList.end())
 	{
@@ -275,4 +329,11 @@ Job::Job(GameObjectCode objectCode, Vector3 position, Vector3 direction, GameObj
 
 Job::~Job()
 {
+}
+
+long long GetNowMs()
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(
+		std::chrono::system_clock::now().time_since_epoch()
+	).count();
 }

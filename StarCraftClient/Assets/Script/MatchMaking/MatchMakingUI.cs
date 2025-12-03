@@ -28,6 +28,7 @@ public class MatchMakingUI : MonoBehaviour
         ServerConnect.Instance.callback = PlayerListApply;
 
         Protocol.C_ROOM_PLAYER_LIST_REQUEST c_ROOM_PLAYER_LIST_REQUEST = new Protocol.C_ROOM_PLAYER_LIST_REQUEST();
+        c_ROOM_PLAYER_LIST_REQUEST.RoomCode = ServerConnect.Instance.currentRoomCode;
 
         PacketManager.Send(c_ROOM_PLAYER_LIST_REQUEST);
     }

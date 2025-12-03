@@ -1,14 +1,6 @@
 syntax = "proto3";
 package Protocol;
 
-enum ObjectType
-{
-	NONE = 0;
-	PLAYER = 1;
-	ENEMY = 2;
-	BULLET = 3;
-}
-
 enum GameObjectState
 {
 	IDLE = 0;
@@ -16,4 +8,45 @@ enum GameObjectState
 	ATTACK = 2;
 	DEAD = 3;
 	SPAWN = 4;
+}
+
+enum ObjectType
+{
+	NONE = 0;
+	PLAYER = 1;
+	ENEMY = 2;
+	BULLET = 3;
+	MINERAL = 4;
+	GAS = 5;
+	PROBE = 6;
+	ZEALOT = 7;
+	DARKTEMPLLAR = 8;
+	DRAGOON = 9;
+	REAVER = 10;
+	SHUTTLE = 11;
+	SCOUT = 12;
+	ARBITER = 13;
+	ARCHON = 14;
+	DARKARCHON = 15;
+	OBSERVER = 16;
+	CARRIER = 17;
+	INTERCEPTOR = 18;
+	CORSAIR = 19;
+	HIGHTEMPLAR = 20;
+	NEXUS = 21;
+	PYLON = 22;
+	ASSIMILATOR = 23;
+	GATEWAY = 24;
+	FORGE = 25;
+	PHOTON_CANNON = 26;
+	CYBERNETICS_CORE = 27;
+	SHIELD_BATTERY = 28;
+	ROBOTICS_FACILITY = 29;
+	STARGATE = 30;
+	CITADEL_OF_ADUN = 31;
+	ROBOTICS_SUPPORT_BAY = 32;
+	FLEET_BEACON = 33;
+	TEMPLAR_ARCHIVES = 34;
+	OBSERVATORY = 35;
+	ARBITER_TRIBUNAL = 36;
 }

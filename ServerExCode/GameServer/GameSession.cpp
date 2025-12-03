@@ -2,6 +2,8 @@
 #include "GameSession.h"
 #include "GameSessionManager.h"
 #include "ClientPacketHandler.h"
+#include "Room.h"
+#include "RoomManager.h"
 
 void GameSession::OnConnected()
 {
@@ -10,7 +12,32 @@ void GameSession::OnConnected()
 
 void GameSession::OnDisconnected()
 {
-	GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
+	//GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
+
+    RoomManagerRef roomManager = RoomManager::GetInstance();
+
+    if (currentRoom != INT_MAX)
+    {
+        RoomRef room = roomManager->GetRoom(currentRoom);
+        if (room != nullptr) // 호스트라면 지우고 아니면 룸에서만 제거
+        {
+            room->Remove(static_pointer_cast<GameSession>(shared_from_this()));
+
+            if (room->GetPlayerCount() == 0)
+            {
+                roomManager->playerIdList.erase(playerName);
+
+                GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
+
+                roomManager->RemoveRoom(room);
+                return;
+            }
+        }
+    }
+
+    roomManager->playerIdList.erase(playerName);
+
+    GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
 }
 
 void GameSession::OnRecvPacket(BYTE* buffer, int32 len)
