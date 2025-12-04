@@ -1,4 +1,5 @@
 #include "pch.h"
+#include <cmath>
 #include "GameObject.h"
 #include "ClientPacketHandler.h"
 #include "Room.h"
@@ -13,6 +14,7 @@
 GameObject::GameObject(RoomRef room, int id, float hp, GameObjectCode objectCode, Vector3 position, Vector3 direction, float speed, Race race) : room(room), id(id), hp(hp), objectCode(objectCode), position(position), direction(direction), speed(speed), race(race)
 {
 	this->position = position;
+	moveTarget = position;
 	currentState = GameObjectState::IDLE;
 	width = 0.0f;
 	height = 0.0f;
@@ -61,7 +63,20 @@ SendBufferRef GameObject::move()
 {
 	SendBufferRef sendBuffer = nullptr;
 
-	position += direction * speed;
+	//position += direction * speed;
+	Vector3 toTarget = moveTarget - position;
+	float distanceSq = toTarget.x * toTarget.x + toTarget.y * toTarget.y + toTarget.z * toTarget.z;
+	float step = speed;
+
+	if (distanceSq <= step * step)
+	{
+		position = moveTarget;
+		currentState = GameObjectState::IDLE;
+	}
+	else
+	{
+		position += direction * step;
+	}
 
 	UpdateBounds();
 
@@ -130,7 +145,30 @@ SendBufferRef GameObject::dead()
 
 void GameObject::SetMove(GameObjectState state, Vector3 direction)
 {
-	this->direction = direction;
+	//this->direction = direction;
+	//currentState = state;
+
+	if (state == GameObjectState::IDLE)
+	{
+		currentState = GameObjectState::IDLE;
+		this->direction = { 0,0,0 };
+		moveTarget = position;
+		return;
+	}
+
+	float lengthSq = direction.x * direction.x + direction.y * direction.y + direction.z * direction.z;
+
+	if (lengthSq <= 0.000001f)
+	{
+		currentState = GameObjectState::IDLE;
+		this->direction = { 0,0,0 };
+		moveTarget = position;
+		return;
+	}
+
+	float invLength = 1.0f / sqrt(lengthSq);
+	this->direction = { direction.x * invLength, direction.y * invLength, direction.z * invLength };
+	moveTarget = position + direction;
 	currentState = state;
 }
 

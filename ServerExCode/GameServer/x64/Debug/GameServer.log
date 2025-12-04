@@ -229,6 +229,7 @@
   C:Protocol.cs
   1개 파일이 복사되었습니다.
   계속하려면 아무 키나 누르십시오 . . . 
+  Building.cpp
   ClientPacketHandler.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(30,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
@@ -243,11 +244,13 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPac
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
   GameObject.cpp
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(187,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(225,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
   
   GameServer.cpp
   GameSession.cpp
+  GameSessionManager.cpp
+  Grid.cpp
   ProtossUnit.cpp
   Room.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -268,6 +271,8 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
               _Ty=int
           ]
   
+  RoomManager.cpp
+  Unit.cpp
   코드를 생성하고 있습니다...
   Enum.pb.cc
   Protocol.pb.cc
@@ -285,20 +290,113 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.
   Struct.pb.cc
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc(526,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
-  LINK : 이전 연결 이후로 0개의 새 모듈과 9개(전체 89개 중)의 모듈이 변경되었습니다.
+  LINK : 이전 연결 이후로 0개의 새 모듈과 14개(전체 89개 중)의 모듈이 변경되었습니다.
   라이브러리를 검색하고 있습니다.
       C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\user32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\gdi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\winspool.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\comdlg32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\advapi32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\shell32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ole32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\oleaut32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\uuid.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbc32.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\odbccp32.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\ServerCore\Debug\ServerCore.lib 검색 중:
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Libs\Protobuf\Debug\libprotobufd.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\msvcprtd.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\ws2_32.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\MSVCRTD.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\OLDNAMES.lib 검색 중:
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\lib\x64\vcruntimed.lib 검색 중:
+      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\ucrt\x64\ucrtd.lib 검색 중:
+        __imp_sqrtf을(를) 찾았습니다.
+          GameObject.obj에서 참조됩니다.
+          ucrtd.lib(ucrtbased.dll)을(를) 로드했습니다.
   라이브러리가 검색되었습니다.
   Pass 2를 시작하고 있습니다.
+       Unit.obj
        Struct.pb.obj
+       RoomManager.obj
        Room.obj
        ProtossUnit.obj
+       Grid.obj
        ClientPacketHandler.obj
        Protocol.pb.obj
+       GameSessionManager.obj
        GameSession.obj
        GameServer.obj
        GameObject.obj
        Enum.pb.obj
+       Building.obj
+       ServerCore.lib(CoreGlobal.obj)
        MSVCRTD.lib(loadcfg.obj)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
+       ucrtd.lib(ucrtbased.dll)
   Pass 2가 끝났습니다.
   GameServer.vcxproj -> C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Binary\Debug\GameServer.exe

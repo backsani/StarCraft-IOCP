@@ -139,6 +139,7 @@ protected:
 	GameObjectState currentState;
 	GameObjectCode objectCode;
 	int64_t spawnTime;
+	Vector3 moveTarget;
 
 	Race race;
 
@@ -165,6 +166,7 @@ public:
 	Vector3 GetDirection() const { return direction; }
 	GameObjectCode GetObjectCode() const { return objectCode; }
 	float GetDamage() { return damage; }
+	Vector3 GetMoveTarget() const { return moveTarget; }
 
 	virtual void attack();
 
