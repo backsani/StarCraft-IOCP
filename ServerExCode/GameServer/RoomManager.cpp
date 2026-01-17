@@ -17,9 +17,20 @@ void RoomManager::AddRoom(RoomRef room)
 void RoomManager::RemoveRoom(RoomRef room)
 {
 	WRITE_LOCK;
-	for (pair<int, GameObjectRef> object : room->objects)
+	// 기존의 오브젝트를 바로 지우는 방식은 object의 erase가 작동되면서
+	// 컨테이너의 크기가 변경되어 이터레이터가 잘못된 위치를 가르키게됨.
+	// object의 주소값을 복사해놓고 해당 주소값만 접근해 해결.
+	vector<GameObjectRef> objectsToRemove;
+	objectsToRemove.reserve(room->objects.size());
+
+	for (const auto& object : room->objects)
 	{
-		room->ObjectRemove(object.second);
+		objectsToRemove.push_back(object.second);
+	}
+
+	for (const auto& object : objectsToRemove)
+	{
+		room->ObjectRemove(object);
 	}
 	rooms.erase(room->GetRoomId());
 }
