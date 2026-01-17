@@ -166,6 +166,7 @@ void GameObject::SetMove(GameObjectState state, Vector3 direction)
 		return;
 	}
 
+	// TODO: Move System 변경 위치
 	float invLength = 1.0f / sqrt(lengthSq);
 	this->direction = { direction.x * invLength, direction.y * invLength, direction.z * invLength };
 	moveTarget = position + direction;

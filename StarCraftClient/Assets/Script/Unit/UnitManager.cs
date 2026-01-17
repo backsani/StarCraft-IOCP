@@ -142,6 +142,9 @@ public class UnitManager : MonoBehaviour
         {
             spawn.AddComponent<UnitController>();
             ServerConnect.Instance.currentUnitId = unitId;
+
+            Camera.main.transform.SetParent(spawn.transform, false);
+            Camera.main.transform.localPosition = new Vector3(0, 0, -10f);
         }
 
         if (spawn != null)

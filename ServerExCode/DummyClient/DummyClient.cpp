@@ -25,7 +25,6 @@ public:
 		PacketSessionRef session = GetPacketSessionRef();
 		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
 
-		// TODO : packetId 대역 체크
 		ServerPacketHandler::HandlePacket(session, buffer, len);
 	}
 
@@ -49,7 +48,7 @@ int main()
 	ClientServiceRef service = MakeShared<ClientService>(
 		NetAddress(L"127.0.0.1", 7777),
 		MakeShared<IocpCore>(),
-		MakeShared<ServerSession>, // TODO : SessionManager 등
+		MakeShared<ServerSession>, 
 		1);
 
 	ASSERT_CRASH(service->Start());

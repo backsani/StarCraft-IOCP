@@ -10,6 +10,8 @@ public:
     Set<int> playerIdList;
     int roomIdCount;
 
+    USE_LOCK;
+
 public:
     RoomManager();
 
