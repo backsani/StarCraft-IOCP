@@ -12,7 +12,6 @@ void GameSession::OnConnected()
 
 void GameSession::OnDisconnected()
 {
-	//GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
     RoomManagerRef roomManager = RoomManager::GetInstance();
 
     if (currentRoom != INT_MAX)
@@ -24,12 +23,6 @@ void GameSession::OnDisconnected()
 
             if (room->GetPlayerCount() == 0)
             {
-                /*roomManager->playerIdList.erase(playerName);
-
-                GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
-
-                roomManager->RemoveRoom(room);
-                return;*/
                 roomManager->RemoveRoom(room);
             }
         }

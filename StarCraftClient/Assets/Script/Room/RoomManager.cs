@@ -26,8 +26,13 @@ public class RoomManager : MonoBehaviour
         TakeRoomData();
     }
 
-    void TakeRoomData()
+    public void TakeRoomData()
     {
+        foreach(Transform child in  Content.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
         Protocol.C_ROOM_DATA roomData = new Protocol.C_ROOM_DATA();
 
         roomData.Dummy = 0;
