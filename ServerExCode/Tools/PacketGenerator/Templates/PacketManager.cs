@@ -7,7 +7,7 @@ using UnityEngine;
 public enum PacketType
 {
 {% for pkt in parser.total_pkt %}
-    { { pkt.name} } = { { pkt.id} },
+    PKT_{{ pkt.name}} = {{ pkt.id}},
 {% endfor %}
 }
 
@@ -19,7 +19,7 @@ public static class PacketManager
     private static Dictionary<PacketType, Func<byte[], IMessage>> Handlers = new Dictionary<PacketType, Func<byte[], IMessage>>
     {
 {% for pkt in parser.recv_pkt %}
-        { PacketType.PKT_{{pkt.name } }, (buffer) => PacketMaker<Protocol.{{pkt.name }}>.HandlePacket(buffer, PacketType.PKT_{ { pkt.name} })} { { "," if not loop.last else ""} }
+        { PacketType.PKT_{{ pkt.name }}, (buffer) => PacketMaker<Protocol.{{ pkt.name }}>.HandlePacket(buffer, PacketType.PKT_{{ pkt.name }})}{{ "," if not loop.last else ""}}
 {% endfor %}
     };
 
@@ -32,7 +32,7 @@ public static class PacketManager
 {% for pkt in parser.send_pkt %}
     public static void Send(Protocol.{{pkt.name}} pkt)
     {
-        PacketMaker<Protocol.{{pkt.name}}>.MakeSendBuffer(pkt, PacketType.PKT_{ { pkt.name } });
+        PacketMaker<Protocol.{{pkt.name}}>.MakeSendBuffer(pkt, PacketType.PKT_{{ pkt.name }});
     }
 {% endfor %}
 

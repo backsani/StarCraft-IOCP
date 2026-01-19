@@ -4,29 +4,53 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-
 public enum PacketType
 {
+
     PKT_C_LOGIN = 1000,
+
     PKT_C_MOVE = 1001,
+
     PKT_C_ROOM_CREATE = 1002,
+
     PKT_C_ROOM_DATA = 1003,
+
     PKT_C_ROOM_REQUEST = 1004,
+
     PKT_C_ROOM_PLAYER_LIST_REQUEST = 1005,
+
     PKT_C_START_GAME = 1006,
-    PKT_C_ATTACK = 1007,
-    PKT_C_RTT_PING = 1008,
-    PKT_S_RTT_PONG = 1009,
-    PKT_S_LOGIN = 1010,
-    PKT_S_ROOM_LOBBY = 1011,
-    PKT_S_LOBBY_PLAYER_INFO = 1012,
-    PKT_S_GAME_START = 1013,
-    PKT_S_ROOM_DATA = 1014,
-    PKT_S_ROOM_RESPONSE = 1015,
-    PKT_S_MOVE = 1016,
-    PKT_S_OBJECT_SPAWN = 1017,
-    PKT_S_OBJECT_DEAD = 1018,
-    PKT_S_OBJECT_DAMAGE = 1019,
+
+    PKT_C_EXIT_GAME = 1007,
+
+    PKT_C_TESTPACKET = 1008,
+
+    PKT_C_ATTACK = 1009,
+
+    PKT_C_RTT_PING = 1010,
+
+    PKT_S_RTT_PONG = 1011,
+
+    PKT_S_LOGIN = 1012,
+
+    PKT_S_ROOM_LOBBY = 1013,
+
+    PKT_S_LOBBY_PLAYER_INFO = 1014,
+
+    PKT_S_GAME_START = 1015,
+
+    PKT_S_ROOM_DATA = 1016,
+
+    PKT_S_ROOM_RESPONSE = 1017,
+
+    PKT_S_MOVE = 1018,
+
+    PKT_S_OBJECT_SPAWN = 1019,
+
+    PKT_S_OBJECT_DEAD = 1020,
+
+    PKT_S_OBJECT_DAMAGE = 1021,
+
 }
 
 public static partial class PacketManager
@@ -36,46 +60,48 @@ public static partial class PacketManager
     /// </summary>
     private static Dictionary<PacketType, Func<byte[], IMessage>> Handlers = new Dictionary<PacketType, Func<byte[], IMessage>>
     {
-        { PacketType.PKT_S_RTT_PONG, (buffer) => PacketMaker<Protocol.S_RTT_PONG>.HandlePacket(buffer, PacketType.PKT_S_RTT_PONG) },
 
-        { PacketType.PKT_S_LOGIN, (buffer) => PacketMaker<Protocol.S_LOGIN>.HandlePacket(buffer, PacketType.PKT_S_LOGIN) },
-        
-        { PacketType.PKT_S_ROOM_LOBBY, (buffer) => PacketMaker<Protocol.S_ROOM_LOBBY>.HandlePacket(buffer, PacketType.PKT_S_ROOM_LOBBY) },
+        { PacketType.PKT_S_RTT_PONG, (buffer) => PacketMaker<Protocol.S_RTT_PONG>.HandlePacket(buffer, PacketType.PKT_S_RTT_PONG)},
 
-        { PacketType.PKT_S_LOBBY_PLAYER_INFO, (buffer) => PacketMaker<Protocol.S_LOBBY_PLAYER_INFO>.HandlePacket(buffer, PacketType.PKT_S_LOBBY_PLAYER_INFO) },
+        { PacketType.PKT_S_LOGIN, (buffer) => PacketMaker<Protocol.S_LOGIN>.HandlePacket(buffer, PacketType.PKT_S_LOGIN)},
 
-        { PacketType.PKT_S_GAME_START, (buffer) => PacketMaker<Protocol.S_GAME_START>.HandlePacket(buffer, PacketType.PKT_S_GAME_START) },
+        { PacketType.PKT_S_ROOM_LOBBY, (buffer) => PacketMaker<Protocol.S_ROOM_LOBBY>.HandlePacket(buffer, PacketType.PKT_S_ROOM_LOBBY)},
 
-        { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA) },
+        { PacketType.PKT_S_LOBBY_PLAYER_INFO, (buffer) => PacketMaker<Protocol.S_LOBBY_PLAYER_INFO>.HandlePacket(buffer, PacketType.PKT_S_LOBBY_PLAYER_INFO)},
 
-        { PacketType.PKT_S_ROOM_RESPONSE, (buffer) => PacketMaker<Protocol.S_ROOM_RESPONSE>.HandlePacket(buffer, PacketType.PKT_S_ROOM_RESPONSE) },
+        { PacketType.PKT_S_GAME_START, (buffer) => PacketMaker<Protocol.S_GAME_START>.HandlePacket(buffer, PacketType.PKT_S_GAME_START)},
 
-        { PacketType.PKT_S_MOVE, (buffer) => PacketMaker<Protocol.S_MOVE>.HandlePacket(buffer, PacketType.PKT_S_MOVE) },
+        { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA)},
 
-        { PacketType.PKT_S_OBJECT_SPAWN, (buffer) => PacketMaker<Protocol.S_OBJECT_SPAWN>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_SPAWN) },
+        { PacketType.PKT_S_ROOM_RESPONSE, (buffer) => PacketMaker<Protocol.S_ROOM_RESPONSE>.HandlePacket(buffer, PacketType.PKT_S_ROOM_RESPONSE)},
 
-        { PacketType.PKT_S_OBJECT_DEAD, (buffer) => PacketMaker<Protocol.S_OBJECT_DEAD>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DEAD) },
+        { PacketType.PKT_S_MOVE, (buffer) => PacketMaker<Protocol.S_MOVE>.HandlePacket(buffer, PacketType.PKT_S_MOVE)},
 
-        { PacketType.PKT_S_OBJECT_DAMAGE, (buffer) => PacketMaker<Protocol.S_OBJECT_DAMAGE>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DAMAGE) },
+        { PacketType.PKT_S_OBJECT_SPAWN, (buffer) => PacketMaker<Protocol.S_OBJECT_SPAWN>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_SPAWN)},
+
+        { PacketType.PKT_S_OBJECT_DEAD, (buffer) => PacketMaker<Protocol.S_OBJECT_DEAD>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DEAD)},
+
+        { PacketType.PKT_S_OBJECT_DAMAGE, (buffer) => PacketMaker<Protocol.S_OBJECT_DAMAGE>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DAMAGE)}
+
     };
 
-    // SendXXXX : PKT_C_XXX 패킷을 만들어주는 함수들로 함수의 다형성을 이용해 넘겨받은 매개변수의 자료형을 구분해 적절한 함수를 실행시킨다. IMessage형태의 값을 넘겨주면 자동으로 패킷을 만들어준다.
+// SendXXXX : PKT_C_XXX 패킷을 만들어주는 함수들로 함수의 다형성을 이용해 넘겨받은 매개변수의 자료형을 구분해 적절한 함수를 실행시킨다. IMessage형태의 값을 넘겨주면 자동으로 패킷을 만들어준다.
 
-    /// <summary>
-    /// PKT_C_LOGIN 패킷을 만들어주는 함수
-    /// </summary>
-    public static void Send(Protocol.C_RTT_PING pkt)
-    {
-        PacketMaker<Protocol.C_RTT_PING>.MakeSendBuffer(pkt, PacketType.PKT_C_RTT_PING);
-    }
+/// <summary>
+/// PKT_C_LOGIN 패킷을 만들어주는 함수
+/// </summary>
+/// 
+
     public static void Send(Protocol.C_LOGIN pkt)
     {
         PacketMaker<Protocol.C_LOGIN>.MakeSendBuffer(pkt, PacketType.PKT_C_LOGIN);
     }
+
     public static void Send(Protocol.C_MOVE pkt)
     {
         PacketMaker<Protocol.C_MOVE>.MakeSendBuffer(pkt, PacketType.PKT_C_MOVE);
     }
+
     public static void Send(Protocol.C_ROOM_CREATE pkt)
     {
         PacketMaker<Protocol.C_ROOM_CREATE>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_CREATE);
@@ -85,10 +111,12 @@ public static partial class PacketManager
     {
         PacketMaker<Protocol.C_ROOM_DATA>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_DATA);
     }
+
     public static void Send(Protocol.C_ROOM_REQUEST pkt)
     {
         PacketMaker<Protocol.C_ROOM_REQUEST>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_REQUEST);
     }
+
     public static void Send(Protocol.C_ROOM_PLAYER_LIST_REQUEST pkt)
     {
         PacketMaker<Protocol.C_ROOM_PLAYER_LIST_REQUEST>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_PLAYER_LIST_REQUEST);
@@ -99,10 +127,26 @@ public static partial class PacketManager
         PacketMaker<Protocol.C_START_GAME>.MakeSendBuffer(pkt, PacketType.PKT_C_START_GAME);
     }
 
+    public static void Send(Protocol.C_EXIT_GAME pkt)
+    {
+        PacketMaker<Protocol.C_EXIT_GAME>.MakeSendBuffer(pkt, PacketType.PKT_C_EXIT_GAME);
+    }
+
+    public static void Send(Protocol.C_TESTPACKET pkt)
+    {
+        PacketMaker<Protocol.C_TESTPACKET>.MakeSendBuffer(pkt, PacketType.PKT_C_TESTPACKET);
+    }
+
     public static void Send(Protocol.C_ATTACK pkt)
     {
         PacketMaker<Protocol.C_ATTACK>.MakeSendBuffer(pkt, PacketType.PKT_C_ATTACK);
     }
+
+    public static void Send(Protocol.C_RTT_PING pkt)
+    {
+        PacketMaker<Protocol.C_RTT_PING>.MakeSendBuffer(pkt, PacketType.PKT_C_RTT_PING);
+    }
+
 
     /// <summary>
     /// 받은 패킷을 열어서 PacketType에 따른 적절한 Process 실행하는 함수
@@ -115,14 +159,14 @@ public static partial class PacketManager
         PacketType type = (PacketType)BitConverter.ToUInt16(message, sizeof(ushort));
 
         // type이 PacketType에 존재하는 값인지 검사
-        if(!Enum.IsDefined(typeof(PacketType), type))
+        if (!Enum.IsDefined(typeof(PacketType), type))
         {
             Debug.Log("Packet is not Definition");
             return false;
         }
 
         // Handlers(type별 실행해야될 핸들러 함수를 담아둔 딕셔너리)에서 type에 맞는 값을 찾아서 함수 실행시키기
-        if(Handlers.TryGetValue(type, out var handler))
+        if (Handlers.TryGetValue(type, out var handler))
         {
             IMessage packet = handler.Invoke(message);
             Process(type, packet);
@@ -134,6 +178,7 @@ public static partial class PacketManager
 
         return true;
     }
+
 }
 
 public class PacketMaker<T> where T : IMessage<T>, new()

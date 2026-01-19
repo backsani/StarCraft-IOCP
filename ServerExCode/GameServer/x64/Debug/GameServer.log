@@ -1,6 +1,349 @@
-﻿  python: can't open file 'C:\\Users\\hj577\\Documents\\GitHub\\StarCraft-IOCP\\ServerExCode\\Common\\Protobuf\\bin\\PacketGenerator.py': [Errno 2] No such file or directory
-  python: can't open file 'C:\\Users\\hj577\\Documents\\GitHub\\StarCraft-IOCP\\ServerExCode\\Common\\Protobuf\\bin\\PacketGenerator.py': [Errno 2] No such file or directory
-  계속하려면 아무 키나 누르십시오 . . . 
+﻿  #pragma once
+  #include "Protocol.pb.h"
+  
+  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
+  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
+  
+  enum : uint16
+  {
+  	PKT_C_LOGIN = 1000,
+  	PKT_C_MOVE = 1001,
+  	PKT_C_ROOM_CREATE = 1002,
+  	PKT_C_ROOM_DATA = 1003,
+  	PKT_C_ROOM_REQUEST = 1004,
+  	PKT_C_ROOM_PLAYER_LIST_REQUEST = 1005,
+  	PKT_C_START_GAME = 1006,
+  	PKT_C_EXIT_GAME = 1007,
+  	PKT_C_TESTPACKET = 1008,
+  	PKT_C_ATTACK = 1009,
+  	PKT_C_RTT_PING = 1010,
+  	PKT_S_RTT_PONG = 1011,
+  	PKT_S_LOGIN = 1012,
+  	PKT_S_ROOM_LOBBY = 1013,
+  	PKT_S_LOBBY_PLAYER_INFO = 1014,
+  	PKT_S_GAME_START = 1015,
+  	PKT_S_ROOM_DATA = 1016,
+  	PKT_S_ROOM_RESPONSE = 1017,
+  	PKT_S_MOVE = 1018,
+  	PKT_S_OBJECT_SPAWN = 1019,
+  	PKT_S_OBJECT_DEAD = 1020,
+  	PKT_S_OBJECT_DAMAGE = 1021,
+  };
+  
+  // Custom Handlers
+  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
+  bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt);
+  bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt);
+  bool Handle_C_ROOM_CREATE(PacketSessionRef& session, Protocol::C_ROOM_CREATE& pkt);
+  bool Handle_C_ROOM_DATA(PacketSessionRef& session, Protocol::C_ROOM_DATA& pkt);
+  bool Handle_C_ROOM_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_REQUEST& pkt);
+  bool Handle_C_ROOM_PLAYER_LIST_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_PLAYER_LIST_REQUEST& pkt);
+  bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt);
+  bool Handle_C_EXIT_GAME(PacketSessionRef& session, Protocol::C_EXIT_GAME& pkt);
+  bool Handle_C_TESTPACKET(PacketSessionRef& session, Protocol::C_TESTPACKET& pkt);
+  bool Handle_C_ATTACK(PacketSessionRef& session, Protocol::C_ATTACK& pkt);
+  bool Handle_C_RTT_PING(PacketSessionRef& session, Protocol::C_RTT_PING& pkt);
+  
+  class ClientPacketHandler
+  {
+  public:
+  	static void Init()
+  	{
+  		for (int32 i = 0; i < UINT16_MAX; i++)
+  			GPacketHandler[i] = Handle_INVALID;
+  		GPacketHandler[PKT_C_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_LOGIN>(Handle_C_LOGIN, session, buffer, len); };
+  		GPacketHandler[PKT_C_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_MOVE>(Handle_C_MOVE, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_CREATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_CREATE>(Handle_C_ROOM_CREATE, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_DATA] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_DATA>(Handle_C_ROOM_DATA, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_REQUEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_REQUEST>(Handle_C_ROOM_REQUEST, session, buffer, len); };
+  		GPacketHandler[PKT_C_ROOM_PLAYER_LIST_REQUEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_PLAYER_LIST_REQUEST>(Handle_C_ROOM_PLAYER_LIST_REQUEST, session, buffer, len); };
+  		GPacketHandler[PKT_C_START_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_START_GAME>(Handle_C_START_GAME, session, buffer, len); };
+  		GPacketHandler[PKT_C_EXIT_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_EXIT_GAME>(Handle_C_EXIT_GAME, session, buffer, len); };
+  		GPacketHandler[PKT_C_TESTPACKET] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_TESTPACKET>(Handle_C_TESTPACKET, session, buffer, len); };
+  		GPacketHandler[PKT_C_ATTACK] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ATTACK>(Handle_C_ATTACK, session, buffer, len); };
+  		GPacketHandler[PKT_C_RTT_PING] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_RTT_PING>(Handle_C_RTT_PING, session, buffer, len); };
+  	}
+  
+  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  		return GPacketHandler[header->id](session, buffer, len);
+  	}
+  	static SendBufferRef MakeSendBuffer(Protocol::S_RTT_PONG& pkt) { return MakeSendBuffer(pkt, PKT_S_RTT_PONG); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_LOBBY& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_LOBBY); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_LOBBY_PLAYER_INFO& pkt) { return MakeSendBuffer(pkt, PKT_S_LOBBY_PLAYER_INFO); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_GAME_START& pkt) { return MakeSendBuffer(pkt, PKT_S_GAME_START); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DATA); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_RESPONSE& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_RESPONSE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_MOVE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DEAD& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DEAD); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DAMAGE& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DAMAGE); }
+  
+  private:
+  	template<typename PacketType, typename ProcessFunc>
+  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
+  	{
+  		PacketType pkt;
+  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
+  			return false;
+  
+  		return func(session, pkt);
+  	}
+  
+  	template<typename T>
+  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
+  	{
+  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
+  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
+  
+  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
+  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
+  		header->size = packetSize;
+  		header->id = pktId;
+  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
+  		sendBuffer->Close(packetSize);
+  
+  		return sendBuffer;
+  	}
+  };
+  using Google.Protobuf;
+  using System;
+  using System.Collections.Generic;
+  using System.IO;
+  using UnityEngine;
+  
+  public enum PacketType
+  {
+  
+      PKT_C_LOGIN = 1000,
+  
+      PKT_C_MOVE = 1001,
+  
+      PKT_C_ROOM_CREATE = 1002,
+  
+      PKT_C_ROOM_DATA = 1003,
+  
+      PKT_C_ROOM_REQUEST = 1004,
+  
+      PKT_C_ROOM_PLAYER_LIST_REQUEST = 1005,
+  
+      PKT_C_START_GAME = 1006,
+  
+      PKT_C_EXIT_GAME = 1007,
+  
+      PKT_C_TESTPACKET = 1008,
+  
+      PKT_C_ATTACK = 1009,
+  
+      PKT_C_RTT_PING = 1010,
+  
+      PKT_S_RTT_PONG = 1011,
+  
+      PKT_S_LOGIN = 1012,
+  
+      PKT_S_ROOM_LOBBY = 1013,
+  
+      PKT_S_LOBBY_PLAYER_INFO = 1014,
+  
+      PKT_S_GAME_START = 1015,
+  
+      PKT_S_ROOM_DATA = 1016,
+  
+      PKT_S_ROOM_RESPONSE = 1017,
+  
+      PKT_S_MOVE = 1018,
+  
+      PKT_S_OBJECT_SPAWN = 1019,
+  
+      PKT_S_OBJECT_DEAD = 1020,
+  
+      PKT_S_OBJECT_DAMAGE = 1021,
+  
+  }
+  
+  public static class PacketManager
+  {
+      /// <summary>
+      /// PacketType에 맞는 핸들러 함수를 O(1)로 실행시키기 위해 딕셔너리에 저장. buffer만 넘겨주고 실행시켜주면 IMessage형으로 반환해준다.
+      /// </summary>
+      private static Dictionary<PacketType, Func<byte[], IMessage>> Handlers = new Dictionary<PacketType, Func<byte[], IMessage>>
+      {
+  
+          { PacketType.PKT_S_RTT_PONG, (buffer) => PacketMaker<Protocol.S_RTT_PONG>.HandlePacket(buffer, PacketType.PKT_S_RTT_PONG)},
+  
+          { PacketType.PKT_S_LOGIN, (buffer) => PacketMaker<Protocol.S_LOGIN>.HandlePacket(buffer, PacketType.PKT_S_LOGIN)},
+  
+          { PacketType.PKT_S_ROOM_LOBBY, (buffer) => PacketMaker<Protocol.S_ROOM_LOBBY>.HandlePacket(buffer, PacketType.PKT_S_ROOM_LOBBY)},
+  
+          { PacketType.PKT_S_LOBBY_PLAYER_INFO, (buffer) => PacketMaker<Protocol.S_LOBBY_PLAYER_INFO>.HandlePacket(buffer, PacketType.PKT_S_LOBBY_PLAYER_INFO)},
+  
+          { PacketType.PKT_S_GAME_START, (buffer) => PacketMaker<Protocol.S_GAME_START>.HandlePacket(buffer, PacketType.PKT_S_GAME_START)},
+  
+          { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA)},
+  
+          { PacketType.PKT_S_ROOM_RESPONSE, (buffer) => PacketMaker<Protocol.S_ROOM_RESPONSE>.HandlePacket(buffer, PacketType.PKT_S_ROOM_RESPONSE)},
+  
+          { PacketType.PKT_S_MOVE, (buffer) => PacketMaker<Protocol.S_MOVE>.HandlePacket(buffer, PacketType.PKT_S_MOVE)},
+  
+          { PacketType.PKT_S_OBJECT_SPAWN, (buffer) => PacketMaker<Protocol.S_OBJECT_SPAWN>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_SPAWN)},
+  
+          { PacketType.PKT_S_OBJECT_DEAD, (buffer) => PacketMaker<Protocol.S_OBJECT_DEAD>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DEAD)},
+  
+          { PacketType.PKT_S_OBJECT_DAMAGE, (buffer) => PacketMaker<Protocol.S_OBJECT_DAMAGE>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DAMAGE)}
+  
+      };
+  
+  // SendXXXX : PKT_C_XXX 패킷을 만들어주는 함수들로 함수의 다형성을 이용해 넘겨받은 매개변수의 자료형을 구분해 적절한 함수를 실행시킨다. IMessage형태의 값을 넘겨주면 자동으로 패킷을 만들어준다.
+  
+  /// <summary>
+  /// PKT_C_LOGIN 패킷을 만들어주는 함수
+  /// </summary>
+  /// 
+  
+      public static void Send(Protocol.C_LOGIN pkt)
+      {
+          PacketMaker<Protocol.C_LOGIN>.MakeSendBuffer(pkt, PacketType.PKT_C_LOGIN);
+      }
+  
+      public static void Send(Protocol.C_MOVE pkt)
+      {
+          PacketMaker<Protocol.C_MOVE>.MakeSendBuffer(pkt, PacketType.PKT_C_MOVE);
+      }
+  
+      public static void Send(Protocol.C_ROOM_CREATE pkt)
+      {
+          PacketMaker<Protocol.C_ROOM_CREATE>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_CREATE);
+      }
+  
+      public static void Send(Protocol.C_ROOM_DATA pkt)
+      {
+          PacketMaker<Protocol.C_ROOM_DATA>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_DATA);
+      }
+  
+      public static void Send(Protocol.C_ROOM_REQUEST pkt)
+      {
+          PacketMaker<Protocol.C_ROOM_REQUEST>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_REQUEST);
+      }
+  
+      public static void Send(Protocol.C_ROOM_PLAYER_LIST_REQUEST pkt)
+      {
+          PacketMaker<Protocol.C_ROOM_PLAYER_LIST_REQUEST>.MakeSendBuffer(pkt, PacketType.PKT_C_ROOM_PLAYER_LIST_REQUEST);
+      }
+  
+      public static void Send(Protocol.C_START_GAME pkt)
+      {
+          PacketMaker<Protocol.C_START_GAME>.MakeSendBuffer(pkt, PacketType.PKT_C_START_GAME);
+      }
+  
+      public static void Send(Protocol.C_EXIT_GAME pkt)
+      {
+          PacketMaker<Protocol.C_EXIT_GAME>.MakeSendBuffer(pkt, PacketType.PKT_C_EXIT_GAME);
+      }
+  
+      public static void Send(Protocol.C_TESTPACKET pkt)
+      {
+          PacketMaker<Protocol.C_TESTPACKET>.MakeSendBuffer(pkt, PacketType.PKT_C_TESTPACKET);
+      }
+  
+      public static void Send(Protocol.C_ATTACK pkt)
+      {
+          PacketMaker<Protocol.C_ATTACK>.MakeSendBuffer(pkt, PacketType.PKT_C_ATTACK);
+      }
+  
+      public static void Send(Protocol.C_RTT_PING pkt)
+      {
+          PacketMaker<Protocol.C_RTT_PING>.MakeSendBuffer(pkt, PacketType.PKT_C_RTT_PING);
+      }
+  
+  
+      /// <summary>
+      /// 받은 패킷을 열어서 PacketType에 따른 적절한 Process 실행하는 함수
+      /// </summary>
+      /// <param name="message">서버로 부터 받은 패킷</param>
+      /// <returns></returns>
+      public static bool RecvPacket(byte[] message)
+      {
+          // PacketType 추출
+          PacketType type = (PacketType)BitConverter.ToUInt16(message, sizeof(ushort));
+  
+          // type이 PacketType에 존재하는 값인지 검사
+          if (!Enum.IsDefined(typeof(PacketType), type))
+          {
+              Debug.Log("Packet is not Definition");
+              return false;
+          }
+  
+          // Handlers(type별 실행해야될 핸들러 함수를 담아둔 딕셔너리)에서 type에 맞는 값을 찾아서 함수 실행시키기
+          if (Handlers.TryGetValue(type, out var handler))
+          {
+              IMessage packet = handler.Invoke(message);
+              Process(type, packet);
+          }
+          else
+          {
+              Debug.Log("존재하지 않는 패킷타입");
+          }
+  
+          return true;
+      }
+  
+  }
+  
+  public class PacketMaker<T> where T : IMessage<T>, new()
+  {
+      // HandlePacket에서 제네릭 타입인 T의 역직렬화 기능을 이용하기 위해 MessageParser를 정적 메모리에 생성. 이때 생성자를 람다함수를 사용해 자료형 T를 생성하고 이를 MessageParser로 넘겨줌.
+      private static readonly MessageParser<T> parser = new MessageParser<T>(() => new T());
+  
+      /// <summary>
+      /// SendXXXX 함수로부터 실행되는 실제 패킷을 만드는 함수.
+      /// PacketType에 따른 형식으로 패킷을 Serialize시켜주고 sendQueue에 넣어준다.
+      /// </summary>
+      /// <param name="pkt"> 직렬화 시켜줄 데이터 </param>
+      /// <param name="type"> 직렬화 시킬 PacketType </param>
+      public static void MakeSendBuffer(T pkt, PacketType type)
+      {
+          int size = pkt.CalculateSize();
+  
+          Debug.Log($"Serialized size: {size} bytes");
+  
+          byte[] payload = pkt.ToByteArray();
+          ushort packetId = (ushort)type;
+          ushort packetSize = (ushort)(sizeof(ushort) + sizeof(ushort) + payload.Length);
+  
+          using (MemoryStream ms = new MemoryStream())
+          {
+              ms.Write(BitConverter.GetBytes(packetSize), 0, 2);
+              ms.Write(BitConverter.GetBytes(packetId), 0, 2);
+              ms.Write(payload, 0, payload.Length);
+  
+              Debug.Log("보낸 패킷 정보 : " + BitConverter.ToString(ms.ToArray()));
+  
+              ServerConnect.Instance.EnqueueSendData(ms.ToArray());
+          }
+      }
+  
+      /// <summary>
+      /// 서버로부터 받은 데이터를 IMessage 형식으로 DeSerialize 시켜주는 실제 함수.
+      /// </summary>
+      /// <param name="buffer"> 서버로 부터 받은 데이터 </param>
+      /// <param name="type"> 해당 데이터의 PacketType </param>
+      /// <returns> DeSerialize 시켜준 데이터 </returns>
+      public static T HandlePacket(byte[] buffer, PacketType type)
+      {
+          ushort size = BitConverter.ToUInt16(buffer, 0);
+  
+          // packet에서 size와 packetId를 뺀 공간 확보
+          byte[] payload = new byte[size - 4];
+          // payload로 데이터 복사
+          Array.Copy(buffer, 4, payload, 0, payload.Length);
+  
+          T data = parser.ParseFrom(payload);
+  
+          return data;
+      }
+  }
   C:Enum.pb.h
   1개 파일이 복사되었습니다.
   C:Enum.pb.cc
@@ -13,17 +356,16 @@
   1개 파일이 복사되었습니다.
   C:Protocol.pb.cc
   1개 파일이 복사되었습니다.
-  0개 파일이 복사되었습니다.
-  파일을 찾을 수 없습니다-ClientPacketHandler.h
+  C:ClientPacketHandler.h
+  1개 파일이 복사되었습니다.
   C:Enum.cs
   1개 파일이 복사되었습니다.
   C:Struct.cs
   1개 파일이 복사되었습니다.
   C:Protocol.cs
   1개 파일이 복사되었습니다.
-  0개 파일이 복사되었습니다.
-  파일을 찾을 수 없습니다-PacketManager.cs
-  C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Common\Protobuf\bin\*.h을(를) 찾을 수 없습니다.
+  C:PacketManager.cs
+  1개 파일이 복사되었습니다.
   계속하려면 아무 키나 누르십시오 . . . 
   ClientPacketHandler.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(30,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
