@@ -5,7 +5,7 @@ import ProtoParser
 def main():
 
 	arg_parser = argparse.ArgumentParser(description = 'PacketGenerator')
-	arg_parser.add_argument('--path', type=str, default='C:/Rookiss/CPP_Server/Server/Common/Protobuf/bin/Protocol.proto', help='proto path')
+	arg_parser.add_argument('--path', type=str, default=None, help='proto path')
 	arg_parser.add_argument('--output', type=str, default='TestPacketHandler', help='output file')
 	arg_parser.add_argument('--recv', type=str, default='C_', help='recv convention')
 	arg_parser.add_argument('--send', type=str, default='S_', help='send convention')
@@ -17,14 +17,26 @@ def main():
 	file_loader = jinja2.FileSystemLoader('Templates')
 	env = jinja2.Environment(loader=file_loader)
 
-	template = env.get_template('PacketHandler.h')
-	output = template.render(parser=parser, output=args.output)
+	if args.output == 'ClientPacketHandler':
+		template = env.get_template('PacketHandler.h')
+		output = template.render(parser=parser, output=args.output)
 
-	f = open(args.output+'.h', 'w+')
-	f.write(output)
-	f.close()
+		f = open(args.output+'.h', 'w+')
+		f.write(output)
+		f.close()
 
-	print(output)
+		print(output)
+
+	if args.output == 'PacketManager':
+		template = env.get_template('PacketManager.cs')
+		output = template.render(parser=parser, output=args.output)
+
+		f = open(args.output+'.cs', 'w+')
+		f.write(output)
+		f.close()
+
+		print(output)
+
 	return
 
 if __name__ == '__main__':

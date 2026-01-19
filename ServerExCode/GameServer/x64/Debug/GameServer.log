@@ -1,213 +1,6 @@
-﻿  #pragma once
-  #include "Protocol.pb.h"
-  
-  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
-  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
-  
-  enum : uint16
-  {
-  	PKT_C_LOGIN = 1000,
-  	PKT_C_MOVE = 1001,
-  	PKT_C_ROOM_CREATE = 1002,
-  	PKT_C_ROOM_DATA = 1003,
-  	PKT_C_ROOM_REQUEST = 1004,
-  	PKT_C_ROOM_PLAYER_LIST_REQUEST = 1005,
-  	PKT_C_START_GAME = 1006,
-  	PKT_C_ATTACK = 1007,
-  	PKT_C_RTT_PING = 1008,
-  	PKT_S_RTT_PONG = 1009,
-  	PKT_S_LOGIN = 1010,
-  	PKT_S_ROOM_LOBBY = 1011,
-  	PKT_S_LOBBY_PLAYER_INFO = 1012,
-  	PKT_S_GAME_START = 1013,
-  	PKT_S_ROOM_DATA = 1014,
-  	PKT_S_ROOM_RESPONSE = 1015,
-  	PKT_S_MOVE = 1016,
-  	PKT_S_OBJECT_SPAWN = 1017,
-  	PKT_S_OBJECT_DEAD = 1018,
-  	PKT_S_OBJECT_DAMAGE = 1019,
-  };
-  
-  // Custom Handlers
-  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
-  bool Handle_C_LOGIN(PacketSessionRef& session, Protocol::C_LOGIN& pkt);
-  bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt);
-  bool Handle_C_ROOM_CREATE(PacketSessionRef& session, Protocol::C_ROOM_CREATE& pkt);
-  bool Handle_C_ROOM_DATA(PacketSessionRef& session, Protocol::C_ROOM_DATA& pkt);
-  bool Handle_C_ROOM_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_REQUEST& pkt);
-  bool Handle_C_ROOM_PLAYER_LIST_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_PLAYER_LIST_REQUEST& pkt);
-  bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt);
-  bool Handle_C_ATTACK(PacketSessionRef& session, Protocol::C_ATTACK& pkt);
-  bool Handle_C_RTT_PING(PacketSessionRef& session, Protocol::C_RTT_PING& pkt);
-  
-  class ClientPacketHandler
-  {
-  public:
-  	static void Init()
-  	{
-  		for (int32 i = 0; i < UINT16_MAX; i++)
-  			GPacketHandler[i] = Handle_INVALID;
-  		GPacketHandler[PKT_C_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_LOGIN>(Handle_C_LOGIN, session, buffer, len); };
-  		GPacketHandler[PKT_C_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_MOVE>(Handle_C_MOVE, session, buffer, len); };
-  		GPacketHandler[PKT_C_ROOM_CREATE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_CREATE>(Handle_C_ROOM_CREATE, session, buffer, len); };
-  		GPacketHandler[PKT_C_ROOM_DATA] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_DATA>(Handle_C_ROOM_DATA, session, buffer, len); };
-  		GPacketHandler[PKT_C_ROOM_REQUEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_REQUEST>(Handle_C_ROOM_REQUEST, session, buffer, len); };
-  		GPacketHandler[PKT_C_ROOM_PLAYER_LIST_REQUEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_PLAYER_LIST_REQUEST>(Handle_C_ROOM_PLAYER_LIST_REQUEST, session, buffer, len); };
-  		GPacketHandler[PKT_C_START_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_START_GAME>(Handle_C_START_GAME, session, buffer, len); };
-  		GPacketHandler[PKT_C_ATTACK] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ATTACK>(Handle_C_ATTACK, session, buffer, len); };
-  		GPacketHandler[PKT_C_RTT_PING] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_RTT_PING>(Handle_C_RTT_PING, session, buffer, len); };
-  	}
-  
-  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
-  	{
-  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
-  		return GPacketHandler[header->id](session, buffer, len);
-  	}
-  	static SendBufferRef MakeSendBuffer(Protocol::S_RTT_PONG& pkt) { return MakeSendBuffer(pkt, PKT_S_RTT_PONG); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_LOBBY& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_LOBBY); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_LOBBY_PLAYER_INFO& pkt) { return MakeSendBuffer(pkt, PKT_S_LOBBY_PLAYER_INFO); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_GAME_START& pkt) { return MakeSendBuffer(pkt, PKT_S_GAME_START); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DATA); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_RESPONSE& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_RESPONSE); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_MOVE); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DEAD& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DEAD); }
-  	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DAMAGE& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DAMAGE); }
-  
-  private:
-  	template<typename PacketType, typename ProcessFunc>
-  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
-  	{
-  		PacketType pkt;
-  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
-  			return false;
-  
-  		return func(session, pkt);
-  	}
-  
-  	template<typename T>
-  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
-  	{
-  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
-  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
-  
-  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
-  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
-  		header->size = packetSize;
-  		header->id = pktId;
-  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
-  		sendBuffer->Close(packetSize);
-  
-  		return sendBuffer;
-  	}
-  };
-  #pragma once
-  #include "Protocol.pb.h"
-  
-  using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
-  extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
-  
-  enum : uint16
-  {
-  	PKT_C_LOGIN = 1000,
-  	PKT_C_MOVE = 1001,
-  	PKT_C_ROOM_CREATE = 1002,
-  	PKT_C_ROOM_DATA = 1003,
-  	PKT_C_ROOM_REQUEST = 1004,
-  	PKT_C_ROOM_PLAYER_LIST_REQUEST = 1005,
-  	PKT_C_START_GAME = 1006,
-  	PKT_C_ATTACK = 1007,
-  	PKT_C_RTT_PING = 1008,
-  	PKT_S_RTT_PONG = 1009,
-  	PKT_S_LOGIN = 1010,
-  	PKT_S_ROOM_LOBBY = 1011,
-  	PKT_S_LOBBY_PLAYER_INFO = 1012,
-  	PKT_S_GAME_START = 1013,
-  	PKT_S_ROOM_DATA = 1014,
-  	PKT_S_ROOM_RESPONSE = 1015,
-  	PKT_S_MOVE = 1016,
-  	PKT_S_OBJECT_SPAWN = 1017,
-  	PKT_S_OBJECT_DEAD = 1018,
-  	PKT_S_OBJECT_DAMAGE = 1019,
-  };
-  
-  // Custom Handlers
-  bool Handle_INVALID(PacketSessionRef& session, BYTE* buffer, int32 len);
-  bool Handle_S_RTT_PONG(PacketSessionRef& session, Protocol::S_RTT_PONG& pkt);
-  bool Handle_S_LOGIN(PacketSessionRef& session, Protocol::S_LOGIN& pkt);
-  bool Handle_S_ROOM_LOBBY(PacketSessionRef& session, Protocol::S_ROOM_LOBBY& pkt);
-  bool Handle_S_LOBBY_PLAYER_INFO(PacketSessionRef& session, Protocol::S_LOBBY_PLAYER_INFO& pkt);
-  bool Handle_S_GAME_START(PacketSessionRef& session, Protocol::S_GAME_START& pkt);
-  bool Handle_S_ROOM_DATA(PacketSessionRef& session, Protocol::S_ROOM_DATA& pkt);
-  bool Handle_S_ROOM_RESPONSE(PacketSessionRef& session, Protocol::S_ROOM_RESPONSE& pkt);
-  bool Handle_S_MOVE(PacketSessionRef& session, Protocol::S_MOVE& pkt);
-  bool Handle_S_OBJECT_SPAWN(PacketSessionRef& session, Protocol::S_OBJECT_SPAWN& pkt);
-  bool Handle_S_OBJECT_DEAD(PacketSessionRef& session, Protocol::S_OBJECT_DEAD& pkt);
-  bool Handle_S_OBJECT_DAMAGE(PacketSessionRef& session, Protocol::S_OBJECT_DAMAGE& pkt);
-  
-  class ServerPacketHandler
-  {
-  public:
-  	static void Init()
-  	{
-  		for (int32 i = 0; i < UINT16_MAX; i++)
-  			GPacketHandler[i] = Handle_INVALID;
-  		GPacketHandler[PKT_S_RTT_PONG] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_RTT_PONG>(Handle_S_RTT_PONG, session, buffer, len); };
-  		GPacketHandler[PKT_S_LOGIN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_LOGIN>(Handle_S_LOGIN, session, buffer, len); };
-  		GPacketHandler[PKT_S_ROOM_LOBBY] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ROOM_LOBBY>(Handle_S_ROOM_LOBBY, session, buffer, len); };
-  		GPacketHandler[PKT_S_LOBBY_PLAYER_INFO] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_LOBBY_PLAYER_INFO>(Handle_S_LOBBY_PLAYER_INFO, session, buffer, len); };
-  		GPacketHandler[PKT_S_GAME_START] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_GAME_START>(Handle_S_GAME_START, session, buffer, len); };
-  		GPacketHandler[PKT_S_ROOM_DATA] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ROOM_DATA>(Handle_S_ROOM_DATA, session, buffer, len); };
-  		GPacketHandler[PKT_S_ROOM_RESPONSE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_ROOM_RESPONSE>(Handle_S_ROOM_RESPONSE, session, buffer, len); };
-  		GPacketHandler[PKT_S_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_MOVE>(Handle_S_MOVE, session, buffer, len); };
-  		GPacketHandler[PKT_S_OBJECT_SPAWN] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECT_SPAWN>(Handle_S_OBJECT_SPAWN, session, buffer, len); };
-  		GPacketHandler[PKT_S_OBJECT_DEAD] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECT_DEAD>(Handle_S_OBJECT_DEAD, session, buffer, len); };
-  		GPacketHandler[PKT_S_OBJECT_DAMAGE] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::S_OBJECT_DAMAGE>(Handle_S_OBJECT_DAMAGE, session, buffer, len); };
-  	}
-  
-  	static bool HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
-  	{
-  		PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
-  		return GPacketHandler[header->id](session, buffer, len);
-  	}
-  	static SendBufferRef MakeSendBuffer(Protocol::C_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_C_LOGIN); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_C_MOVE); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_CREATE& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_CREATE); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_DATA); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_REQUEST& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_REQUEST); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_ROOM_PLAYER_LIST_REQUEST& pkt) { return MakeSendBuffer(pkt, PKT_C_ROOM_PLAYER_LIST_REQUEST); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_START_GAME& pkt) { return MakeSendBuffer(pkt, PKT_C_START_GAME); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_ATTACK& pkt) { return MakeSendBuffer(pkt, PKT_C_ATTACK); }
-  	static SendBufferRef MakeSendBuffer(Protocol::C_RTT_PING& pkt) { return MakeSendBuffer(pkt, PKT_C_RTT_PING); }
-  
-  private:
-  	template<typename PacketType, typename ProcessFunc>
-  	static bool HandlePacket(ProcessFunc func, PacketSessionRef& session, BYTE* buffer, int32 len)
-  	{
-  		PacketType pkt;
-  		if (pkt.ParseFromArray(buffer + sizeof(PacketHeader), len - sizeof(PacketHeader)) == false)
-  			return false;
-  
-  		return func(session, pkt);
-  	}
-  
-  	template<typename T>
-  	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
-  	{
-  		const uint16 dataSize = static_cast<uint16>(pkt.ByteSizeLong());
-  		const uint16 packetSize = dataSize + sizeof(PacketHeader);
-  
-  		SendBufferRef sendBuffer = GSendBufferManager->Open(packetSize);
-  		PacketHeader* header = reinterpret_cast<PacketHeader*>(sendBuffer->Buffer());
-  		header->size = packetSize;
-  		header->id = pktId;
-  		ASSERT_CRASH(pkt.SerializeToArray(&header[1], dataSize));
-  		sendBuffer->Close(packetSize);
-  
-  		return sendBuffer;
-  	}
-  };
+﻿  python: can't open file 'C:\\Users\\hj577\\Documents\\GitHub\\StarCraft-IOCP\\ServerExCode\\Common\\Protobuf\\bin\\PacketGenerator.py': [Errno 2] No such file or directory
+  python: can't open file 'C:\\Users\\hj577\\Documents\\GitHub\\StarCraft-IOCP\\ServerExCode\\Common\\Protobuf\\bin\\PacketGenerator.py': [Errno 2] No such file or directory
+  계속하려면 아무 키나 누르십시오 . . . 
   C:Enum.pb.h
   1개 파일이 복사되었습니다.
   C:Enum.pb.cc
@@ -220,14 +13,17 @@
   1개 파일이 복사되었습니다.
   C:Protocol.pb.cc
   1개 파일이 복사되었습니다.
-  C:ClientPacketHandler.h
-  1개 파일이 복사되었습니다.
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-ClientPacketHandler.h
   C:Enum.cs
   1개 파일이 복사되었습니다.
   C:Struct.cs
   1개 파일이 복사되었습니다.
   C:Protocol.cs
   1개 파일이 복사되었습니다.
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-PacketManager.cs
+  C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Common\Protobuf\bin\*.h을(를) 찾을 수 없습니다.
   계속하려면 아무 키나 누르십시오 . . . 
   ClientPacketHandler.cpp
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(30,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
@@ -271,17 +67,19 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
   코드를 생성하고 있습니다...
   Enum.pb.cc
   Protocol.pb.cc
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(821,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1104,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1560,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1786,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1976,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2194,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3139,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3146,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3626,77): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3636,80): warning C4244: '인수': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4064,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(863,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1146,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1602,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1828,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2018,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2208,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2398,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2616,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3561,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3568,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4048,77): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4058,80): warning C4244: '인수': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4486,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Struct.pb.cc
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc(526,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...

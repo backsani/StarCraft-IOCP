@@ -47,6 +47,15 @@ message C_START_GAME
 	int32 roomCode = 1;
 }
 
+message C_EXIT_GAME
+{
+	int32 roomCode = 1;
+}
+message C_TESTPACKET
+{
+	int32 roomCode = 1;
+}
+
 message C_ATTACK
 {
 	int32 roomCode = 1;

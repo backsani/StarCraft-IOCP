@@ -248,6 +248,16 @@ bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt)
 	return false;
 }
 
+bool Handle_C_EXIT_GAME(PacketSessionRef& session, Protocol::C_EXIT_GAME& pkt)
+{
+	return false;
+}
+
+bool Handle_C_TESTPACKET(PacketSessionRef& session, Protocol::C_TESTPACKET& pkt)
+{
+	return false;
+}
+
 bool Handle_C_ATTACK(PacketSessionRef& session, Protocol::C_ATTACK& pkt)
 {
 	RoomManagerRef roomManager = RoomManager::GetInstance();

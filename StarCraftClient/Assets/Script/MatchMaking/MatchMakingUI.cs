@@ -60,4 +60,9 @@ public class MatchMakingUI : MonoBehaviour
         }
         Debug.Log("시작 요청 실패");
     }
+
+    public void OnClickExit()
+    {
+
+    }
 }
