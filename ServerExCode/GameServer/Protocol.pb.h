@@ -110,9 +110,9 @@ extern S_OBJECT_SPAWNDefaultTypeInternal _S_OBJECT_SPAWN_default_instance_;
 class S_ROOM_DATA;
 struct S_ROOM_DATADefaultTypeInternal;
 extern S_ROOM_DATADefaultTypeInternal _S_ROOM_DATA_default_instance_;
-class S_ROOM_DISCONNET;
-struct S_ROOM_DISCONNETDefaultTypeInternal;
-extern S_ROOM_DISCONNETDefaultTypeInternal _S_ROOM_DISCONNET_default_instance_;
+class S_ROOM_DISCONNECT;
+struct S_ROOM_DISCONNECTDefaultTypeInternal;
+extern S_ROOM_DISCONNECTDefaultTypeInternal _S_ROOM_DISCONNECT_default_instance_;
 class S_ROOM_LOBBY;
 struct S_ROOM_LOBBYDefaultTypeInternal;
 extern S_ROOM_LOBBYDefaultTypeInternal _S_ROOM_LOBBY_default_instance_;
@@ -142,7 +142,7 @@ template<> ::Protocol::S_OBJECT_DAMAGE* Arena::CreateMaybeMessage<::Protocol::S_
 template<> ::Protocol::S_OBJECT_DEAD* Arena::CreateMaybeMessage<::Protocol::S_OBJECT_DEAD>(Arena*);
 template<> ::Protocol::S_OBJECT_SPAWN* Arena::CreateMaybeMessage<::Protocol::S_OBJECT_SPAWN>(Arena*);
 template<> ::Protocol::S_ROOM_DATA* Arena::CreateMaybeMessage<::Protocol::S_ROOM_DATA>(Arena*);
-template<> ::Protocol::S_ROOM_DISCONNET* Arena::CreateMaybeMessage<::Protocol::S_ROOM_DISCONNET>(Arena*);
+template<> ::Protocol::S_ROOM_DISCONNECT* Arena::CreateMaybeMessage<::Protocol::S_ROOM_DISCONNECT>(Arena*);
 template<> ::Protocol::S_ROOM_LOBBY* Arena::CreateMaybeMessage<::Protocol::S_ROOM_LOBBY>(Arena*);
 template<> ::Protocol::S_ROOM_RESPONSE* Arena::CreateMaybeMessage<::Protocol::S_ROOM_RESPONSE>(Arena*);
 template<> ::Protocol::S_RTT_PONG* Arena::CreateMaybeMessage<::Protocol::S_RTT_PONG>(Arena*);
@@ -2559,24 +2559,24 @@ class S_ROOM_DATA final :
 };
 // -------------------------------------------------------------------
 
-class S_ROOM_DISCONNET final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_ROOM_DISCONNET) */ {
+class S_ROOM_DISCONNECT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_ROOM_DISCONNECT) */ {
  public:
-  inline S_ROOM_DISCONNET() : S_ROOM_DISCONNET(nullptr) {}
-  ~S_ROOM_DISCONNET() override;
-  explicit constexpr S_ROOM_DISCONNET(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline S_ROOM_DISCONNECT() : S_ROOM_DISCONNECT(nullptr) {}
+  ~S_ROOM_DISCONNECT() override;
+  explicit constexpr S_ROOM_DISCONNECT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  S_ROOM_DISCONNET(const S_ROOM_DISCONNET& from);
-  S_ROOM_DISCONNET(S_ROOM_DISCONNET&& from) noexcept
-    : S_ROOM_DISCONNET() {
+  S_ROOM_DISCONNECT(const S_ROOM_DISCONNECT& from);
+  S_ROOM_DISCONNECT(S_ROOM_DISCONNECT&& from) noexcept
+    : S_ROOM_DISCONNECT() {
     *this = ::std::move(from);
   }
 
-  inline S_ROOM_DISCONNET& operator=(const S_ROOM_DISCONNET& from) {
+  inline S_ROOM_DISCONNECT& operator=(const S_ROOM_DISCONNECT& from) {
     CopyFrom(from);
     return *this;
   }
-  inline S_ROOM_DISCONNET& operator=(S_ROOM_DISCONNET&& from) noexcept {
+  inline S_ROOM_DISCONNECT& operator=(S_ROOM_DISCONNECT&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()) {
       InternalSwap(&from);
@@ -2595,20 +2595,20 @@ class S_ROOM_DISCONNET final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const S_ROOM_DISCONNET& default_instance() {
+  static const S_ROOM_DISCONNECT& default_instance() {
     return *internal_default_instance();
   }
-  static inline const S_ROOM_DISCONNET* internal_default_instance() {
-    return reinterpret_cast<const S_ROOM_DISCONNET*>(
-               &_S_ROOM_DISCONNET_default_instance_);
+  static inline const S_ROOM_DISCONNECT* internal_default_instance() {
+    return reinterpret_cast<const S_ROOM_DISCONNECT*>(
+               &_S_ROOM_DISCONNECT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     16;
 
-  friend void swap(S_ROOM_DISCONNET& a, S_ROOM_DISCONNET& b) {
+  friend void swap(S_ROOM_DISCONNECT& a, S_ROOM_DISCONNECT& b) {
     a.Swap(&b);
   }
-  inline void Swap(S_ROOM_DISCONNET* other) {
+  inline void Swap(S_ROOM_DISCONNECT* other) {
     if (other == this) return;
     if (GetOwningArena() == other->GetOwningArena()) {
       InternalSwap(other);
@@ -2616,7 +2616,7 @@ class S_ROOM_DISCONNET final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(S_ROOM_DISCONNET* other) {
+  void UnsafeArenaSwap(S_ROOM_DISCONNECT* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -2624,17 +2624,17 @@ class S_ROOM_DISCONNET final :
 
   // implements Message ----------------------------------------------
 
-  inline S_ROOM_DISCONNET* New() const final {
-    return new S_ROOM_DISCONNET();
+  inline S_ROOM_DISCONNECT* New() const final {
+    return new S_ROOM_DISCONNECT();
   }
 
-  S_ROOM_DISCONNET* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<S_ROOM_DISCONNET>(arena);
+  S_ROOM_DISCONNECT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_ROOM_DISCONNECT>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const S_ROOM_DISCONNET& from);
-  void MergeFrom(const S_ROOM_DISCONNET& from);
+  void CopyFrom(const S_ROOM_DISCONNECT& from);
+  void MergeFrom(const S_ROOM_DISCONNECT& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -2648,13 +2648,13 @@ class S_ROOM_DISCONNET final :
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(S_ROOM_DISCONNET* other);
+  void InternalSwap(S_ROOM_DISCONNECT* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.S_ROOM_DISCONNET";
+    return "Protocol.S_ROOM_DISCONNECT";
   }
   protected:
-  explicit S_ROOM_DISCONNET(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  explicit S_ROOM_DISCONNECT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
   private:
   static void ArenaDtor(void* object);
   inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -2678,7 +2678,7 @@ class S_ROOM_DISCONNET final :
   void _internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Protocol.S_ROOM_DISCONNET)
+  // @@protoc_insertion_point(class_scope:Protocol.S_ROOM_DISCONNECT)
  private:
   class _Internal;
 
@@ -4458,26 +4458,26 @@ S_ROOM_DATA::roomdata() const {
 
 // -------------------------------------------------------------------
 
-// S_ROOM_DISCONNET
+// S_ROOM_DISCONNECT
 
 // int32 roomCode = 1;
-inline void S_ROOM_DISCONNET::clear_roomcode() {
+inline void S_ROOM_DISCONNECT::clear_roomcode() {
   roomcode_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_DISCONNET::_internal_roomcode() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_DISCONNECT::_internal_roomcode() const {
   return roomcode_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_DISCONNET::roomcode() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_ROOM_DISCONNET.roomCode)
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_DISCONNECT::roomcode() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ROOM_DISCONNECT.roomCode)
   return _internal_roomcode();
 }
-inline void S_ROOM_DISCONNET::_internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void S_ROOM_DISCONNECT::_internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   roomcode_ = value;
 }
-inline void S_ROOM_DISCONNET::set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void S_ROOM_DISCONNECT::set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_roomcode(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_DISCONNET.roomCode)
+  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_DISCONNECT.roomCode)
 }
 
 // -------------------------------------------------------------------
