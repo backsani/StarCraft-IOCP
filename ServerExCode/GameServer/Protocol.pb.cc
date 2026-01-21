@@ -232,18 +232,18 @@ struct S_ROOM_DATADefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_ROOM_DATADefaultTypeInternal _S_ROOM_DATA_default_instance_;
-constexpr S_ROOM_DISCONNECT::S_ROOM_DISCONNECT(
+constexpr S_ROOM_DISCONNET::S_ROOM_DISCONNET(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : roomcode_(0){}
-struct S_ROOM_DISCONNECTDefaultTypeInternal {
-  constexpr S_ROOM_DISCONNECTDefaultTypeInternal()
+struct S_ROOM_DISCONNETDefaultTypeInternal {
+  constexpr S_ROOM_DISCONNETDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~S_ROOM_DISCONNECTDefaultTypeInternal() {}
+  ~S_ROOM_DISCONNETDefaultTypeInternal() {}
   union {
-    S_ROOM_DISCONNECT _instance;
+    S_ROOM_DISCONNET _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_ROOM_DISCONNECTDefaultTypeInternal _S_ROOM_DISCONNECT_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_ROOM_DISCONNETDefaultTypeInternal _S_ROOM_DISCONNET_default_instance_;
 constexpr S_ROOM_RESPONSE::S_ROOM_RESPONSE(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : roomaccept_(false)
@@ -431,11 +431,11 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Protocol_2eproto::offsets[] PR
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_DATA, roomdata_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_DISCONNECT, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_DISCONNET, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_DISCONNECT, roomcode_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_DISCONNET, roomcode_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::S_ROOM_RESPONSE, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -490,7 +490,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 93, -1, sizeof(::Protocol::S_LOBBY_PLAYER_INFO)},
   { 99, -1, sizeof(::Protocol::S_GAME_START)},
   { 106, -1, sizeof(::Protocol::S_ROOM_DATA)},
-  { 112, -1, sizeof(::Protocol::S_ROOM_DISCONNECT)},
+  { 112, -1, sizeof(::Protocol::S_ROOM_DISCONNET)},
   { 118, -1, sizeof(::Protocol::S_ROOM_RESPONSE)},
   { 125, -1, sizeof(::Protocol::S_MOVE)},
   { 133, -1, sizeof(::Protocol::S_OBJECT_SPAWN)},
@@ -515,7 +515,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_LOBBY_PLAYER_INFO_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_GAME_START_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_ROOM_DATA_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_ROOM_DISCONNECT_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_ROOM_DISCONNET_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_ROOM_RESPONSE_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_MOVE_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::Protocol::_S_OBJECT_SPAWN_default_instance_),
@@ -549,7 +549,7 @@ const char descriptor_table_protodef_Protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "ol.PlayerInfo\"8\n\014S_GAME_START\022\027\n\017mapSect"
   "ionCount\030\001 \001(\005\022\017\n\007mapData\030\002 \003(\005\"3\n\013S_ROO"
   "M_DATA\022$\n\010roomData\030\001 \003(\0132\022.Protocol.Room"
-  "Data\"$\n\020S_ROOM_DISCONNECT\022\020\n\010roomCode\030\001 \001"
+  "Data\"$\n\020S_ROOM_DISCONNET\022\020\n\010roomCode\030\001 \001"
   "(\005\"7\n\017S_ROOM_RESPONSE\022\022\n\nroomAccept\030\001 \001("
   "\010\022\020\n\010roomCode\030\002 \001(\005\"i\n\006S_MOVE\022\020\n\010objectI"
   "d\030\001 \001(\r\022(\n\005state\030\002 \001(\0162\031.Protocol.GameOb"
@@ -4219,49 +4219,49 @@ void S_ROOM_DATA::InternalSwap(S_ROOM_DATA* other) {
 
 // ===================================================================
 
-class S_ROOM_DISCONNECT::_Internal {
+class S_ROOM_DISCONNET::_Internal {
  public:
 };
 
-S_ROOM_DISCONNECT::S_ROOM_DISCONNECT(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+S_ROOM_DISCONNET::S_ROOM_DISCONNET(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Protocol.S_ROOM_DISCONNECT)
+  // @@protoc_insertion_point(arena_constructor:Protocol.S_ROOM_DISCONNET)
 }
-S_ROOM_DISCONNECT::S_ROOM_DISCONNECT(const S_ROOM_DISCONNECT& from)
+S_ROOM_DISCONNET::S_ROOM_DISCONNET(const S_ROOM_DISCONNET& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   roomcode_ = from.roomcode_;
-  // @@protoc_insertion_point(copy_constructor:Protocol.S_ROOM_DISCONNECT)
+  // @@protoc_insertion_point(copy_constructor:Protocol.S_ROOM_DISCONNET)
 }
 
-void S_ROOM_DISCONNECT::SharedCtor() {
+void S_ROOM_DISCONNET::SharedCtor() {
 roomcode_ = 0;
 }
 
-S_ROOM_DISCONNECT::~S_ROOM_DISCONNECT() {
-  // @@protoc_insertion_point(destructor:Protocol.S_ROOM_DISCONNECT)
+S_ROOM_DISCONNET::~S_ROOM_DISCONNET() {
+  // @@protoc_insertion_point(destructor:Protocol.S_ROOM_DISCONNET)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-void S_ROOM_DISCONNECT::SharedDtor() {
+void S_ROOM_DISCONNET::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
-void S_ROOM_DISCONNECT::ArenaDtor(void* object) {
-  S_ROOM_DISCONNECT* _this = reinterpret_cast< S_ROOM_DISCONNECT* >(object);
+void S_ROOM_DISCONNET::ArenaDtor(void* object) {
+  S_ROOM_DISCONNET* _this = reinterpret_cast< S_ROOM_DISCONNET* >(object);
   (void)_this;
 }
-void S_ROOM_DISCONNECT::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+void S_ROOM_DISCONNET::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
 }
-void S_ROOM_DISCONNECT::SetCachedSize(int size) const {
+void S_ROOM_DISCONNET::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 
-void S_ROOM_DISCONNECT::Clear() {
-// @@protoc_insertion_point(message_clear_start:Protocol.S_ROOM_DISCONNECT)
+void S_ROOM_DISCONNET::Clear() {
+// @@protoc_insertion_point(message_clear_start:Protocol.S_ROOM_DISCONNET)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -4270,7 +4270,7 @@ void S_ROOM_DISCONNECT::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* S_ROOM_DISCONNECT::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* S_ROOM_DISCONNET::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -4306,9 +4306,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* S_ROOM_DISCONNECT::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* S_ROOM_DISCONNET::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S_ROOM_DISCONNECT)
+  // @@protoc_insertion_point(serialize_to_array_start:Protocol.S_ROOM_DISCONNET)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -4322,12 +4322,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S_ROOM_DISCONNECT)
+  // @@protoc_insertion_point(serialize_to_array_end:Protocol.S_ROOM_DISCONNET)
   return target;
 }
 
-size_t S_ROOM_DISCONNECT::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Protocol.S_ROOM_DISCONNECT)
+size_t S_ROOM_DISCONNET::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Protocol.S_ROOM_DISCONNET)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -4350,23 +4350,23 @@ size_t S_ROOM_DISCONNECT::ByteSizeLong() const {
   return total_size;
 }
 
-void S_ROOM_DISCONNECT::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:Protocol.S_ROOM_DISCONNECT)
+void S_ROOM_DISCONNET::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:Protocol.S_ROOM_DISCONNET)
   GOOGLE_DCHECK_NE(&from, this);
-  const S_ROOM_DISCONNECT* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S_ROOM_DISCONNECT>(
+  const S_ROOM_DISCONNET* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S_ROOM_DISCONNET>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Protocol.S_ROOM_DISCONNECT)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Protocol.S_ROOM_DISCONNET)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:Protocol.S_ROOM_DISCONNECT)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:Protocol.S_ROOM_DISCONNET)
     MergeFrom(*source);
   }
 }
 
-void S_ROOM_DISCONNECT::MergeFrom(const S_ROOM_DISCONNECT& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S_ROOM_DISCONNECT)
+void S_ROOM_DISCONNET::MergeFrom(const S_ROOM_DISCONNET& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Protocol.S_ROOM_DISCONNET)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -4377,31 +4377,31 @@ void S_ROOM_DISCONNECT::MergeFrom(const S_ROOM_DISCONNECT& from) {
   }
 }
 
-void S_ROOM_DISCONNECT::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:Protocol.S_ROOM_DISCONNECT)
+void S_ROOM_DISCONNET::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:Protocol.S_ROOM_DISCONNET)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void S_ROOM_DISCONNECT::CopyFrom(const S_ROOM_DISCONNECT& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S_ROOM_DISCONNECT)
+void S_ROOM_DISCONNET::CopyFrom(const S_ROOM_DISCONNET& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Protocol.S_ROOM_DISCONNET)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool S_ROOM_DISCONNECT::IsInitialized() const {
+bool S_ROOM_DISCONNET::IsInitialized() const {
   return true;
 }
 
-void S_ROOM_DISCONNECT::InternalSwap(S_ROOM_DISCONNECT* other) {
+void S_ROOM_DISCONNET::InternalSwap(S_ROOM_DISCONNET* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(roomcode_, other->roomcode_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata S_ROOM_DISCONNECT::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata S_ROOM_DISCONNET::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_Protocol_2eproto_getter, &descriptor_table_Protocol_2eproto_once,
       file_level_metadata_Protocol_2eproto[16]);
@@ -5646,8 +5646,8 @@ template<> PROTOBUF_NOINLINE ::Protocol::S_GAME_START* Arena::CreateMaybeMessage
 template<> PROTOBUF_NOINLINE ::Protocol::S_ROOM_DATA* Arena::CreateMaybeMessage< ::Protocol::S_ROOM_DATA >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S_ROOM_DATA >(arena);
 }
-template<> PROTOBUF_NOINLINE ::Protocol::S_ROOM_DISCONNECT* Arena::CreateMaybeMessage< ::Protocol::S_ROOM_DISCONNECT >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Protocol::S_ROOM_DISCONNECT >(arena);
+template<> PROTOBUF_NOINLINE ::Protocol::S_ROOM_DISCONNET* Arena::CreateMaybeMessage< ::Protocol::S_ROOM_DISCONNET >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Protocol::S_ROOM_DISCONNET >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Protocol::S_ROOM_RESPONSE* Arena::CreateMaybeMessage< ::Protocol::S_ROOM_RESPONSE >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Protocol::S_ROOM_RESPONSE >(arena);

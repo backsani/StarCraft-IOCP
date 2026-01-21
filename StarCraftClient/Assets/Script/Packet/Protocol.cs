@@ -75,7 +75,7 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_LOBBY_PLAYER_INFO), global::Protocol.S_LOBBY_PLAYER_INFO.Parser, new[]{ "PlayerData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_GAME_START), global::Protocol.S_GAME_START.Parser, new[]{ "MapSectionCount", "MapData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_DATA), global::Protocol.S_ROOM_DATA.Parser, new[]{ "RoomData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_DISCONNECT), global::Protocol.S_ROOM_DISCONNECT.Parser, new[]{ "RoomCode" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_DISCONNET), global::Protocol.S_ROOM_DISCONNET.Parser, new[]{ "RoomCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_RESPONSE), global::Protocol.S_ROOM_RESPONSE.Parser, new[]{ "RoomAccept", "RoomCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_MOVE), global::Protocol.S_MOVE.Parser, new[]{ "ObjectId", "State", "Position" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_OBJECT_SPAWN), global::Protocol.S_OBJECT_SPAWN.Parser, new[]{ "ObjectData", "SpawnTime" }, null, null, null, null),
@@ -1496,7 +1496,7 @@ namespace Protocol {
   }
 
   /// <summary>
-  /// client √Å¬§¬∫¬∏¬¥√Ç GameSession¬ø¬° √Ä√ñ√Ä¬Ω
+  /// client ¡§∫∏¥¬ GameSessionø° ¿÷¿Ω
   /// </summary>
   public sealed partial class C_EXIT_GAME : pb::IMessage<C_EXIT_GAME>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -3369,15 +3369,15 @@ namespace Protocol {
 
   }
 
-  public sealed partial class S_ROOM_DISCONNECT : pb::IMessage<S_ROOM_DISCONNECT>
+  public sealed partial class S_ROOM_DISCONNET : pb::IMessage<S_ROOM_DISCONNET>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<S_ROOM_DISCONNECT> _parser = new pb::MessageParser<S_ROOM_DISCONNECT>(() => new S_ROOM_DISCONNECT());
+    private static readonly pb::MessageParser<S_ROOM_DISCONNET> _parser = new pb::MessageParser<S_ROOM_DISCONNET>(() => new S_ROOM_DISCONNET());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<S_ROOM_DISCONNECT> Parser { get { return _parser; } }
+    public static pb::MessageParser<S_ROOM_DISCONNET> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -3390,21 +3390,21 @@ namespace Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_ROOM_DISCONNECT() {
+    public S_ROOM_DISCONNET() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_ROOM_DISCONNECT(S_ROOM_DISCONNECT other) : this() {
+    public S_ROOM_DISCONNET(S_ROOM_DISCONNET other) : this() {
       roomCode_ = other.roomCode_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_ROOM_DISCONNECT Clone() {
-      return new S_ROOM_DISCONNECT(this);
+    public S_ROOM_DISCONNET Clone() {
+      return new S_ROOM_DISCONNET(this);
     }
 
     /// <summary>Field number for the "roomCode" field.</summary>
@@ -3423,11 +3423,11 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as S_ROOM_DISCONNECT);
+      return Equals(other as S_ROOM_DISCONNET);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(S_ROOM_DISCONNECT other) {
+    public bool Equals(S_ROOM_DISCONNET other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -3494,7 +3494,7 @@ namespace Protocol {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(S_ROOM_DISCONNECT other) {
+    public void MergeFrom(S_ROOM_DISCONNET other) {
       if (other == null) {
         return;
       }
