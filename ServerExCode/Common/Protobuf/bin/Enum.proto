@@ -50,3 +50,11 @@ enum ObjectType
 	OBSERVATORY = 35;
 	ARBITER_TRIBUNAL = 36;
 }
+
+enum DisconnectCode
+{
+	NONE = 0;
+	EXIT = 1;
+	ADMIN_EXIT = 2;
+	RESIGN = 3;
+}

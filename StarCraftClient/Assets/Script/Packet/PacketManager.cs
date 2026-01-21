@@ -23,23 +23,23 @@ public enum PacketType
 
     PKT_C_EXIT_GAME = 1007,
 
-    PKT_C_TESTPACKET = 1008,
+    PKT_C_ATTACK = 1008,
 
-    PKT_C_ATTACK = 1009,
+    PKT_C_RTT_PING = 1009,
 
-    PKT_C_RTT_PING = 1010,
+    PKT_S_RTT_PONG = 1010,
 
-    PKT_S_RTT_PONG = 1011,
+    PKT_S_LOGIN = 1011,
 
-    PKT_S_LOGIN = 1012,
+    PKT_S_ROOM_LOBBY = 1012,
 
-    PKT_S_ROOM_LOBBY = 1013,
+    PKT_S_LOBBY_PLAYER_INFO = 1013,
 
-    PKT_S_LOBBY_PLAYER_INFO = 1014,
+    PKT_S_GAME_START = 1014,
 
-    PKT_S_GAME_START = 1015,
+    PKT_S_ROOM_DATA = 1015,
 
-    PKT_S_ROOM_DATA = 1016,
+    PKT_S_ROOM_DISCONNECT = 1016,
 
     PKT_S_ROOM_RESPONSE = 1017,
 
@@ -72,6 +72,8 @@ public static partial class PacketManager
         { PacketType.PKT_S_GAME_START, (buffer) => PacketMaker<Protocol.S_GAME_START>.HandlePacket(buffer, PacketType.PKT_S_GAME_START)},
 
         { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA)},
+
+        { PacketType.PKT_S_ROOM_DISCONNECT, (buffer) => PacketMaker<Protocol.S_ROOM_DISCONNECT>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DISCONNECT)},
 
         { PacketType.PKT_S_ROOM_RESPONSE, (buffer) => PacketMaker<Protocol.S_ROOM_RESPONSE>.HandlePacket(buffer, PacketType.PKT_S_ROOM_RESPONSE)},
 
@@ -130,11 +132,6 @@ public static partial class PacketManager
     public static void Send(Protocol.C_EXIT_GAME pkt)
     {
         PacketMaker<Protocol.C_EXIT_GAME>.MakeSendBuffer(pkt, PacketType.PKT_C_EXIT_GAME);
-    }
-
-    public static void Send(Protocol.C_TESTPACKET pkt)
-    {
-        PacketMaker<Protocol.C_TESTPACKET>.MakeSendBuffer(pkt, PacketType.PKT_C_TESTPACKET);
     }
 
     public static void Send(Protocol.C_ATTACK pkt)

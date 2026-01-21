@@ -250,13 +250,36 @@ bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt)
 
 bool Handle_C_EXIT_GAME(PacketSessionRef& session, Protocol::C_EXIT_GAME& pkt)
 {
+	RoomManagerRef roomManager = RoomManager::GetInstance();
+
+	RoomRef room = roomManager->GetRoom(pkt.roomcode());
+
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+
+	room->Remove(gameSession);
+	{
+		//Protocol::S_ROOM_DISCONNECT packet;
+		//packet->set_diconnectcode(DisconnectCode )
+	}
+
+	// 남아있는 플레이어들한테 로비 플레이어 정보 전송
+	Protocol::S_LOBBY_PLAYER_INFO packet;
+
+	for (pair<GameSessionRef, int> player : room->_sessionPlayers)
+	{
+		Protocol::PlayerInfo* data = packet.add_playerdata();
+
+		data->set_playerid(player.first->GetPlayerName());
+		//data->set_playername()
+	}
+
+	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+	room->Broadcast(sendBuffer);
+
+
 	return false;
 }
 
-bool Handle_C_TESTPACKET(PacketSessionRef& session, Protocol::C_TESTPACKET& pkt)
-{
-	return false;
-}
 
 bool Handle_C_ATTACK(PacketSessionRef& session, Protocol::C_ATTACK& pkt)
 {

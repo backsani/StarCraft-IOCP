@@ -47,14 +47,12 @@ message C_START_GAME
 	int32 roomCode = 1;
 }
 
+// client 정보는 GameSession에 있음
 message C_EXIT_GAME
 {
 	int32 roomCode = 1;
 }
-message C_TESTPACKET
-{
-	int32 roomCode = 1;
-}
+
 
 message C_ATTACK
 {
@@ -106,6 +104,11 @@ message S_GAME_START
 message S_ROOM_DATA
 {
 	repeated RoomData roomData = 1;
+}
+
+message S_ROOM_DISCONNECT
+{
+	DisconnectCode disconnectCode = 1;
 }
 
 // Room Accept & Ingame Objects Data

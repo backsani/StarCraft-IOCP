@@ -1,4 +1,26 @@
-﻿  #pragma once
+﻿  Enum.proto:56:9: "NONE" is already defined in "Protocol".
+  Enum.proto:56:9: Note that enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it.  Therefore, "NONE" must be unique within "Protocol", not just within "DisconnectCode".
+  Enum.proto:56:9: "NONE" is already defined in "Protocol".
+  Enum.proto:56:9: Note that enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it.  Therefore, "NONE" must be unique within "Protocol", not just within "DisconnectCode".
+  Struct.proto:4:1: Import "Enum.proto" was not found or had errors.
+  Struct.proto:36:9: "ObjectType" is not defined.
+  Enum.proto:56:9: "NONE" is already defined in "Protocol".
+  Enum.proto:56:9: Note that enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it.  Therefore, "NONE" must be unique within "Protocol", not just within "DisconnectCode".
+  Struct.proto:4:1: Import "Enum.proto" was not found or had errors.
+  Struct.proto:36:9: "ObjectType" is not defined.
+  Protocol.proto:4:1: Import "Enum.proto" was not found or had errors.
+  Protocol.proto:5:1: Import "Struct.proto" was not found or had errors.
+  Protocol.proto:16:9: "Vector3" is not defined.
+  Protocol.proto:61:9: "ObjectType" is not defined.
+  Protocol.proto:62:9: "Vector3" is not defined.
+  Protocol.proto:94:18: "PlayerInfo" is not defined.
+  Protocol.proto:106:18: "RoomData" is not defined.
+  Protocol.proto:111:9: "DisconnectCode" is not defined.
+  Protocol.proto:127:9: "GameObjectState" is not defined.
+  Protocol.proto:128:9: "Vector3" is not defined.
+  Protocol.proto:133:9: "ObjectData" is not defined.
+  Protocol.proto:140:9: "GameObjectState" is not defined.
+  #pragma once
   #include "Protocol.pb.h"
   
   using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
@@ -14,15 +36,15 @@
   	PKT_C_ROOM_PLAYER_LIST_REQUEST = 1005,
   	PKT_C_START_GAME = 1006,
   	PKT_C_EXIT_GAME = 1007,
-  	PKT_C_TESTPACKET = 1008,
-  	PKT_C_ATTACK = 1009,
-  	PKT_C_RTT_PING = 1010,
-  	PKT_S_RTT_PONG = 1011,
-  	PKT_S_LOGIN = 1012,
-  	PKT_S_ROOM_LOBBY = 1013,
-  	PKT_S_LOBBY_PLAYER_INFO = 1014,
-  	PKT_S_GAME_START = 1015,
-  	PKT_S_ROOM_DATA = 1016,
+  	PKT_C_ATTACK = 1008,
+  	PKT_C_RTT_PING = 1009,
+  	PKT_S_RTT_PONG = 1010,
+  	PKT_S_LOGIN = 1011,
+  	PKT_S_ROOM_LOBBY = 1012,
+  	PKT_S_LOBBY_PLAYER_INFO = 1013,
+  	PKT_S_GAME_START = 1014,
+  	PKT_S_ROOM_DATA = 1015,
+  	PKT_S_ROOM_DISCONNECT = 1016,
   	PKT_S_ROOM_RESPONSE = 1017,
   	PKT_S_MOVE = 1018,
   	PKT_S_OBJECT_SPAWN = 1019,
@@ -40,7 +62,6 @@
   bool Handle_C_ROOM_PLAYER_LIST_REQUEST(PacketSessionRef& session, Protocol::C_ROOM_PLAYER_LIST_REQUEST& pkt);
   bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt);
   bool Handle_C_EXIT_GAME(PacketSessionRef& session, Protocol::C_EXIT_GAME& pkt);
-  bool Handle_C_TESTPACKET(PacketSessionRef& session, Protocol::C_TESTPACKET& pkt);
   bool Handle_C_ATTACK(PacketSessionRef& session, Protocol::C_ATTACK& pkt);
   bool Handle_C_RTT_PING(PacketSessionRef& session, Protocol::C_RTT_PING& pkt);
   
@@ -59,7 +80,6 @@
   		GPacketHandler[PKT_C_ROOM_PLAYER_LIST_REQUEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ROOM_PLAYER_LIST_REQUEST>(Handle_C_ROOM_PLAYER_LIST_REQUEST, session, buffer, len); };
   		GPacketHandler[PKT_C_START_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_START_GAME>(Handle_C_START_GAME, session, buffer, len); };
   		GPacketHandler[PKT_C_EXIT_GAME] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_EXIT_GAME>(Handle_C_EXIT_GAME, session, buffer, len); };
-  		GPacketHandler[PKT_C_TESTPACKET] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_TESTPACKET>(Handle_C_TESTPACKET, session, buffer, len); };
   		GPacketHandler[PKT_C_ATTACK] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_ATTACK>(Handle_C_ATTACK, session, buffer, len); };
   		GPacketHandler[PKT_C_RTT_PING] = [](PacketSessionRef& session, BYTE* buffer, int32 len) { return HandlePacket<Protocol::C_RTT_PING>(Handle_C_RTT_PING, session, buffer, len); };
   	}
@@ -75,6 +95,7 @@
   	static SendBufferRef MakeSendBuffer(Protocol::S_LOBBY_PLAYER_INFO& pkt) { return MakeSendBuffer(pkt, PKT_S_LOBBY_PLAYER_INFO); }
   	static SendBufferRef MakeSendBuffer(Protocol::S_GAME_START& pkt) { return MakeSendBuffer(pkt, PKT_S_GAME_START); }
   	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DATA); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DISCONNECT& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DISCONNECT); }
   	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_RESPONSE& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_RESPONSE); }
   	static SendBufferRef MakeSendBuffer(Protocol::S_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_MOVE); }
   	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }
@@ -133,23 +154,23 @@
   
       PKT_C_EXIT_GAME = 1007,
   
-      PKT_C_TESTPACKET = 1008,
+      PKT_C_ATTACK = 1008,
   
-      PKT_C_ATTACK = 1009,
+      PKT_C_RTT_PING = 1009,
   
-      PKT_C_RTT_PING = 1010,
+      PKT_S_RTT_PONG = 1010,
   
-      PKT_S_RTT_PONG = 1011,
+      PKT_S_LOGIN = 1011,
   
-      PKT_S_LOGIN = 1012,
+      PKT_S_ROOM_LOBBY = 1012,
   
-      PKT_S_ROOM_LOBBY = 1013,
+      PKT_S_LOBBY_PLAYER_INFO = 1013,
   
-      PKT_S_LOBBY_PLAYER_INFO = 1014,
+      PKT_S_GAME_START = 1014,
   
-      PKT_S_GAME_START = 1015,
+      PKT_S_ROOM_DATA = 1015,
   
-      PKT_S_ROOM_DATA = 1016,
+      PKT_S_ROOM_DISCONNECT = 1016,
   
       PKT_S_ROOM_RESPONSE = 1017,
   
@@ -182,6 +203,8 @@
           { PacketType.PKT_S_GAME_START, (buffer) => PacketMaker<Protocol.S_GAME_START>.HandlePacket(buffer, PacketType.PKT_S_GAME_START)},
   
           { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA)},
+  
+          { PacketType.PKT_S_ROOM_DISCONNECT, (buffer) => PacketMaker<Protocol.S_ROOM_DISCONNECT>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DISCONNECT)},
   
           { PacketType.PKT_S_ROOM_RESPONSE, (buffer) => PacketMaker<Protocol.S_ROOM_RESPONSE>.HandlePacket(buffer, PacketType.PKT_S_ROOM_RESPONSE)},
   
@@ -240,11 +263,6 @@
       public static void Send(Protocol.C_EXIT_GAME pkt)
       {
           PacketMaker<Protocol.C_EXIT_GAME>.MakeSendBuffer(pkt, PacketType.PKT_C_EXIT_GAME);
-      }
-  
-      public static void Send(Protocol.C_TESTPACKET pkt)
-      {
-          PacketMaker<Protocol.C_TESTPACKET>.MakeSendBuffer(pkt, PacketType.PKT_C_TESTPACKET);
       }
   
       public static void Send(Protocol.C_ATTACK pkt)
@@ -344,30 +362,43 @@
           return data;
       }
   }
-  C:Enum.pb.h
-  1개 파일이 복사되었습니다.
-  C:Enum.pb.cc
-  1개 파일이 복사되었습니다.
-  C:Struct.pb.h
-  1개 파일이 복사되었습니다.
-  C:Struct.pb.cc
-  1개 파일이 복사되었습니다.
-  C:Protocol.pb.h
-  1개 파일이 복사되었습니다.
-  C:Protocol.pb.cc
-  1개 파일이 복사되었습니다.
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Enum.pb.h
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Enum.pb.cc
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Struct.pb.h
+  파일을 찾을 수 없습니다-Struct.pb.cc
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Protocol.pb.h
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Protocol.pb.cc
+  0개 파일이 복사되었습니다.
   C:ClientPacketHandler.h
   1개 파일이 복사되었습니다.
-  C:Enum.cs
-  1개 파일이 복사되었습니다.
-  C:Struct.cs
-  1개 파일이 복사되었습니다.
-  C:Protocol.cs
-  1개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Enum.cs
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Struct.cs
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Protocol.cs
+  0개 파일이 복사되었습니다.
   C:PacketManager.cs
   1개 파일이 복사되었습니다.
+  C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Common\Protobuf\bin\*.pb.h을(를) 찾을 수 없습니다.
+  C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Common\Protobuf\bin\*.pb.cc을(를) 찾을 수 없습니다.
   계속하려면 아무 키나 누르십시오 . . . 
   ClientPacketHandler.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2039: 'S_ROOM_DISCONNECT': 'Protocol'의 멤버가 아닙니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.h(150,11):
+      'Protocol' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2061: 구문 오류: 식별자 'S_ROOM_DISCONNECT'
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,96): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+  
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(30,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
@@ -381,64 +412,54 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPac
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
   GameObject.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2039: 'S_ROOM_DISCONNECT': 'Protocol'의 멤버가 아닙니다.
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.h(150,11):
+      'Protocol' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2061: 구문 오류: 식별자 'S_ROOM_DISCONNECT'
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,96): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+  
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(226,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
   
   GameServer.cpp
-  GameSession.cpp
-  Room.cpp
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         with
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         [
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:             _Ty=int
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         ]
-  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
-      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31):
-      템플릿 인스턴스화 컨텍스트(가장 오래된 인스턴스화 컨텍스트)가
-          C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Room.cpp(61,9):
-          컴파일되는 함수 템플릿 인스턴스화 'std::shared_ptr<GridManager> MakeShared<GridManager,int,int,int,int>(int &&,int &&,int &&,int &&)'에 대한 참조를 확인하세요.
-          C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(53,27):
-          컴파일되는 함수 템플릿 인스턴스화 'Type *xnew<GridManager,_Ty,_Ty,_Ty,_Ty>(_Ty &&,_Ty &&,_Ty &&,_Ty &&)'에 대한 참조를 확인하세요.
-          with
-          [
-              Type=GridManager,
-              _Ty=int
-          ]
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2039: 'S_ROOM_DISCONNECT': 'Protocol'의 멤버가 아닙니다.
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.h(150,11):
+      'Protocol' 선언을 참조하십시오.
   
-  RoomManager.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2061: 구문 오류: 식별자 'S_ROOM_DISCONNECT'
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,96): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+  
+  GameSession.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2039: 'S_ROOM_DISCONNECT': 'Protocol'의 멤버가 아닙니다.
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.h(150,11):
+      'Protocol' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2061: 구문 오류: 식별자 'S_ROOM_DISCONNECT'
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,96): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+  
+  Room.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2039: 'S_ROOM_DISCONNECT': 'Protocol'의 멤버가 아닙니다.
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.h(150,11):
+      'Protocol' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,48): error C2061: 구문 오류: 식별자 'S_ROOM_DISCONNECT'
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.h(76,96): error C2065: 'pkt': 선언되지 않은 식별자입니다.
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+  
   코드를 생성하고 있습니다...
-  Enum.pb.cc
-  Protocol.pb.cc
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(863,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1146,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1602,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1828,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2018,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2208,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2398,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2616,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3561,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3568,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4048,77): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4058,80): warning C4244: '인수': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4486,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Struct.pb.cc
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc(526,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-  LINK : 이전 연결 이후로 0개의 새 모듈과 9개(전체 89개 중)의 모듈이 변경되었습니다.
-  라이브러리를 검색하고 있습니다.
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
-  라이브러리가 검색되었습니다.
-  Pass 2를 시작하고 있습니다.
-       Struct.pb.obj
-       RoomManager.obj
-       Room.obj
-       ClientPacketHandler.obj
-       Protocol.pb.obj
-       GameSession.obj
-       GameServer.obj
-       GameObject.obj
-       Enum.pb.obj
-       MSVCRTD.lib(loadcfg.obj)
-  Pass 2가 끝났습니다.
-  GameServer.vcxproj -> C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Binary\Debug\GameServer.exe
