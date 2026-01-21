@@ -163,7 +163,7 @@
   
   }
   
-  public static class PacketManager
+  public static partial class PacketManager
   {
       /// <summary>
       /// PacketType에 맞는 핸들러 함수를 O(1)로 실행시키기 위해 딕셔너리에 저장. buffer만 넘겨주고 실행시켜주면 IMessage형으로 반환해준다.

@@ -16,6 +16,7 @@ void RoomManager::AddRoom(RoomRef room)
 
 void RoomManager::RemoveRoom(RoomRef room)
 {
+
 	WRITE_LOCK;
 	// 기존의 오브젝트를 바로 지우는 방식은 object의 erase가 작동되면서
 	// 컨테이너의 크기가 변경되어 이터레이터가 잘못된 위치를 가르키게됨.
