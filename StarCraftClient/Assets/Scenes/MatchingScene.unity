@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 255670844}
   - component: {fileID: 255670843}
   m_Layer: 5
-  m_Name: FailRoomAccept
+  m_Name: WorngMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2781,7 +2781,7 @@ GameObject:
   - component: {fileID: 1936431240}
   - component: {fileID: 1936431239}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

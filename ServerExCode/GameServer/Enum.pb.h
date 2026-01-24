@@ -85,7 +85,7 @@ inline bool GameObjectState_Parse(
     GameObjectState_descriptor(), name, value);
 }
 enum ObjectType : int {
-  NONE = 0,
+  OBJECT_NONE = 0,
   PLAYER = 1,
   ENEMY = 2,
   BULLET = 3,
@@ -126,7 +126,7 @@ enum ObjectType : int {
   ObjectType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool ObjectType_IsValid(int value);
-constexpr ObjectType ObjectType_MIN = NONE;
+constexpr ObjectType ObjectType_MIN = OBJECT_NONE;
 constexpr ObjectType ObjectType_MAX = ARBITER_TRIBUNAL;
 constexpr int ObjectType_ARRAYSIZE = ObjectType_MAX + 1;
 
@@ -143,6 +143,33 @@ inline bool ObjectType_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, ObjectType* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ObjectType>(
     ObjectType_descriptor(), name, value);
+}
+enum DisconnectCode : int {
+  DISCONNECT_NONE = 0,
+  EXIT = 1,
+  ADMIN_EXIT = 2,
+  RESIGN = 3,
+  DisconnectCode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  DisconnectCode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool DisconnectCode_IsValid(int value);
+constexpr DisconnectCode DisconnectCode_MIN = DISCONNECT_NONE;
+constexpr DisconnectCode DisconnectCode_MAX = RESIGN;
+constexpr int DisconnectCode_ARRAYSIZE = DisconnectCode_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* DisconnectCode_descriptor();
+template<typename T>
+inline const std::string& DisconnectCode_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, DisconnectCode>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function DisconnectCode_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    DisconnectCode_descriptor(), enum_t_value);
+}
+inline bool DisconnectCode_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, DisconnectCode* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<DisconnectCode>(
+    DisconnectCode_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -175,6 +202,11 @@ template <> struct is_proto_enum< ::Protocol::ObjectType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::ObjectType>() {
   return ::Protocol::ObjectType_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::DisconnectCode> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::DisconnectCode>() {
+  return ::Protocol::DisconnectCode_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

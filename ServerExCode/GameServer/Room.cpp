@@ -7,6 +7,7 @@
 #include "MapMaker.h"
 #include "Unit.h"
 #include "ProtossUnit.h"
+#include "RoomManager.h"
 
 // enum GameObjectCode 순서대로 맞춰주거나, 인덱스를 직접 매핑
 static SpawnFunc g_spawners[] =
@@ -104,8 +105,70 @@ GameObjectRef Room::AddPlayer()
 
 void Room::Remove(GameSessionRef session)
 {
-	WRITE_LOCK;
+	Vector<GameSessionRef> playersInfo;
 
+	bool deleteRoom = false;
+	{
+		WRITE_LOCK;
+
+		RemoveGameSession(session);
+
+		GetRoomPlayerInfo(playersInfo);
+
+		// 플레이어가 룸에 없거나 방장이 나가면 해당 방 삭제
+		deleteRoom = (playerCount == 0 || session->GetPlayerName() == hostId);
+		if (deleteRoom)
+		{
+			_sessions.clear(); 
+			_sessionPlayers.clear();
+			playerCount = 0;
+		}
+	}
+
+	// 플레이어가 0이면 for문이 작동되지 않을 것.
+	if (deleteRoom)
+	{
+		Protocol::S_ROOM_EXIT packet;
+
+		packet.set_diconnectcode(Protocol::DisconnectCode::ADMIN_EXIT);
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+
+		for (auto player : playersInfo)
+		{
+			player->SetRoomId(INT_MAX);
+			player->Send(sendBuffer);
+		}
+	}
+	// 방이 사라지지 않는다면, 방에 남아있는 플레이어들에게 현재 방 플레이어 정보를 보냄
+	else
+	{
+		Protocol::S_LOBBY_PLAYER_INFO packet;
+
+		for (GameSessionRef player : playersInfo)
+		{
+			Protocol::PlayerInfo* data = packet.add_playerdata();
+
+			data->set_playerid(player->GetPlayerName());
+		}
+
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+		
+		for (GameSessionRef recver : playersInfo)
+		{
+			recver->Send(sendBuffer);
+		}
+	}
+	
+
+	if(deleteRoom)
+	{
+		RoomManagerRef roomManager = RoomManager::GetInstance();
+		roomManager->RemoveRoom(shared_from_this());
+	}
+}
+
+void Room::RemoveGameSession(GameSessionRef session)
+{
 	if (_sessions.erase(session) == 0)
 		return;
 
@@ -113,22 +176,10 @@ void Room::Remove(GameSessionRef session)
 	if (sessionPlayerIt == _sessionPlayers.end())
 		return;
 
-	int objectId = sessionPlayerIt->second;
 	_sessionPlayers.erase(sessionPlayerIt);
 
-	/*auto objectIt = objects.find(objectId);
-	if (objectIt == objects.end() || idList.find(objectId) == idList.end())
-		return;
-
-	GameObjectRef object = objectIt->second;
-
-	grid->RemoveObject(object);
-	ObjectRemove(object);*/
-
 	playerCount--;
-
-	//_sessions.erase(session);
-	//playerCount;
+	return;
 }
 
 void Room::Broadcast(SendBufferRef sendBuffer)
@@ -309,6 +360,15 @@ void Room::HandleCollisions()
 
 			cout << player->GetId() << "player Hp : " << player->GetHp() << endl;
 		}
+	}
+}
+
+// 현재 room에 있는 플레이어들의 정보를 복사해주는 스냅샷 함수
+void Room::GetRoomPlayerInfo(Vector<GameSessionRef>& out)
+{
+	for (GameSessionRef player : _sessions)
+	{
+		out.push_back(player);
 	}
 }
 

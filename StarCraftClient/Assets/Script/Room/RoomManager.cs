@@ -12,11 +12,27 @@ public class RoomManager : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] private GameObject WorngWindow;
+    private TextMeshProUGUI worngMessage;
+
+    private void Awake()
+    {
+        Content = transform.Find("RoomInfo").Find("Viewport").Find("Content").gameObject;
+
+        worngMessage = WorngWindow.transform.Find("Image").transform.Find("Message").GetComponent<TextMeshProUGUI>();
+    }
 
     void Start()
     {
         Init();
         ServerConnect.Instance.callback = WrongPassWordWindow;
+        ExitRoomLog();
+    }
+
+    private void OnDestroy()
+    {
+        ServerConnect.Instance.callback = null;
+        ServerConnect.Instance.showRoomInfoAction -= ShowRoomInfo;
+
     }
 
     public void Init()
@@ -24,6 +40,7 @@ public class RoomManager : MonoBehaviour
         userId.text = ServerConnect.Instance.UserId;
         ServerConnect.Instance.showRoomInfoAction += ShowRoomInfo;
         TakeRoomData();
+
     }
 
     public void TakeRoomData()
@@ -61,6 +78,30 @@ public class RoomManager : MonoBehaviour
 
     public void WrongPassWordWindow()
     {
+        worngMessage.text = "Wrong PassWord";
         WorngWindow.gameObject.SetActive(true);
+    }
+
+    public void ExitRoomLog()
+    {
+        switch (RoomData.Instance.currentDisconnectCode)
+        {
+            case DisconnectCode.DISCONNECT_NONE:
+                break;
+            case DisconnectCode.EXIT:
+                worngMessage.text = "Room Exit";
+                WorngWindow.gameObject.SetActive(true);
+                break;
+            case DisconnectCode.ADMIN_EXIT:
+                worngMessage.text = "Room Admin Exit";
+                WorngWindow.gameObject.SetActive(true);
+                break;
+            case DisconnectCode.RESIGN:
+                worngMessage.text = "Kicked Out Room";
+                WorngWindow.gameObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
     }
 }

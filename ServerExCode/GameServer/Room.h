@@ -47,6 +47,8 @@ public:
 	int Add(GameSessionRef session);
 	GameObjectRef AddPlayer();
 	void Remove(GameSessionRef session);
+	void RemoveGameSession(GameSessionRef session);
+
 	void Broadcast(SendBufferRef sendBuffer);
 	void Update();
 	void ProcessJob();
@@ -61,6 +63,7 @@ public:
 	int GetRoomId() const { return roomId; }
 	int GetPlayerCount() const { return playerCount; }
 	long long GetRoomTime() const { return currentRoomTime; }
+	void GetRoomPlayerInfo(Vector<GameSessionRef>& out);
 };
 
 class Job

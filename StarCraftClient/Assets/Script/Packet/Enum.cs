@@ -26,23 +26,24 @@ namespace Protocol {
           string.Concat(
             "CgpFbnVtLnByb3RvEghQcm90b2NvbCpGCg9HYW1lT2JqZWN0U3RhdGUSCAoE",
             "SURMRRAAEggKBE1PVkUQARIKCgZBVFRBQ0sQAhIICgRERUFEEAMSCQoFU1BB",
-            "V04QBCq7BAoKT2JqZWN0VHlwZRIICgROT05FEAASCgoGUExBWUVSEAESCQoF",
-            "RU5FTVkQAhIKCgZCVUxMRVQQAxILCgdNSU5FUkFMEAQSBwoDR0FTEAUSCQoF",
-            "UFJPQkUQBhIKCgZaRUFMT1QQBxIQCgxEQVJLVEVNUExMQVIQCBILCgdEUkFH",
-            "T09OEAkSCgoGUkVBVkVSEAoSCwoHU0hVVFRMRRALEgkKBVNDT1VUEAwSCwoH",
-            "QVJCSVRFUhANEgoKBkFSQ0hPThAOEg4KCkRBUktBUkNIT04QDxIMCghPQlNF",
-            "UlZFUhAQEgsKB0NBUlJJRVIQERIPCgtJTlRFUkNFUFRPUhASEgsKB0NPUlNB",
-            "SVIQExIPCgtISUdIVEVNUExBUhAUEgkKBU5FWFVTEBUSCQoFUFlMT04QFhIP",
-            "CgtBU1NJTUlMQVRPUhAXEgsKB0dBVEVXQVkQGBIJCgVGT1JHRRAZEhEKDVBI",
-            "T1RPTl9DQU5OT04QGhIUChBDWUJFUk5FVElDU19DT1JFEBsSEgoOU0hJRUxE",
-            "X0JBVFRFUlkQHBIVChFST0JPVElDU19GQUNJTElUWRAdEgwKCFNUQVJHQVRF",
-            "EB4SEwoPQ0lUQURFTF9PRl9BRFVOEB8SGAoUUk9CT1RJQ1NfU1VQUE9SVF9C",
-            "QVkQIBIQCgxGTEVFVF9CRUFDT04QIRIUChBURU1QTEFSX0FSQ0hJVkVTECIS",
-            "DwoLT0JTRVJWQVRPUlkQIxIUChBBUkJJVEVSX1RSSUJVTkFMECRiBnByb3Rv",
-            "Mw=="));
+            "V04QBCrCBAoKT2JqZWN0VHlwZRIPCgtPQkpFQ1RfTk9ORRAAEgoKBlBMQVlF",
+            "UhABEgkKBUVORU1ZEAISCgoGQlVMTEVUEAMSCwoHTUlORVJBTBAEEgcKA0dB",
+            "UxAFEgkKBVBST0JFEAYSCgoGWkVBTE9UEAcSEAoMREFSS1RFTVBMTEFSEAgS",
+            "CwoHRFJBR09PThAJEgoKBlJFQVZFUhAKEgsKB1NIVVRUTEUQCxIJCgVTQ09V",
+            "VBAMEgsKB0FSQklURVIQDRIKCgZBUkNIT04QDhIOCgpEQVJLQVJDSE9OEA8S",
+            "DAoIT0JTRVJWRVIQEBILCgdDQVJSSUVSEBESDwoLSU5URVJDRVBUT1IQEhIL",
+            "CgdDT1JTQUlSEBMSDwoLSElHSFRFTVBMQVIQFBIJCgVORVhVUxAVEgkKBVBZ",
+            "TE9OEBYSDwoLQVNTSU1JTEFUT1IQFxILCgdHQVRFV0FZEBgSCQoFRk9SR0UQ",
+            "GRIRCg1QSE9UT05fQ0FOTk9OEBoSFAoQQ1lCRVJORVRJQ1NfQ09SRRAbEhIK",
+            "DlNISUVMRF9CQVRURVJZEBwSFQoRUk9CT1RJQ1NfRkFDSUxJVFkQHRIMCghT",
+            "VEFSR0FURRAeEhMKD0NJVEFERUxfT0ZfQURVThAfEhgKFFJPQk9USUNTX1NV",
+            "UFBPUlRfQkFZECASEAoMRkxFRVRfQkVBQ09OECESFAoQVEVNUExBUl9BUkNI",
+            "SVZFUxAiEg8KC09CU0VSVkFUT1JZECMSFAoQQVJCSVRFUl9UUklCVU5BTBAk",
+            "KksKDkRpc2Nvbm5lY3RDb2RlEhMKD0RJU0NPTk5FQ1RfTk9ORRAAEggKBEVY",
+            "SVQQARIOCgpBRE1JTl9FWElUEAISCgoGUkVTSUdOEANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.GameObjectState), typeof(global::Protocol.ObjectType), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protocol.GameObjectState), typeof(global::Protocol.ObjectType), typeof(global::Protocol.DisconnectCode), }, null, null));
     }
     #endregion
 
@@ -57,7 +58,7 @@ namespace Protocol {
   }
 
   public enum ObjectType {
-    [pbr::OriginalName("NONE")] None = 0,
+    [pbr::OriginalName("OBJECT_NONE")] ObjectNone = 0,
     [pbr::OriginalName("PLAYER")] Player = 1,
     [pbr::OriginalName("ENEMY")] Enemy = 2,
     [pbr::OriginalName("BULLET")] Bullet = 3,
@@ -94,6 +95,13 @@ namespace Protocol {
     [pbr::OriginalName("TEMPLAR_ARCHIVES")] TemplarArchives = 34,
     [pbr::OriginalName("OBSERVATORY")] Observatory = 35,
     [pbr::OriginalName("ARBITER_TRIBUNAL")] ArbiterTribunal = 36,
+  }
+
+  public enum DisconnectCode {
+    [pbr::OriginalName("DISCONNECT_NONE")] DisconnectNone = 0,
+    [pbr::OriginalName("EXIT")] Exit = 1,
+    [pbr::OriginalName("ADMIN_EXIT")] AdminExit = 2,
+    [pbr::OriginalName("RESIGN")] Resign = 3,
   }
 
   #endregion

@@ -20,11 +20,6 @@ void GameSession::OnDisconnected()
         if (room != nullptr) // 호스트라면 지우고 아니면 룸에서만 제거
         {
             room->Remove(static_pointer_cast<GameSession>(shared_from_this()));
-
-            if (room->GetPlayerCount() == 0)
-            {
-                roomManager->RemoveRoom(room);
-            }
         }
 
         currentRoom = INT_MAX;

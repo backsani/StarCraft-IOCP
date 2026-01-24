@@ -12,7 +12,7 @@ enum GameObjectState
 
 enum ObjectType
 {
-	NONE = 0;
+	OBJECT_NONE = 0;
 	PLAYER = 1;
 	ENEMY = 2;
 	BULLET = 3;
@@ -53,7 +53,7 @@ enum ObjectType
 
 enum DisconnectCode
 {
-	NONE = 0;
+	DISCONNECT_NONE = 0;
 	EXIT = 1;
 	ADMIN_EXIT = 2;
 	RESIGN = 3;

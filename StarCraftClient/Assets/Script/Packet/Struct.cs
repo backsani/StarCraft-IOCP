@@ -1018,7 +1018,7 @@ namespace Protocol {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::Protocol.ObjectType type_ = global::Protocol.ObjectType.None;
+    private global::Protocol.ObjectType type_ = global::Protocol.ObjectType.ObjectNone;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Protocol.ObjectType Type {
       get { return type_; }
@@ -1107,7 +1107,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != global::Protocol.ObjectType.None) hash ^= Type.GetHashCode();
+      if (Type != global::Protocol.ObjectType.ObjectNone) hash ^= Type.GetHashCode();
       if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
       if (PlayerId != 0L) hash ^= PlayerId.GetHashCode();
       if (position_ != null) hash ^= Position.GetHashCode();
@@ -1129,7 +1129,7 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::Protocol.ObjectType.None) {
+      if (Type != global::Protocol.ObjectType.ObjectNone) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -1162,7 +1162,7 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::Protocol.ObjectType.None) {
+      if (Type != global::Protocol.ObjectType.ObjectNone) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
@@ -1195,7 +1195,7 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Type != global::Protocol.ObjectType.None) {
+      if (Type != global::Protocol.ObjectType.ObjectNone) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (ObjectId != 0) {
@@ -1224,7 +1224,7 @@ namespace Protocol {
       if (other == null) {
         return;
       }
-      if (other.Type != global::Protocol.ObjectType.None) {
+      if (other.Type != global::Protocol.ObjectType.ObjectNone) {
         Type = other.Type;
       }
       if (other.ObjectId != 0) {

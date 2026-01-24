@@ -252,30 +252,29 @@ bool Handle_C_EXIT_GAME(PacketSessionRef& session, Protocol::C_EXIT_GAME& pkt)
 {
 	RoomManagerRef roomManager = RoomManager::GetInstance();
 
-	RoomRef room = roomManager->GetRoom(pkt.roomcode());
-
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+
+	int roomId = gameSession->GetRoomId();
+
+	if (roomId == INT_MAX)
+		return false;
+
+	// 나가기 요청을 한 플레이어를 방에서 제거
+	RoomRef room = roomManager->GetRoom(roomId);
 
 	room->Remove(gameSession);
 	{
-		//Protocol::S_ROOM_DISCONNECT packet;
-		//packet->set_diconnectcode(DisconnectCode )
+		Protocol::S_ROOM_EXIT packet;
+
+		packet.set_diconnectcode(Protocol::DisconnectCode::EXIT);
+
+		gameSession->SetRoomId(INT_MAX);
+
+		// 플레이어에게 나갔다는 패킷 전송
+		SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+
+		session->Send(sendBuffer);
 	}
-
-	// 남아있는 플레이어들한테 로비 플레이어 정보 전송
-	Protocol::S_LOBBY_PLAYER_INFO packet;
-
-	for (pair<GameSessionRef, int> player : room->_sessionPlayers)
-	{
-		Protocol::PlayerInfo* data = packet.add_playerdata();
-
-		data->set_playerid(player.first->GetPlayerName());
-		//data->set_playername()
-	}
-
-	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
-	room->Broadcast(sendBuffer);
-
 
 	return false;
 }

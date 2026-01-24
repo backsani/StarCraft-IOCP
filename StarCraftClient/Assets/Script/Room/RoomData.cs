@@ -10,6 +10,14 @@ public struct LobbyData
     public int mapId;
 }
 
+public enum DisconnectCode
+{
+    DISCONNECT_NONE = 0,
+    EXIT = 1,
+    ADMIN_EXIT = 2,
+    RESIGN = 3,
+}
+
 public class RoomData : MonoBehaviour
 {
     private static RoomData instance;
@@ -49,10 +57,13 @@ public class RoomData : MonoBehaviour
             // 씬을 전환해도 싱글톤을 유지하려면 DontDestroyOnLoad 사용
             DontDestroyOnLoad(gameObject);
         }
+
+        currentDisconnectCode = DisconnectCode.DISCONNECT_NONE;
     }
 
     public LobbyData currentRoom;
     public ulong hostId;
+    public DisconnectCode currentDisconnectCode;
 
     public void SaveLobbyData(ulong hostId, string gameName, string gamePassWord, int mapId)
     {

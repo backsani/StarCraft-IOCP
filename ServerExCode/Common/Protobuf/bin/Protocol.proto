@@ -50,7 +50,7 @@ message C_START_GAME
 // client 정보는 GameSession에 있음
 message C_EXIT_GAME
 {
-	int32 roomCode = 1;
+	uint32 dummy = 1;
 }
 
 
@@ -100,15 +100,15 @@ message S_GAME_START
 	repeated int32 mapData = 2;
 }
 
+message S_ROOM_EXIT
+{
+	DisconnectCode diconnectCode = 1;
+}
+
 // Room Data Response
 message S_ROOM_DATA
 {
 	repeated RoomData roomData = 1;
-}
-
-message S_ROOM_DISCONNECT
-{
-	DisconnectCode disconnectCode = 1;
 }
 
 // Room Accept & Ingame Objects Data

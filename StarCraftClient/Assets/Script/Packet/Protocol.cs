@@ -33,29 +33,30 @@ namespace Protocol {
             "CgVkdW1teRgBIAEoDSI4Cg5DX1JPT01fUkVRVUVTVBIQCghyb29tQ29kZRgB",
             "IAEoBRIUCgxnYW1lUGFzc1dvcmQYAiADKA0iLgoaQ19ST09NX1BMQVlFUl9M",
             "SVNUX1JFUVVFU1QSEAoIcm9vbUNvZGUYASABKAUiIAoMQ19TVEFSVF9HQU1F",
-            "EhAKCHJvb21Db2RlGAEgASgFIh8KC0NfRVhJVF9HQU1FEhAKCHJvb21Db2Rl",
-            "GAEgASgFIn4KCENfQVRUQUNLEhAKCHJvb21Db2RlGAEgASgFEhAKCG9iamVj",
-            "dElkGAIgASgNEigKCm9iamVjdFR5cGUYAyABKA4yFC5Qcm90b2NvbC5PYmpl",
-            "Y3RUeXBlEiQKCWRpcmVjdGlvbhgEIAEoCzIRLlByb3RvY29sLlZlY3RvcjMi",
-            "IQoKQ19SVFRfUElORxITCgtjbGllbnRfdGltZRgBIAEoAyI2CgpTX1JUVF9Q",
-            "T05HEhMKC2NsaWVudF90aW1lGAEgASgDEhMKC3NlcnZlcl90aW1lGAIgASgD",
-            "Ii4KB1NfTE9HSU4SDgoGZ2FtZUlkGAEgASgEEhMKC2xvZ2luQWNjZXB0GAIg",
-            "ASgIImcKDFNfUk9PTV9MT0JCWRIOCgZob3N0SWQYASABKAQSEAoIZ2FtZU5h",
-            "bWUYAiADKA0SFAoMZ2FtZVBhc3NXb3JkGAMgAygNEg0KBW1hcElkGAQgASgF",
-            "EhAKCHJvb21Db2RlGAUgASgFIj8KE1NfTE9CQllfUExBWUVSX0lORk8SKAoK",
-            "cGxheWVyRGF0YRgBIAMoCzIULlByb3RvY29sLlBsYXllckluZm8iOAoMU19H",
-            "QU1FX1NUQVJUEhcKD21hcFNlY3Rpb25Db3VudBgBIAEoBRIPCgdtYXBEYXRh",
-            "GAIgAygFIjMKC1NfUk9PTV9EQVRBEiQKCHJvb21EYXRhGAEgAygLMhIuUHJv",
-            "dG9jb2wuUm9vbURhdGEiJAoQU19ST09NX0RJU0NPTk5FVBIQCghyb29tQ29k",
-            "ZRgBIAEoBSI3Cg9TX1JPT01fUkVTUE9OU0USEgoKcm9vbUFjY2VwdBgBIAEo",
-            "CBIQCghyb29tQ29kZRgCIAEoBSJpCgZTX01PVkUSEAoIb2JqZWN0SWQYASAB",
-            "KA0SKAoFc3RhdGUYAiABKA4yGS5Qcm90b2NvbC5HYW1lT2JqZWN0U3RhdGUS",
-            "IwoIcG9zaXRpb24YAyABKAsyES5Qcm90b2NvbC5WZWN0b3IzIk0KDlNfT0JK",
-            "RUNUX1NQQVdOEigKCm9iamVjdERhdGEYASABKAsyFC5Qcm90b2NvbC5PYmpl",
-            "Y3REYXRhEhEKCXNwYXduVGltZRgCIAEoAyJLCg1TX09CSkVDVF9ERUFEEhAK",
-            "CG9iamVjdElkGAEgASgNEigKBXN0YXRlGAIgASgOMhkuUHJvdG9jb2wuR2Ft",
-            "ZU9iamVjdFN0YXRlIi8KD1NfT0JKRUNUX0RBTUFHRRIQCghvYmplY3RJZBgB",
-            "IAEoDRIKCgJocBgCIAEoAmIGcHJvdG8z"));
+            "EhAKCHJvb21Db2RlGAEgASgFIhwKC0NfRVhJVF9HQU1FEg0KBWR1bW15GAEg",
+            "ASgNIn4KCENfQVRUQUNLEhAKCHJvb21Db2RlGAEgASgFEhAKCG9iamVjdElk",
+            "GAIgASgNEigKCm9iamVjdFR5cGUYAyABKA4yFC5Qcm90b2NvbC5PYmplY3RU",
+            "eXBlEiQKCWRpcmVjdGlvbhgEIAEoCzIRLlByb3RvY29sLlZlY3RvcjMiIQoK",
+            "Q19SVFRfUElORxITCgtjbGllbnRfdGltZRgBIAEoAyI2CgpTX1JUVF9QT05H",
+            "EhMKC2NsaWVudF90aW1lGAEgASgDEhMKC3NlcnZlcl90aW1lGAIgASgDIi4K",
+            "B1NfTE9HSU4SDgoGZ2FtZUlkGAEgASgEEhMKC2xvZ2luQWNjZXB0GAIgASgI",
+            "ImcKDFNfUk9PTV9MT0JCWRIOCgZob3N0SWQYASABKAQSEAoIZ2FtZU5hbWUY",
+            "AiADKA0SFAoMZ2FtZVBhc3NXb3JkGAMgAygNEg0KBW1hcElkGAQgASgFEhAK",
+            "CHJvb21Db2RlGAUgASgFIj8KE1NfTE9CQllfUExBWUVSX0lORk8SKAoKcGxh",
+            "eWVyRGF0YRgBIAMoCzIULlByb3RvY29sLlBsYXllckluZm8iOAoMU19HQU1F",
+            "X1NUQVJUEhcKD21hcFNlY3Rpb25Db3VudBgBIAEoBRIPCgdtYXBEYXRhGAIg",
+            "AygFIj4KC1NfUk9PTV9FWElUEi8KDWRpY29ubmVjdENvZGUYASABKA4yGC5Q",
+            "cm90b2NvbC5EaXNjb25uZWN0Q29kZSIzCgtTX1JPT01fREFUQRIkCghyb29t",
+            "RGF0YRgBIAMoCzISLlByb3RvY29sLlJvb21EYXRhIjcKD1NfUk9PTV9SRVNQ",
+            "T05TRRISCgpyb29tQWNjZXB0GAEgASgIEhAKCHJvb21Db2RlGAIgASgFImkK",
+            "BlNfTU9WRRIQCghvYmplY3RJZBgBIAEoDRIoCgVzdGF0ZRgCIAEoDjIZLlBy",
+            "b3RvY29sLkdhbWVPYmplY3RTdGF0ZRIjCghwb3NpdGlvbhgDIAEoCzIRLlBy",
+            "b3RvY29sLlZlY3RvcjMiTQoOU19PQkpFQ1RfU1BBV04SKAoKb2JqZWN0RGF0",
+            "YRgBIAEoCzIULlByb3RvY29sLk9iamVjdERhdGESEQoJc3Bhd25UaW1lGAIg",
+            "ASgDIksKDVNfT0JKRUNUX0RFQUQSEAoIb2JqZWN0SWQYASABKA0SKAoFc3Rh",
+            "dGUYAiABKA4yGS5Qcm90b2NvbC5HYW1lT2JqZWN0U3RhdGUiLwoPU19PQkpF",
+            "Q1RfREFNQUdFEhAKCG9iamVjdElkGAEgASgNEgoKAmhwGAIgASgCYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -66,7 +67,7 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C_ROOM_REQUEST), global::Protocol.C_ROOM_REQUEST.Parser, new[]{ "RoomCode", "GamePassWord" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C_ROOM_PLAYER_LIST_REQUEST), global::Protocol.C_ROOM_PLAYER_LIST_REQUEST.Parser, new[]{ "RoomCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C_START_GAME), global::Protocol.C_START_GAME.Parser, new[]{ "RoomCode" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C_EXIT_GAME), global::Protocol.C_EXIT_GAME.Parser, new[]{ "RoomCode" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C_EXIT_GAME), global::Protocol.C_EXIT_GAME.Parser, new[]{ "Dummy" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C_ATTACK), global::Protocol.C_ATTACK.Parser, new[]{ "RoomCode", "ObjectId", "ObjectType", "Direction" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.C_RTT_PING), global::Protocol.C_RTT_PING.Parser, new[]{ "ClientTime" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_RTT_PONG), global::Protocol.S_RTT_PONG.Parser, new[]{ "ClientTime", "ServerTime" }, null, null, null, null),
@@ -74,8 +75,8 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_LOBBY), global::Protocol.S_ROOM_LOBBY.Parser, new[]{ "HostId", "GameName", "GamePassWord", "MapId", "RoomCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_LOBBY_PLAYER_INFO), global::Protocol.S_LOBBY_PLAYER_INFO.Parser, new[]{ "PlayerData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_GAME_START), global::Protocol.S_GAME_START.Parser, new[]{ "MapSectionCount", "MapData" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_EXIT), global::Protocol.S_ROOM_EXIT.Parser, new[]{ "DiconnectCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_DATA), global::Protocol.S_ROOM_DATA.Parser, new[]{ "RoomData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_DISCONNET), global::Protocol.S_ROOM_DISCONNET.Parser, new[]{ "RoomCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_RESPONSE), global::Protocol.S_ROOM_RESPONSE.Parser, new[]{ "RoomAccept", "RoomCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_MOVE), global::Protocol.S_MOVE.Parser, new[]{ "ObjectId", "State", "Position" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_OBJECT_SPAWN), global::Protocol.S_OBJECT_SPAWN.Parser, new[]{ "ObjectData", "SpawnTime" }, null, null, null, null),
@@ -1527,7 +1528,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public C_EXIT_GAME(C_EXIT_GAME other) : this() {
-      roomCode_ = other.roomCode_;
+      dummy_ = other.dummy_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1536,14 +1537,14 @@ namespace Protocol {
       return new C_EXIT_GAME(this);
     }
 
-    /// <summary>Field number for the "roomCode" field.</summary>
-    public const int RoomCodeFieldNumber = 1;
-    private int roomCode_;
+    /// <summary>Field number for the "dummy" field.</summary>
+    public const int DummyFieldNumber = 1;
+    private uint dummy_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int RoomCode {
-      get { return roomCode_; }
+    public uint Dummy {
+      get { return dummy_; }
       set {
-        roomCode_ = value;
+        dummy_ = value;
       }
     }
 
@@ -1560,14 +1561,14 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RoomCode != other.RoomCode) return false;
+      if (Dummy != other.Dummy) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RoomCode != 0) hash ^= RoomCode.GetHashCode();
+      if (Dummy != 0) hash ^= Dummy.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1584,9 +1585,9 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (RoomCode != 0) {
+      if (Dummy != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(RoomCode);
+        output.WriteUInt32(Dummy);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1597,9 +1598,9 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomCode != 0) {
+      if (Dummy != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(RoomCode);
+        output.WriteUInt32(Dummy);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1610,8 +1611,8 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RoomCode != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomCode);
+      if (Dummy != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Dummy);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1624,8 +1625,8 @@ namespace Protocol {
       if (other == null) {
         return;
       }
-      if (other.RoomCode != 0) {
-        RoomCode = other.RoomCode;
+      if (other.Dummy != 0) {
+        Dummy = other.Dummy;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1642,7 +1643,7 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            RoomCode = input.ReadInt32();
+            Dummy = input.ReadUInt32();
             break;
           }
         }
@@ -1660,7 +1661,7 @@ namespace Protocol {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            RoomCode = input.ReadInt32();
+            Dummy = input.ReadUInt32();
             break;
           }
         }
@@ -1735,7 +1736,7 @@ namespace Protocol {
 
     /// <summary>Field number for the "objectType" field.</summary>
     public const int ObjectTypeFieldNumber = 3;
-    private global::Protocol.ObjectType objectType_ = global::Protocol.ObjectType.None;
+    private global::Protocol.ObjectType objectType_ = global::Protocol.ObjectType.ObjectNone;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Protocol.ObjectType ObjectType {
       get { return objectType_; }
@@ -1780,7 +1781,7 @@ namespace Protocol {
       int hash = 1;
       if (RoomCode != 0) hash ^= RoomCode.GetHashCode();
       if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
-      if (ObjectType != global::Protocol.ObjectType.None) hash ^= ObjectType.GetHashCode();
+      if (ObjectType != global::Protocol.ObjectType.ObjectNone) hash ^= ObjectType.GetHashCode();
       if (direction_ != null) hash ^= Direction.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1806,7 +1807,7 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(ObjectId);
       }
-      if (ObjectType != global::Protocol.ObjectType.None) {
+      if (ObjectType != global::Protocol.ObjectType.ObjectNone) {
         output.WriteRawTag(24);
         output.WriteEnum((int) ObjectType);
       }
@@ -1831,7 +1832,7 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(ObjectId);
       }
-      if (ObjectType != global::Protocol.ObjectType.None) {
+      if (ObjectType != global::Protocol.ObjectType.ObjectNone) {
         output.WriteRawTag(24);
         output.WriteEnum((int) ObjectType);
       }
@@ -1854,7 +1855,7 @@ namespace Protocol {
       if (ObjectId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ObjectId);
       }
-      if (ObjectType != global::Protocol.ObjectType.None) {
+      if (ObjectType != global::Protocol.ObjectType.ObjectNone) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ObjectType);
       }
       if (direction_ != null) {
@@ -1877,7 +1878,7 @@ namespace Protocol {
       if (other.ObjectId != 0) {
         ObjectId = other.ObjectId;
       }
-      if (other.ObjectType != global::Protocol.ObjectType.None) {
+      if (other.ObjectType != global::Protocol.ObjectType.ObjectNone) {
         ObjectType = other.ObjectType;
       }
       if (other.direction_ != null) {
@@ -3205,6 +3206,178 @@ namespace Protocol {
 
   }
 
+  public sealed partial class S_ROOM_EXIT : pb::IMessage<S_ROOM_EXIT>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<S_ROOM_EXIT> _parser = new pb::MessageParser<S_ROOM_EXIT>(() => new S_ROOM_EXIT());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<S_ROOM_EXIT> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protocol.ProtocolReflection.Descriptor.MessageTypes[15]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_ROOM_EXIT() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_ROOM_EXIT(S_ROOM_EXIT other) : this() {
+      diconnectCode_ = other.diconnectCode_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public S_ROOM_EXIT Clone() {
+      return new S_ROOM_EXIT(this);
+    }
+
+    /// <summary>Field number for the "diconnectCode" field.</summary>
+    public const int DiconnectCodeFieldNumber = 1;
+    private global::Protocol.DisconnectCode diconnectCode_ = global::Protocol.DisconnectCode.DisconnectNone;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Protocol.DisconnectCode DiconnectCode {
+      get { return diconnectCode_; }
+      set {
+        diconnectCode_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as S_ROOM_EXIT);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(S_ROOM_EXIT other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DiconnectCode != other.DiconnectCode) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DiconnectCode != global::Protocol.DisconnectCode.DisconnectNone) hash ^= DiconnectCode.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (DiconnectCode != global::Protocol.DisconnectCode.DisconnectNone) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) DiconnectCode);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (DiconnectCode != global::Protocol.DisconnectCode.DisconnectNone) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) DiconnectCode);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (DiconnectCode != global::Protocol.DisconnectCode.DisconnectNone) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) DiconnectCode);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(S_ROOM_EXIT other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DiconnectCode != global::Protocol.DisconnectCode.DisconnectNone) {
+        DiconnectCode = other.DiconnectCode;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            DiconnectCode = (global::Protocol.DisconnectCode) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            DiconnectCode = (global::Protocol.DisconnectCode) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
   /// <summary>
   /// Room Data Response
   /// </summary>
@@ -3220,7 +3393,7 @@ namespace Protocol {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.ProtocolReflection.Descriptor.MessageTypes[15]; }
+      get { return global::Protocol.ProtocolReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3360,181 +3533,6 @@ namespace Protocol {
             break;
           case 10: {
             roomData_.AddEntriesFrom(ref input, _repeated_roomData_codec);
-            break;
-          }
-        }
-      }
-    }
-    #endif
-
-  }
-
-  public sealed partial class S_ROOM_DISCONNET : pb::IMessage<S_ROOM_DISCONNET>
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      , pb::IBufferMessage
-  #endif
-  {
-    private static readonly pb::MessageParser<S_ROOM_DISCONNET> _parser = new pb::MessageParser<S_ROOM_DISCONNET>(() => new S_ROOM_DISCONNET());
-    private pb::UnknownFieldSet _unknownFields;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<S_ROOM_DISCONNET> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protocol.ProtocolReflection.Descriptor.MessageTypes[16]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_ROOM_DISCONNET() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_ROOM_DISCONNET(S_ROOM_DISCONNET other) : this() {
-      roomCode_ = other.roomCode_;
-      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public S_ROOM_DISCONNET Clone() {
-      return new S_ROOM_DISCONNET(this);
-    }
-
-    /// <summary>Field number for the "roomCode" field.</summary>
-    public const int RoomCodeFieldNumber = 1;
-    private int roomCode_;
-    /// <summary>
-    ///DisconnectCode disconnectCode = 1;
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int RoomCode {
-      get { return roomCode_; }
-      set {
-        roomCode_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as S_ROOM_DISCONNET);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(S_ROOM_DISCONNET other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (RoomCode != other.RoomCode) return false;
-      return Equals(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (RoomCode != 0) hash ^= RoomCode.GetHashCode();
-      if (_unknownFields != null) {
-        hash ^= _unknownFields.GetHashCode();
-      }
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      output.WriteRawMessage(this);
-    #else
-      if (RoomCode != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(RoomCode);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(output);
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (RoomCode != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(RoomCode);
-      }
-      if (_unknownFields != null) {
-        _unknownFields.WriteTo(ref output);
-      }
-    }
-    #endif
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (RoomCode != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomCode);
-      }
-      if (_unknownFields != null) {
-        size += _unknownFields.CalculateSize();
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(S_ROOM_DISCONNET other) {
-      if (other == null) {
-        return;
-      }
-      if (other.RoomCode != 0) {
-        RoomCode = other.RoomCode;
-      }
-      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-      input.ReadRawMessage(this);
-    #else
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-            break;
-          case 8: {
-            RoomCode = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    #endif
-    }
-
-    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-            break;
-          case 8: {
-            RoomCode = input.ReadInt32();
             break;
           }
         }

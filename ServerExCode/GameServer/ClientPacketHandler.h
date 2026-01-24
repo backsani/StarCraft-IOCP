@@ -21,8 +21,8 @@ enum : uint16
 	PKT_S_ROOM_LOBBY = 1012,
 	PKT_S_LOBBY_PLAYER_INFO = 1013,
 	PKT_S_GAME_START = 1014,
-	PKT_S_ROOM_DATA = 1015,
-	PKT_S_ROOM_DISCONNECT = 1016,
+	PKT_S_ROOM_EXIT = 1015,
+	PKT_S_ROOM_DATA = 1016,
 	PKT_S_ROOM_RESPONSE = 1017,
 	PKT_S_MOVE = 1018,
 	PKT_S_OBJECT_SPAWN = 1019,
@@ -72,8 +72,8 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_LOBBY& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_LOBBY); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_LOBBY_PLAYER_INFO& pkt) { return MakeSendBuffer(pkt, PKT_S_LOBBY_PLAYER_INFO); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_GAME_START& pkt) { return MakeSendBuffer(pkt, PKT_S_GAME_START); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_EXIT& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_EXIT); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DATA& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DATA); }
-	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_DISCONNECT& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_DISCONNECT); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_ROOM_RESPONSE& pkt) { return MakeSendBuffer(pkt, PKT_S_ROOM_RESPONSE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_MOVE& pkt) { return MakeSendBuffer(pkt, PKT_S_MOVE); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }

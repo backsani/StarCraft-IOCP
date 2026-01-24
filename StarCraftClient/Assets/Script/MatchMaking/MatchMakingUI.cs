@@ -36,6 +36,11 @@ public class MatchMakingUI : MonoBehaviour
 
     public void PlayerListApply()
     {
+        foreach (TextMeshProUGUI text in playersId)
+        {
+            text.text = "OPEN";
+        }
+
         int index = 0;
 
         foreach (PlayerInfo player in ServerConnect.Instance.playerInfo)
@@ -63,6 +68,9 @@ public class MatchMakingUI : MonoBehaviour
 
     public void OnClickExit()
     {
+        Protocol.C_EXIT_GAME c_EXIT_GAME = new Protocol.C_EXIT_GAME();
 
+        PacketManager.Send(c_EXIT_GAME);
+        return;
     }
 }

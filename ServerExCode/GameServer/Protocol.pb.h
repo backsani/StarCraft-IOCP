@@ -110,9 +110,9 @@ extern S_OBJECT_SPAWNDefaultTypeInternal _S_OBJECT_SPAWN_default_instance_;
 class S_ROOM_DATA;
 struct S_ROOM_DATADefaultTypeInternal;
 extern S_ROOM_DATADefaultTypeInternal _S_ROOM_DATA_default_instance_;
-class S_ROOM_DISCONNET;
-struct S_ROOM_DISCONNETDefaultTypeInternal;
-extern S_ROOM_DISCONNETDefaultTypeInternal _S_ROOM_DISCONNET_default_instance_;
+class S_ROOM_EXIT;
+struct S_ROOM_EXITDefaultTypeInternal;
+extern S_ROOM_EXITDefaultTypeInternal _S_ROOM_EXIT_default_instance_;
 class S_ROOM_LOBBY;
 struct S_ROOM_LOBBYDefaultTypeInternal;
 extern S_ROOM_LOBBYDefaultTypeInternal _S_ROOM_LOBBY_default_instance_;
@@ -142,7 +142,7 @@ template<> ::Protocol::S_OBJECT_DAMAGE* Arena::CreateMaybeMessage<::Protocol::S_
 template<> ::Protocol::S_OBJECT_DEAD* Arena::CreateMaybeMessage<::Protocol::S_OBJECT_DEAD>(Arena*);
 template<> ::Protocol::S_OBJECT_SPAWN* Arena::CreateMaybeMessage<::Protocol::S_OBJECT_SPAWN>(Arena*);
 template<> ::Protocol::S_ROOM_DATA* Arena::CreateMaybeMessage<::Protocol::S_ROOM_DATA>(Arena*);
-template<> ::Protocol::S_ROOM_DISCONNET* Arena::CreateMaybeMessage<::Protocol::S_ROOM_DISCONNET>(Arena*);
+template<> ::Protocol::S_ROOM_EXIT* Arena::CreateMaybeMessage<::Protocol::S_ROOM_EXIT>(Arena*);
 template<> ::Protocol::S_ROOM_LOBBY* Arena::CreateMaybeMessage<::Protocol::S_ROOM_LOBBY>(Arena*);
 template<> ::Protocol::S_ROOM_RESPONSE* Arena::CreateMaybeMessage<::Protocol::S_ROOM_RESPONSE>(Arena*);
 template<> ::Protocol::S_RTT_PONG* Arena::CreateMaybeMessage<::Protocol::S_RTT_PONG>(Arena*);
@@ -1300,15 +1300,15 @@ class C_EXIT_GAME final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kRoomCodeFieldNumber = 1,
+    kDummyFieldNumber = 1,
   };
-  // int32 roomCode = 1;
-  void clear_roomcode();
-  ::PROTOBUF_NAMESPACE_ID::int32 roomcode() const;
-  void set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // uint32 dummy = 1;
+  void clear_dummy();
+  ::PROTOBUF_NAMESPACE_ID::uint32 dummy() const;
+  void set_dummy(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_roomcode() const;
-  void _internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_dummy() const;
+  void _internal_set_dummy(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.C_EXIT_GAME)
@@ -1318,7 +1318,7 @@ class C_EXIT_GAME final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 roomcode_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 dummy_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -2418,6 +2418,138 @@ class S_GAME_START final :
 };
 // -------------------------------------------------------------------
 
+class S_ROOM_EXIT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_ROOM_EXIT) */ {
+ public:
+  inline S_ROOM_EXIT() : S_ROOM_EXIT(nullptr) {}
+  ~S_ROOM_EXIT() override;
+  explicit constexpr S_ROOM_EXIT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_ROOM_EXIT(const S_ROOM_EXIT& from);
+  S_ROOM_EXIT(S_ROOM_EXIT&& from) noexcept
+    : S_ROOM_EXIT() {
+    *this = ::std::move(from);
+  }
+
+  inline S_ROOM_EXIT& operator=(const S_ROOM_EXIT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_ROOM_EXIT& operator=(S_ROOM_EXIT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_ROOM_EXIT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_ROOM_EXIT* internal_default_instance() {
+    return reinterpret_cast<const S_ROOM_EXIT*>(
+               &_S_ROOM_EXIT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  friend void swap(S_ROOM_EXIT& a, S_ROOM_EXIT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_ROOM_EXIT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_ROOM_EXIT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_ROOM_EXIT* New() const final {
+    return new S_ROOM_EXIT();
+  }
+
+  S_ROOM_EXIT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_ROOM_EXIT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_ROOM_EXIT& from);
+  void MergeFrom(const S_ROOM_EXIT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_ROOM_EXIT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.S_ROOM_EXIT";
+  }
+  protected:
+  explicit S_ROOM_EXIT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDiconnectCodeFieldNumber = 1,
+  };
+  // .Protocol.DisconnectCode diconnectCode = 1;
+  void clear_diconnectcode();
+  ::Protocol::DisconnectCode diconnectcode() const;
+  void set_diconnectcode(::Protocol::DisconnectCode value);
+  private:
+  ::Protocol::DisconnectCode _internal_diconnectcode() const;
+  void _internal_set_diconnectcode(::Protocol::DisconnectCode value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.S_ROOM_EXIT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  int diconnectcode_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class S_ROOM_DATA final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_ROOM_DATA) */ {
  public:
@@ -2462,7 +2594,7 @@ class S_ROOM_DATA final :
                &_S_ROOM_DATA_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    16;
 
   friend void swap(S_ROOM_DATA& a, S_ROOM_DATA& b) {
     a.Swap(&b);
@@ -2554,138 +2686,6 @@ class S_ROOM_DATA final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::RoomData > roomdata_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_Protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class S_ROOM_DISCONNET final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.S_ROOM_DISCONNET) */ {
- public:
-  inline S_ROOM_DISCONNET() : S_ROOM_DISCONNET(nullptr) {}
-  ~S_ROOM_DISCONNET() override;
-  explicit constexpr S_ROOM_DISCONNET(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  S_ROOM_DISCONNET(const S_ROOM_DISCONNET& from);
-  S_ROOM_DISCONNET(S_ROOM_DISCONNET&& from) noexcept
-    : S_ROOM_DISCONNET() {
-    *this = ::std::move(from);
-  }
-
-  inline S_ROOM_DISCONNET& operator=(const S_ROOM_DISCONNET& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline S_ROOM_DISCONNET& operator=(S_ROOM_DISCONNET&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const S_ROOM_DISCONNET& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const S_ROOM_DISCONNET* internal_default_instance() {
-    return reinterpret_cast<const S_ROOM_DISCONNET*>(
-               &_S_ROOM_DISCONNET_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    16;
-
-  friend void swap(S_ROOM_DISCONNET& a, S_ROOM_DISCONNET& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(S_ROOM_DISCONNET* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(S_ROOM_DISCONNET* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline S_ROOM_DISCONNET* New() const final {
-    return new S_ROOM_DISCONNET();
-  }
-
-  S_ROOM_DISCONNET* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<S_ROOM_DISCONNET>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const S_ROOM_DISCONNET& from);
-  void MergeFrom(const S_ROOM_DISCONNET& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(S_ROOM_DISCONNET* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Protocol.S_ROOM_DISCONNET";
-  }
-  protected:
-  explicit S_ROOM_DISCONNET(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRoomCodeFieldNumber = 1,
-  };
-  // int32 roomCode = 1;
-  void clear_roomcode();
-  ::PROTOBUF_NAMESPACE_ID::int32 roomcode() const;
-  void set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_roomcode() const;
-  void _internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:Protocol.S_ROOM_DISCONNET)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 roomcode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_Protocol_2eproto;
 };
@@ -3872,24 +3872,24 @@ inline void C_START_GAME::set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
 
 // C_EXIT_GAME
 
-// int32 roomCode = 1;
-inline void C_EXIT_GAME::clear_roomcode() {
-  roomcode_ = 0;
+// uint32 dummy = 1;
+inline void C_EXIT_GAME::clear_dummy() {
+  dummy_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_EXIT_GAME::_internal_roomcode() const {
-  return roomcode_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_EXIT_GAME::_internal_dummy() const {
+  return dummy_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_EXIT_GAME::roomcode() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_EXIT_GAME.roomCode)
-  return _internal_roomcode();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 C_EXIT_GAME::dummy() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_EXIT_GAME.dummy)
+  return _internal_dummy();
 }
-inline void C_EXIT_GAME::_internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void C_EXIT_GAME::_internal_set_dummy(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  roomcode_ = value;
+  dummy_ = value;
 }
-inline void C_EXIT_GAME::set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_roomcode(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_EXIT_GAME.roomCode)
+inline void C_EXIT_GAME::set_dummy(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_dummy(value);
+  // @@protoc_insertion_point(field_set:Protocol.C_EXIT_GAME.dummy)
 }
 
 // -------------------------------------------------------------------
@@ -4418,6 +4418,30 @@ S_GAME_START::mutable_mapdata() {
 
 // -------------------------------------------------------------------
 
+// S_ROOM_EXIT
+
+// .Protocol.DisconnectCode diconnectCode = 1;
+inline void S_ROOM_EXIT::clear_diconnectcode() {
+  diconnectcode_ = 0;
+}
+inline ::Protocol::DisconnectCode S_ROOM_EXIT::_internal_diconnectcode() const {
+  return static_cast< ::Protocol::DisconnectCode >(diconnectcode_);
+}
+inline ::Protocol::DisconnectCode S_ROOM_EXIT::diconnectcode() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ROOM_EXIT.diconnectCode)
+  return _internal_diconnectcode();
+}
+inline void S_ROOM_EXIT::_internal_set_diconnectcode(::Protocol::DisconnectCode value) {
+  
+  diconnectcode_ = value;
+}
+inline void S_ROOM_EXIT::set_diconnectcode(::Protocol::DisconnectCode value) {
+  _internal_set_diconnectcode(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_EXIT.diconnectCode)
+}
+
+// -------------------------------------------------------------------
+
 // S_ROOM_DATA
 
 // repeated .Protocol.RoomData roomData = 1;
@@ -4454,30 +4478,6 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::RoomData >&
 S_ROOM_DATA::roomdata() const {
   // @@protoc_insertion_point(field_list:Protocol.S_ROOM_DATA.roomData)
   return roomdata_;
-}
-
-// -------------------------------------------------------------------
-
-// S_ROOM_DISCONNET
-
-// int32 roomCode = 1;
-inline void S_ROOM_DISCONNET::clear_roomcode() {
-  roomcode_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_DISCONNET::_internal_roomcode() const {
-  return roomcode_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_ROOM_DISCONNET::roomcode() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_ROOM_DISCONNET.roomCode)
-  return _internal_roomcode();
-}
-inline void S_ROOM_DISCONNET::_internal_set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  roomcode_ = value;
-}
-inline void S_ROOM_DISCONNET::set_roomcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_roomcode(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_DISCONNET.roomCode)
 }
 
 // -------------------------------------------------------------------

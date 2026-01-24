@@ -37,9 +37,9 @@ public enum PacketType
 
     PKT_S_GAME_START = 1014,
 
-    PKT_S_ROOM_DATA = 1015,
+    PKT_S_ROOM_EXIT = 1015,
 
-    PKT_S_ROOM_DISCONNECT = 1016,
+    PKT_S_ROOM_DATA = 1016,
 
     PKT_S_ROOM_RESPONSE = 1017,
 
@@ -71,9 +71,9 @@ public static partial class PacketManager
 
         { PacketType.PKT_S_GAME_START, (buffer) => PacketMaker<Protocol.S_GAME_START>.HandlePacket(buffer, PacketType.PKT_S_GAME_START)},
 
-        { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA)},
+        { PacketType.PKT_S_ROOM_EXIT, (buffer) => PacketMaker<Protocol.S_ROOM_EXIT>.HandlePacket(buffer, PacketType.PKT_S_ROOM_EXIT)},
 
-        { PacketType.PKT_S_ROOM_DISCONNECT, (buffer) => PacketMaker<Protocol.S_ROOM_DISCONNECT>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DISCONNECT)},
+        { PacketType.PKT_S_ROOM_DATA, (buffer) => PacketMaker<Protocol.S_ROOM_DATA>.HandlePacket(buffer, PacketType.PKT_S_ROOM_DATA)},
 
         { PacketType.PKT_S_ROOM_RESPONSE, (buffer) => PacketMaker<Protocol.S_ROOM_RESPONSE>.HandlePacket(buffer, PacketType.PKT_S_ROOM_RESPONSE)},
 

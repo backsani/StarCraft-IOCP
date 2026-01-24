@@ -109,9 +109,6 @@ public class ServerConnect : MonoBehaviour
 
     private Buffer_Converter bufferCon = new Buffer_Converter();
 
-    [SerializeField]
-    private Text message;
-
     //room 정보 함수
     public Action<int, uint, string, bool> showRoomInfoAction;
     public int currentRoomCode;

@@ -86,6 +86,16 @@ public static partial class PacketManager
 
                 break;
 
+            case PacketType.PKT_S_ROOM_EXIT:
+                S_ROOM_EXIT s_ROOM_EXIT = packet as S_ROOM_EXIT;
+
+                RoomData.Instance.currentDisconnectCode = (DisconnectCode)s_ROOM_EXIT.DiconnectCode;
+
+                SceneManager.LoadScene("MatchingScene");
+
+
+                break;
+
             case PacketType.PKT_S_ROOM_DATA:
                 S_ROOM_DATA s_ROOM_DATA = packet as S_ROOM_DATA;
 
