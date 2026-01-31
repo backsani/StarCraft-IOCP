@@ -70,6 +70,47 @@ StarCraftClient/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 StarCraftClient/[Aa]ssets/[Ss]treamingAssets/aa.meta
 StarCraftClient/[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# MapMakerUnity 디렉토리에만 적용
+MapMakerUnity/[Ll]ibrary/
+MapMakerUnity/[Tt]emp/
+MapMakerUnity/[Oo]bj/
+MapMakerUnity/[Bb]uild/
+MapMakerUnity/[Bb]uilds/
+MapMakerUnity/[Ll]ogs/
+MapMakerUnity/[Uu]ser[Ss]ettings/
+MapMakerUnity/[Mm]emoryCaptures/
+MapMakerUnity/[Rr]ecordings/
+MapMakerUnity/[Aa]ssets/Plugins/Editor/JetBrains*
+MapMakerUnity/.vs/
+MapMakerUnity/.gradle/
+MapMakerUnity/ExportedObj/
+MapMakerUnity/.consulo/
+MapMakerUnity/*.csproj
+MapMakerUnity/*.unityproj
+MapMakerUnity/*.sln
+MapMakerUnity/*.suo
+MapMakerUnity/*.tmp
+MapMakerUnity/*.user
+MapMakerUnity/*.userprefs
+MapMakerUnity/*.pidb
+MapMakerUnity/*.booproj
+MapMakerUnity/*.svd
+MapMakerUnity/*.pdb
+MapMakerUnity/*.mdb
+MapMakerUnity/*.opendb
+MapMakerUnity/*.VC.db
+MapMakerUnity/*.pidb.meta
+MapMakerUnity/*.pdb.meta
+MapMakerUnity/*.mdb.meta
+MapMakerUnity/sysinfo.txt
+MapMakerUnity/*.apk
+MapMakerUnity/*.aab
+MapMakerUnity/*.unitypackage
+MapMakerUnity/crashlytics-build.properties
+MapMakerUnity/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+MapMakerUnity/[Aa] ssets/[Ss] treamingAssets/aa.meta
+MapMakerUnity/[Aa] ssets/[Ss] treamingAssets/aa/*
+
 # === 기타 공통 무시 항목 ===
 .DS_Store
 Thumbs.db
