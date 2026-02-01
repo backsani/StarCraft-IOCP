@@ -13,12 +13,6 @@ public class MapManager : MonoBehaviour
         Init();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Init()
     {
         BuildTileMap();

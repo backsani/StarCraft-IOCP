@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
+using System.Security.Cryptography;
 
 public enum MapSection : ushort
 {
-    OWNR = 0,
-    SIZE = 1,
-    MTXM = 2,
-    RESO = 3,
-    SPOS = 4,
+    HASH = 0,
+    OWNR = 1,
+    SIZE = 2,
+    MTXM = 3,
+    RESO = 4,
+    SPOS = 5,
 }
 
 public class MapMaker : EditorWindow
@@ -95,6 +97,7 @@ public class MapMaker : EditorWindow
             return false;
         }
 
+
         // 파일 작성, 저장 과정에서 예외처리
         try
         {
@@ -102,6 +105,13 @@ public class MapMaker : EditorWindow
             {
                 using (BinaryWriter bw = new BinaryWriter(fs))
                 {
+                    byte[] checksum = MakeChecksum(mapData, resourceData, points);
+
+                    {
+                        bw.Write((ushort)MapSection.HASH);
+                        bw.Write((ushort)checksum.Length);
+                        bw.Write(checksum);
+                    }
                     // 파일의 형식에 맞게 저장. 스코프로 나누어서 가독성을 높임.
                     {
                         bw.Write((ushort)MapSection.OWNR);
@@ -152,5 +162,30 @@ public class MapMaker : EditorWindow
         }
 
         return true;
+    }
+
+    private byte[] MakeChecksum(byte[] mapData, byte[] resourceData, List<PlayerStartPoint> points)
+    {
+        byte[] bytes;
+
+        using (var ms = new MemoryStream(capacity: mapData.Length + resourceData.Length + (points.Count * sizeof(short) * 2)))
+        {
+            using (var bw = new BinaryWriter(ms))
+            {
+                bw.Write(mapData);
+                bw.Write(resourceData);
+
+                foreach (PlayerStartPoint point in points)
+                {
+                    bw.Write((short)point.x);
+                    bw.Write((short)point.y);
+                }
+
+                bw.Flush();
+            }
+            bytes = ms.ToArray();
+        }
+
+        return bytes;
     }
 }
