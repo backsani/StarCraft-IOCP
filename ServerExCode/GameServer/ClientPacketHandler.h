@@ -28,6 +28,7 @@ enum : uint16
 	PKT_S_OBJECT_SPAWN = 1019,
 	PKT_S_OBJECT_DEAD = 1020,
 	PKT_S_OBJECT_DAMAGE = 1021,
+	PKT_S_TEST = 1022,
 };
 
 // Custom Handlers
@@ -79,6 +80,7 @@ public:
 	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DEAD& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DEAD); }
 	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DAMAGE& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DAMAGE); }
+	static SendBufferRef MakeSendBuffer(Protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, PKT_S_TEST); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

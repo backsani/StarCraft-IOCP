@@ -28,6 +28,7 @@
   	PKT_S_OBJECT_SPAWN = 1019,
   	PKT_S_OBJECT_DEAD = 1020,
   	PKT_S_OBJECT_DAMAGE = 1021,
+  	PKT_S_TEST = 1022,
   };
   
   // Custom Handlers
@@ -79,6 +80,7 @@
   	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_SPAWN& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_SPAWN); }
   	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DEAD& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DEAD); }
   	static SendBufferRef MakeSendBuffer(Protocol::S_OBJECT_DAMAGE& pkt) { return MakeSendBuffer(pkt, PKT_S_OBJECT_DAMAGE); }
+  	static SendBufferRef MakeSendBuffer(Protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, PKT_S_TEST); }
   
   private:
   	template<typename PacketType, typename ProcessFunc>
@@ -160,6 +162,8 @@
   
       PKT_S_OBJECT_DAMAGE = 1021,
   
+      PKT_S_TEST = 1022,
+  
   }
   
   public static partial class PacketManager
@@ -192,7 +196,9 @@
   
           { PacketType.PKT_S_OBJECT_DEAD, (buffer) => PacketMaker<Protocol.S_OBJECT_DEAD>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DEAD)},
   
-          { PacketType.PKT_S_OBJECT_DAMAGE, (buffer) => PacketMaker<Protocol.S_OBJECT_DAMAGE>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DAMAGE)}
+          { PacketType.PKT_S_OBJECT_DAMAGE, (buffer) => PacketMaker<Protocol.S_OBJECT_DAMAGE>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DAMAGE)},
+  
+          { PacketType.PKT_S_TEST, (buffer) => PacketMaker<Protocol.S_TEST>.HandlePacket(buffer, PacketType.PKT_S_TEST)}
   
       };
   
@@ -340,50 +346,676 @@
           return data;
       }
   }
-  C:Enum.pb.h
-  1개 파일이 복사되었습니다.
-  C:Enum.pb.cc
-  1개 파일이 복사되었습니다.
-  C:Struct.pb.h
-  1개 파일이 복사되었습니다.
-  C:Struct.pb.cc
-  1개 파일이 복사되었습니다.
-  C:Protocol.pb.h
-  1개 파일이 복사되었습니다.
-  C:Protocol.pb.cc
-  1개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Enum.pb.h
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Enum.pb.cc
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Struct.pb.h
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Struct.pb.cc
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Protocol.pb.h
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Protocol.pb.cc
+  0개 파일이 복사되었습니다.
   C:ClientPacketHandler.h
   1개 파일이 복사되었습니다.
-  C:Enum.cs
-  1개 파일이 복사되었습니다.
-  C:Struct.cs
-  1개 파일이 복사되었습니다.
-  C:Protocol.cs
-  1개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Enum.cs
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Struct.cs
+  0개 파일이 복사되었습니다.
+  파일을 찾을 수 없습니다-Protocol.cs
+  0개 파일이 복사되었습니다.
   C:PacketManager.cs
   1개 파일이 복사되었습니다.
+  C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Common\Protobuf\bin\*.pb.h을(를) 찾을 수 없습니다.
+  C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Common\Protobuf\bin\*.pb.cc을(를) 찾을 수 없습니다.
   계속하려면 아무 키나 누르십시오 . . . 
   ClientPacketHandler.cpp
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(30,65): warning C4244: '인수': 'google::protobuf::uint64'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\status.h(97,15): warning C4251: 'google::protobuf::util::status_internal::Status::error_message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::util::status_internal::Status'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\logging.h(100,15): warning C4251: 'google::protobuf::internal::LogMessage::message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LogMessage'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\coded_stream.h(1275,28): warning C4251: 'google::protobuf::io::CodedOutputStream::default_serialization_deterministic_': 'std::atomic<bool>'에서는 'google::protobuf::io::CodedOutputStream'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<bool>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(401,23): warning C4251: 'google::protobuf::internal::SerialArena::space_allocated_': 'std::atomic<unsigned __int64>'에서는 'google::protobuf::internal::SerialArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<unsigned __int64>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(532,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::alloc_policy_': 'google::protobuf::internal::TaggedAllocationPolicyPtr'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(123,7):
+      'google::protobuf::internal::TaggedAllocationPolicyPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(537,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::threads_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(538,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::hint_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(660,30): warning C4251: 'google::protobuf::internal::ThreadSafeArena::arena_stats_': 'google::protobuf::internal::ThreadSafeArenaStatsHandle'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenaz_sampler.h(159,7):
+      'google::protobuf::internal::ThreadSafeArenaStatsHandle' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(82,43): warning C4251: 'google::protobuf::internal::LazyString::inited_': 'std::atomic<const std::string *>'에서는 'google::protobuf::internal::LazyString'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<const std::string *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(367,19): warning C4251: 'google::protobuf::internal::ArenaStringPtr::tagged_ptr_': 'google::protobuf::internal::TaggedStringPtr'에서는 'google::protobuf::internal::ArenaStringPtr'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(97,7):
+      'google::protobuf::internal::TaggedStringPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\metadata_lite.h(307,15): warning C4251: 'google::protobuf::internal::LiteUnknownFieldSetter::buffer_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LiteUnknownFieldSetter'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\generated_message_util.h(194,20): warning C4251: 'google::protobuf::internal::CachedSize::size_': 'std::atomic<int>'에서는 'google::protobuf::internal::CachedSize'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<int>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(136,40): warning C4251: 'google::protobuf::internal::WrappedMutex::mu_': 'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>'에서는 'google::protobuf::internal::WrappedMutex'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(98,7):
+      'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2063,27): warning C4251: 'google::protobuf::DescriptorPool::tables_': 'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3335,7):
+      'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2073,31): warning C4251: 'google::protobuf::DescriptorPool::unused_import_track_files_': 'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(72,7):
+      'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(247,30): warning C4251: 'google::protobuf::io::CopyingInputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingInputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(338,30): warning C4251: 'google::protobuf::io::CopyingOutputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingOutputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\unknown_field_set.h(211,29): warning C4251: 'google::protobuf::UnknownFieldSet::fields_': 'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>'에서는 'google::protobuf::UnknownFieldSet'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(429,7):
+      'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1057,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int32_t_': 'google::protobuf::RepeatedField<int32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1193,78):
+      'google::protobuf::RepeatedField<int32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1058,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int64_t_': 'google::protobuf::RepeatedField<int64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1195,78):
+      'google::protobuf::RepeatedField<int64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1059,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint32_t_': 'google::protobuf::RepeatedField<uint32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1194,79):
+      'google::protobuf::RepeatedField<uint32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1060,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint64_t_': 'google::protobuf::RepeatedField<uint64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1196,79):
+      'google::protobuf::RepeatedField<uint64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1061,25): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_double_': 'google::protobuf::RepeatedField<double>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1198,77):
+      'google::protobuf::RepeatedField<double>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1062,24): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_float_': 'google::protobuf::RepeatedField<float>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1197,76):
+      'google::protobuf::RepeatedField<float>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1063,23): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_bool_': 'google::protobuf::RepeatedField<bool>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1192,75):
+      'google::protobuf::RepeatedField<bool>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(30,65): warning C4244: '인수': 'uint64_t'에서 'const int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(32,64): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(32,64): warning C4244: '인수': 'uint64_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(36,43): warning C4244: '인수': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(36,43): warning C4244: '인수': 'uint64_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(83,13): warning C4244: '초기화 중': 'google::protobuf::uint64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\ClientPacketHandler.cpp(83,13): warning C4244: '초기화 중': 'uint64_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/ClientPacketHandler.cpp'을(를) 컴파일하는 중)
   
   GameObject.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\status.h(97,15): warning C4251: 'google::protobuf::util::status_internal::Status::error_message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::util::status_internal::Status'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\logging.h(100,15): warning C4251: 'google::protobuf::internal::LogMessage::message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LogMessage'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\coded_stream.h(1275,28): warning C4251: 'google::protobuf::io::CodedOutputStream::default_serialization_deterministic_': 'std::atomic<bool>'에서는 'google::protobuf::io::CodedOutputStream'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<bool>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(401,23): warning C4251: 'google::protobuf::internal::SerialArena::space_allocated_': 'std::atomic<unsigned __int64>'에서는 'google::protobuf::internal::SerialArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<unsigned __int64>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(532,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::alloc_policy_': 'google::protobuf::internal::TaggedAllocationPolicyPtr'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(123,7):
+      'google::protobuf::internal::TaggedAllocationPolicyPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(537,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::threads_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(538,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::hint_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(660,30): warning C4251: 'google::protobuf::internal::ThreadSafeArena::arena_stats_': 'google::protobuf::internal::ThreadSafeArenaStatsHandle'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenaz_sampler.h(159,7):
+      'google::protobuf::internal::ThreadSafeArenaStatsHandle' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(82,43): warning C4251: 'google::protobuf::internal::LazyString::inited_': 'std::atomic<const std::string *>'에서는 'google::protobuf::internal::LazyString'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<const std::string *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(367,19): warning C4251: 'google::protobuf::internal::ArenaStringPtr::tagged_ptr_': 'google::protobuf::internal::TaggedStringPtr'에서는 'google::protobuf::internal::ArenaStringPtr'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(97,7):
+      'google::protobuf::internal::TaggedStringPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\metadata_lite.h(307,15): warning C4251: 'google::protobuf::internal::LiteUnknownFieldSetter::buffer_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LiteUnknownFieldSetter'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\generated_message_util.h(194,20): warning C4251: 'google::protobuf::internal::CachedSize::size_': 'std::atomic<int>'에서는 'google::protobuf::internal::CachedSize'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<int>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(136,40): warning C4251: 'google::protobuf::internal::WrappedMutex::mu_': 'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>'에서는 'google::protobuf::internal::WrappedMutex'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(98,7):
+      'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2063,27): warning C4251: 'google::protobuf::DescriptorPool::tables_': 'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3335,7):
+      'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2073,31): warning C4251: 'google::protobuf::DescriptorPool::unused_import_track_files_': 'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(72,7):
+      'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(247,30): warning C4251: 'google::protobuf::io::CopyingInputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingInputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(338,30): warning C4251: 'google::protobuf::io::CopyingOutputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingOutputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\unknown_field_set.h(211,29): warning C4251: 'google::protobuf::UnknownFieldSet::fields_': 'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>'에서는 'google::protobuf::UnknownFieldSet'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(429,7):
+      'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1057,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int32_t_': 'google::protobuf::RepeatedField<int32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1193,78):
+      'google::protobuf::RepeatedField<int32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1058,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int64_t_': 'google::protobuf::RepeatedField<int64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1195,78):
+      'google::protobuf::RepeatedField<int64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1059,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint32_t_': 'google::protobuf::RepeatedField<uint32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1194,79):
+      'google::protobuf::RepeatedField<uint32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1060,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint64_t_': 'google::protobuf::RepeatedField<uint64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1196,79):
+      'google::protobuf::RepeatedField<uint64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1061,25): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_double_': 'google::protobuf::RepeatedField<double>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1198,77):
+      'google::protobuf::RepeatedField<double>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1062,24): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_float_': 'google::protobuf::RepeatedField<float>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1197,76):
+      'google::protobuf::RepeatedField<float>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1063,23): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_bool_': 'google::protobuf::RepeatedField<bool>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1192,75):
+      'google::protobuf::RepeatedField<bool>' 선언을 참조하십시오.
+  
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\GameObject.cpp(226,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   (소스 파일 '/GameObject.cpp'을(를) 컴파일하는 중)
   
   GameServer.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\status.h(97,15): warning C4251: 'google::protobuf::util::status_internal::Status::error_message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::util::status_internal::Status'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\logging.h(100,15): warning C4251: 'google::protobuf::internal::LogMessage::message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LogMessage'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\coded_stream.h(1275,28): warning C4251: 'google::protobuf::io::CodedOutputStream::default_serialization_deterministic_': 'std::atomic<bool>'에서는 'google::protobuf::io::CodedOutputStream'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<bool>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(401,23): warning C4251: 'google::protobuf::internal::SerialArena::space_allocated_': 'std::atomic<unsigned __int64>'에서는 'google::protobuf::internal::SerialArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<unsigned __int64>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(532,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::alloc_policy_': 'google::protobuf::internal::TaggedAllocationPolicyPtr'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(123,7):
+      'google::protobuf::internal::TaggedAllocationPolicyPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(537,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::threads_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(538,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::hint_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(660,30): warning C4251: 'google::protobuf::internal::ThreadSafeArena::arena_stats_': 'google::protobuf::internal::ThreadSafeArenaStatsHandle'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenaz_sampler.h(159,7):
+      'google::protobuf::internal::ThreadSafeArenaStatsHandle' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(82,43): warning C4251: 'google::protobuf::internal::LazyString::inited_': 'std::atomic<const std::string *>'에서는 'google::protobuf::internal::LazyString'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<const std::string *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(367,19): warning C4251: 'google::protobuf::internal::ArenaStringPtr::tagged_ptr_': 'google::protobuf::internal::TaggedStringPtr'에서는 'google::protobuf::internal::ArenaStringPtr'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(97,7):
+      'google::protobuf::internal::TaggedStringPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\metadata_lite.h(307,15): warning C4251: 'google::protobuf::internal::LiteUnknownFieldSetter::buffer_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LiteUnknownFieldSetter'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\generated_message_util.h(194,20): warning C4251: 'google::protobuf::internal::CachedSize::size_': 'std::atomic<int>'에서는 'google::protobuf::internal::CachedSize'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<int>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(136,40): warning C4251: 'google::protobuf::internal::WrappedMutex::mu_': 'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>'에서는 'google::protobuf::internal::WrappedMutex'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(98,7):
+      'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2063,27): warning C4251: 'google::protobuf::DescriptorPool::tables_': 'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3335,7):
+      'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2073,31): warning C4251: 'google::protobuf::DescriptorPool::unused_import_track_files_': 'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(72,7):
+      'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(247,30): warning C4251: 'google::protobuf::io::CopyingInputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingInputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(338,30): warning C4251: 'google::protobuf::io::CopyingOutputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingOutputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\unknown_field_set.h(211,29): warning C4251: 'google::protobuf::UnknownFieldSet::fields_': 'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>'에서는 'google::protobuf::UnknownFieldSet'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(429,7):
+      'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1057,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int32_t_': 'google::protobuf::RepeatedField<int32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1193,78):
+      'google::protobuf::RepeatedField<int32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1058,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int64_t_': 'google::protobuf::RepeatedField<int64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1195,78):
+      'google::protobuf::RepeatedField<int64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1059,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint32_t_': 'google::protobuf::RepeatedField<uint32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1194,79):
+      'google::protobuf::RepeatedField<uint32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1060,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint64_t_': 'google::protobuf::RepeatedField<uint64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1196,79):
+      'google::protobuf::RepeatedField<uint64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1061,25): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_double_': 'google::protobuf::RepeatedField<double>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1198,77):
+      'google::protobuf::RepeatedField<double>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1062,24): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_float_': 'google::protobuf::RepeatedField<float>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1197,76):
+      'google::protobuf::RepeatedField<float>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1063,23): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_bool_': 'google::protobuf::RepeatedField<bool>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameServer.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1192,75):
+      'google::protobuf::RepeatedField<bool>' 선언을 참조하십시오.
+  
   GameSession.cpp
-  GameSessionManager.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\status.h(97,15): warning C4251: 'google::protobuf::util::status_internal::Status::error_message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::util::status_internal::Status'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\logging.h(100,15): warning C4251: 'google::protobuf::internal::LogMessage::message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LogMessage'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\coded_stream.h(1275,28): warning C4251: 'google::protobuf::io::CodedOutputStream::default_serialization_deterministic_': 'std::atomic<bool>'에서는 'google::protobuf::io::CodedOutputStream'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<bool>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(401,23): warning C4251: 'google::protobuf::internal::SerialArena::space_allocated_': 'std::atomic<unsigned __int64>'에서는 'google::protobuf::internal::SerialArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<unsigned __int64>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(532,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::alloc_policy_': 'google::protobuf::internal::TaggedAllocationPolicyPtr'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(123,7):
+      'google::protobuf::internal::TaggedAllocationPolicyPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(537,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::threads_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(538,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::hint_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(660,30): warning C4251: 'google::protobuf::internal::ThreadSafeArena::arena_stats_': 'google::protobuf::internal::ThreadSafeArenaStatsHandle'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenaz_sampler.h(159,7):
+      'google::protobuf::internal::ThreadSafeArenaStatsHandle' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(82,43): warning C4251: 'google::protobuf::internal::LazyString::inited_': 'std::atomic<const std::string *>'에서는 'google::protobuf::internal::LazyString'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<const std::string *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(367,19): warning C4251: 'google::protobuf::internal::ArenaStringPtr::tagged_ptr_': 'google::protobuf::internal::TaggedStringPtr'에서는 'google::protobuf::internal::ArenaStringPtr'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(97,7):
+      'google::protobuf::internal::TaggedStringPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\metadata_lite.h(307,15): warning C4251: 'google::protobuf::internal::LiteUnknownFieldSetter::buffer_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LiteUnknownFieldSetter'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\generated_message_util.h(194,20): warning C4251: 'google::protobuf::internal::CachedSize::size_': 'std::atomic<int>'에서는 'google::protobuf::internal::CachedSize'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<int>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(136,40): warning C4251: 'google::protobuf::internal::WrappedMutex::mu_': 'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>'에서는 'google::protobuf::internal::WrappedMutex'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(98,7):
+      'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2063,27): warning C4251: 'google::protobuf::DescriptorPool::tables_': 'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3335,7):
+      'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2073,31): warning C4251: 'google::protobuf::DescriptorPool::unused_import_track_files_': 'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(72,7):
+      'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(247,30): warning C4251: 'google::protobuf::io::CopyingInputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingInputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(338,30): warning C4251: 'google::protobuf::io::CopyingOutputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingOutputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\unknown_field_set.h(211,29): warning C4251: 'google::protobuf::UnknownFieldSet::fields_': 'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>'에서는 'google::protobuf::UnknownFieldSet'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(429,7):
+      'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1057,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int32_t_': 'google::protobuf::RepeatedField<int32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1193,78):
+      'google::protobuf::RepeatedField<int32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1058,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int64_t_': 'google::protobuf::RepeatedField<int64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1195,78):
+      'google::protobuf::RepeatedField<int64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1059,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint32_t_': 'google::protobuf::RepeatedField<uint32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1194,79):
+      'google::protobuf::RepeatedField<uint32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1060,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint64_t_': 'google::protobuf::RepeatedField<uint64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1196,79):
+      'google::protobuf::RepeatedField<uint64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1061,25): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_double_': 'google::protobuf::RepeatedField<double>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1198,77):
+      'google::protobuf::RepeatedField<double>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1062,24): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_float_': 'google::protobuf::RepeatedField<float>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1197,76):
+      'google::protobuf::RepeatedField<float>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1063,23): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_bool_': 'google::protobuf::RepeatedField<bool>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/GameSession.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1192,75):
+      'google::protobuf::RepeatedField<bool>' 선언을 참조하십시오.
+  
   Room.cpp
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\status.h(97,15): warning C4251: 'google::protobuf::util::status_internal::Status::error_message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::util::status_internal::Status'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\logging.h(100,15): warning C4251: 'google::protobuf::internal::LogMessage::message_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LogMessage'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\coded_stream.h(1275,28): warning C4251: 'google::protobuf::io::CodedOutputStream::default_serialization_deterministic_': 'std::atomic<bool>'에서는 'google::protobuf::io::CodedOutputStream'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<bool>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(401,23): warning C4251: 'google::protobuf::internal::SerialArena::space_allocated_': 'std::atomic<unsigned __int64>'에서는 'google::protobuf::internal::SerialArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<unsigned __int64>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(532,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::alloc_policy_': 'google::protobuf::internal::TaggedAllocationPolicyPtr'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(123,7):
+      'google::protobuf::internal::TaggedAllocationPolicyPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(537,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::threads_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(538,29): warning C4251: 'google::protobuf::internal::ThreadSafeArena::hint_': 'std::atomic<google::protobuf::internal::SerialArena *>'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<google::protobuf::internal::SerialArena *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arena_impl.h(660,30): warning C4251: 'google::protobuf::internal::ThreadSafeArena::arena_stats_': 'google::protobuf::internal::ThreadSafeArenaStatsHandle'에서는 'google::protobuf::internal::ThreadSafeArena'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenaz_sampler.h(159,7):
+      'google::protobuf::internal::ThreadSafeArenaStatsHandle' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(82,43): warning C4251: 'google::protobuf::internal::LazyString::inited_': 'std::atomic<const std::string *>'에서는 'google::protobuf::internal::LazyString'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<const std::string *>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(367,19): warning C4251: 'google::protobuf::internal::ArenaStringPtr::tagged_ptr_': 'google::protobuf::internal::TaggedStringPtr'에서는 'google::protobuf::internal::ArenaStringPtr'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\arenastring.h(97,7):
+      'google::protobuf::internal::TaggedStringPtr' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\metadata_lite.h(307,15): warning C4251: 'google::protobuf::internal::LiteUnknownFieldSetter::buffer_': 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'에서는 'google::protobuf::internal::LiteUnknownFieldSetter'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\xstring(527,7):
+      'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\generated_message_util.h(194,20): warning C4251: 'google::protobuf::internal::CachedSize::size_': 'std::atomic<int>'에서는 'google::protobuf::internal::CachedSize'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\atomic(2113,8):
+      'std::atomic<int>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(136,40): warning C4251: 'google::protobuf::internal::WrappedMutex::mu_': 'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>'에서는 'google::protobuf::internal::WrappedMutex'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\stubs\mutex.h(98,7):
+      'google::protobuf::internal::CallOnceInitializedMutex<std::mutex>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2063,27): warning C4251: 'google::protobuf::DescriptorPool::tables_': 'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3335,7):
+      'std::unique_ptr<google::protobuf::DescriptorPool::Tables,std::default_delete<google::protobuf::DescriptorPool::Tables>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\descriptor.h(2073,31): warning C4251: 'google::protobuf::DescriptorPool::unused_import_track_files_': 'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>'에서는 'google::protobuf::DescriptorPool'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\map(72,7):
+      'std::map<std::string,bool,std::less<std::string>,std::allocator<std::pair<const std::string,bool>>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(247,30): warning C4251: 'google::protobuf::io::CopyingInputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingInputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\io\zero_copy_stream_impl_lite.h(338,30): warning C4251: 'google::protobuf::io::CopyingOutputStreamAdaptor::buffer_': 'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>'에서는 'google::protobuf::io::CopyingOutputStreamAdaptor'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\memory(3462,7):
+      'std::unique_ptr<uint8_t [],std::default_delete<uint8_t []>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\unknown_field_set.h(211,29): warning C4251: 'google::protobuf::UnknownFieldSet::fields_': 'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>'에서는 'google::protobuf::UnknownFieldSet'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\vector(429,7):
+      'std::vector<google::protobuf::UnknownField,std::allocator<google::protobuf::UnknownField>>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1057,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int32_t_': 'google::protobuf::RepeatedField<int32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1193,78):
+      'google::protobuf::RepeatedField<int32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1058,26): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_int64_t_': 'google::protobuf::RepeatedField<int64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1195,78):
+      'google::protobuf::RepeatedField<int64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1059,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint32_t_': 'google::protobuf::RepeatedField<uint32_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1194,79):
+      'google::protobuf::RepeatedField<uint32_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1060,27): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_uint64_t_': 'google::protobuf::RepeatedField<uint64_t>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1196,79):
+      'google::protobuf::RepeatedField<uint64_t>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1061,25): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_double_': 'google::protobuf::RepeatedField<double>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1198,77):
+      'google::protobuf::RepeatedField<double>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1062,24): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_float_': 'google::protobuf::RepeatedField<float>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1197,76):
+      'google::protobuf::RepeatedField<float>' 선언을 참조하십시오.
+  
+C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\extension_set.h(1063,23): warning C4251: 'google::protobuf::internal::RepeatedPrimitiveDefaults::default_repeated_field_bool_': 'google::protobuf::RepeatedField<bool>'에서는 'google::protobuf::internal::RepeatedPrimitiveDefaults'의 클라이언트에서 DLL 인터페이스를 사용하도록 지정해야 함
+  (소스 파일 '/Room.cpp'을(를) 컴파일하는 중)
+      C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Libraries\Include\google\protobuf\repeated_field.h(1192,75):
+      'google::protobuf::RepeatedField<bool>' 선언을 참조하십시오.
+  
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         with
 C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(39,31): warning C4244:         [
@@ -402,42 +1034,14 @@ C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\ServerCore\Memory.h(
               _Ty=int
           ]
   
-  RoomManager.cpp
-  Unit.cpp
   코드를 생성하고 있습니다...
-  Enum.pb.cc
-  Protocol.pb.cc
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(865,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1148,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1604,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(1830,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2020,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(2428,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3373,67): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3380,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3860,77): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(3870,80): warning C4244: '인수': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Protocol.pb.cc(4489,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Struct.pb.cc
-C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\GameServer\Struct.pb.cc(526,70): warning C4244: '=': 'google::protobuf::uint64'에서 'google::protobuf::int32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-  LINK : 이전 연결 이후로 0개의 새 모듈과 11개(전체 89개 중)의 모듈이 변경되었습니다.
-  라이브러리를 검색하고 있습니다.
-      C:\Program Files (x86)\Windows Kits\10\lib\10.0.22621.0\um\x64\kernel32.lib 검색 중:
-  라이브러리가 검색되었습니다.
+  LINK : 이전 연결 이후로 0개의 새 모듈과 5개(전체 89개 중)의 모듈이 변경되었습니다.
   Pass 2를 시작하고 있습니다.
-       Unit.obj
-       Struct.pb.obj
-       RoomManager.obj
        Room.obj
        ClientPacketHandler.obj
-       Protocol.pb.obj
-       GameSessionManager.obj
        GameSession.obj
        GameServer.obj
        GameObject.obj
-       Enum.pb.obj
-       ServerCore.lib(Session.obj)
        MSVCRTD.lib(loadcfg.obj)
   Pass 2가 끝났습니다.
   GameServer.vcxproj -> C:\Users\hj577\Documents\GitHub\StarCraft-IOCP\ServerExCode\Binary\Debug\GameServer.exe

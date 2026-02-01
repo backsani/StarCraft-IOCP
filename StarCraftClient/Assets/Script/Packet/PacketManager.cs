@@ -51,6 +51,8 @@ public enum PacketType
 
     PKT_S_OBJECT_DAMAGE = 1021,
 
+    PKT_S_TEST = 1022,
+
 }
 
 public static partial class PacketManager
@@ -83,7 +85,9 @@ public static partial class PacketManager
 
         { PacketType.PKT_S_OBJECT_DEAD, (buffer) => PacketMaker<Protocol.S_OBJECT_DEAD>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DEAD)},
 
-        { PacketType.PKT_S_OBJECT_DAMAGE, (buffer) => PacketMaker<Protocol.S_OBJECT_DAMAGE>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DAMAGE)}
+        { PacketType.PKT_S_OBJECT_DAMAGE, (buffer) => PacketMaker<Protocol.S_OBJECT_DAMAGE>.HandlePacket(buffer, PacketType.PKT_S_OBJECT_DAMAGE)},
+
+        { PacketType.PKT_S_TEST, (buffer) => PacketMaker<Protocol.S_TEST>.HandlePacket(buffer, PacketType.PKT_S_TEST)}
 
     };
 
