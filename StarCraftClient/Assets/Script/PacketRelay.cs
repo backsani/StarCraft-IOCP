@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum MapSection : int
+public enum MapSection : ushort
 {
-    OWNR = 0,   // 플레이어 정보(인원)
-    SIZE = 1,   // 맵 크기
-    MTXM = 2,   // 지형 정보(타일맵)
-    RESO = 3,   // 리소스 정보(0 : 미네랄, 1:가스)
-    SPOS = 4,   // 플레이어의 시작 위치
+    HASH = 0,   // MapHash 데이터
+    OWNR = 1,   // 플레이어 정보(인원)
+    SIZE = 2,   // 맵 크기
+    MTXM = 3,   // 지형 정보(타일맵)
+    RESO = 4,   // 리소스 정보(0 : 미네랄, 1:가스)
+    SPOS = 5,   // 플레이어의 시작 위치
 }
 
 public struct ResourceData

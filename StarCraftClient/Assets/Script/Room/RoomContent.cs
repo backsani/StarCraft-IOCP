@@ -11,6 +11,7 @@ public class RoomContent : MonoBehaviour
     public uint roomPlayerCount;
     public string roomName;
     public bool isPassWord;
+    private byte[] mapHash;
 
     [SerializeField] private TextMeshProUGUI roomNameText;
     [SerializeField] private TextMeshProUGUI playerCountText;
@@ -19,7 +20,7 @@ public class RoomContent : MonoBehaviour
     [SerializeField] private TMP_InputField passWordInput;
 
 
-    public void Init(int roomId, uint playerCount, string roomName, bool isPassWord)
+    public void Init(int roomId, uint playerCount, string roomName, bool isPassWord, byte[] mapHash)
     {
         this.roomId = roomId;
         this.roomPlayerCount = playerCount;
@@ -28,6 +29,8 @@ public class RoomContent : MonoBehaviour
         playerCountText.text = "Players : " + this.roomPlayerCount.ToString();
         passWordToggle.isOn = isPassWord;
         this.isPassWord = isPassWord;
+
+        this.mapHash = mapHash;
     }
 
     public void OnAcceptButton()
@@ -44,7 +47,7 @@ public class RoomContent : MonoBehaviour
         c_ROOM_REQUEST.RoomCode = roomId;
 
         if(passWordInput.text.Length > 0)
-            c_ROOM_REQUEST.GamePassWord.AddRange(GlobalUtils.PackStringToBytes(passWordInput.text));
+            c_ROOM_REQUEST.GamePassWord = passWordInput.text;
 
         PacketManager.Send(c_ROOM_REQUEST);
     }

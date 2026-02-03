@@ -110,7 +110,7 @@ public class ServerConnect : MonoBehaviour
     private Buffer_Converter bufferCon = new Buffer_Converter();
 
     //room 정보 함수
-    public Action<int, uint, string, bool> showRoomInfoAction;
+    public Action<int, uint, string, bool, byte[]> showRoomInfoAction;
     public int currentRoomCode;
     public Action callback;
 

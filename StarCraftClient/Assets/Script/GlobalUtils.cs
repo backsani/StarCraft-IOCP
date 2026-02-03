@@ -1,10 +1,33 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using System.Security.Cryptography;
 
 public static class GlobalUtils
 {
+    // 맵 주소를 통해 map의 Hash를 추출해주는 함수
+    public static bool ExtractionMapHash(string path, out byte[] bytes)
+    {
+        if (!File.Exists(path))
+        {
+            Debug.LogError($"File not found: {path}");
+            bytes = new byte[0];
+            return false;
+        }
+
+        byte[] data = File.ReadAllBytes(path);
+
+        Dictionary<MapSection, byte[]> dic;
+
+        ExtractionMapSection(data, out dic);
+
+        bytes = dic[MapSection.HASH];
+
+        return true;
+    }
+
     // ProtoBuf 오류로 bytes 사용이 불가능해 문자열을 uint32에 압축해서 전송
     public static uint[] PackStringToBytes(string str)
     {
@@ -61,5 +84,34 @@ public static class GlobalUtils
         }
 
         return System.Text.Encoding.ASCII.GetString(byteList.ToArray());
+    }
+
+    public static void ExtractionMapSection(byte[] mapData, out Dictionary<MapSection, byte[]> dictionary)
+    {
+        dictionary = new Dictionary<MapSection, byte[]>();
+
+        int index = 0;
+        while(index < mapData.Length)
+        {
+            MapSection section = (MapSection)BitConverter.ToUInt16(mapData, index);
+            index += sizeof(ushort);
+
+            Int32 length = BitConverter.ToInt32(mapData, index);
+            index += sizeof(Int32);
+
+            if(index + length > mapData.Length)
+            {
+                Debug.Log("Invalid section length" + section.ToString());
+                return;
+            }
+
+            Debug.Log(section.ToString());
+
+            byte[] data = new byte[length];
+            Buffer.BlockCopy(mapData, index, data, 0, length);
+            index += length;
+
+            dictionary[section] = data;
+        }
     }
 }

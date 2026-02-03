@@ -49,6 +49,8 @@ public class LoginManager : MonoBehaviour
             return;
         }
 
+        login.Test = "test";
+
         PacketManager.Send(login);
     }
 

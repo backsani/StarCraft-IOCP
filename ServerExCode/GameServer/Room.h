@@ -37,13 +37,13 @@ public:
 
 	int hostId;
 
-	vector<INT32> GameName;
-	vector<INT32> GamePassWord;
-	INT32 mapId;
+	string GameName;
+	string GamePassWord;
+	string mapHash;
 
 	USE_LOCK;
 
-	Room(int roomId, int hostId, vector<INT32> GameName, vector<INT32> GamePassWord, INT32 mapId);
+	Room(int roomId, int hostId, std::string GameName, std::string GamePassWord, std::string mapHash);
 	int Add(GameSessionRef session);
 	GameObjectRef AddPlayer();
 	void Remove(GameSessionRef session);

@@ -379,31 +379,38 @@ class RoomData final :
 
   enum : int {
     kRoomNameFieldNumber = 3,
+    kMapHashFieldNumber = 5,
     kRoomCodeFieldNumber = 1,
     kPlayerCountFieldNumber = 2,
     kIsPassWordFieldNumber = 4,
   };
-  // repeated uint32 roomName = 3;
-  int roomname_size() const;
-  private:
-  int _internal_roomname_size() const;
-  public:
+  // string roomName = 3;
   void clear_roomname();
+  const std::string& roomname() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_roomname(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_roomname();
+  PROTOBUF_NODISCARD std::string* release_roomname();
+  void set_allocated_roomname(std::string* roomname);
   private:
-  uint32_t _internal_roomname(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      _internal_roomname() const;
-  void _internal_add_roomname(uint32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      _internal_mutable_roomname();
+  const std::string& _internal_roomname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_roomname(const std::string& value);
+  std::string* _internal_mutable_roomname();
   public:
-  uint32_t roomname(int index) const;
-  void set_roomname(int index, uint32_t value);
-  void add_roomname(uint32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      roomname() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      mutable_roomname();
+
+  // bytes mapHash = 5;
+  void clear_maphash();
+  const std::string& maphash() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_maphash(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_maphash();
+  PROTOBUF_NODISCARD std::string* release_maphash();
+  void set_allocated_maphash(std::string* maphash);
+  private:
+  const std::string& _internal_maphash() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_maphash(const std::string& value);
+  std::string* _internal_mutable_maphash();
+  public:
 
   // int32 roomCode = 1;
   void clear_roomcode();
@@ -440,8 +447,8 @@ class RoomData final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t > roomname_;
-    mutable std::atomic<int> _roomname_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr roomname_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr maphash_;
     int32_t roomcode_;
     uint32_t playercount_;
     bool ispassword_;
@@ -1131,51 +1138,54 @@ inline void RoomData::set_playercount(uint32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.RoomData.playerCount)
 }
 
-// repeated uint32 roomName = 3;
-inline int RoomData::_internal_roomname_size() const {
-  return _impl_.roomname_.size();
-}
-inline int RoomData::roomname_size() const {
-  return _internal_roomname_size();
-}
+// string roomName = 3;
 inline void RoomData::clear_roomname() {
-  _impl_.roomname_.Clear();
+  _impl_.roomname_.ClearToEmpty();
 }
-inline uint32_t RoomData::_internal_roomname(int index) const {
-  return _impl_.roomname_.Get(index);
-}
-inline uint32_t RoomData::roomname(int index) const {
+inline const std::string& RoomData::roomname() const {
   // @@protoc_insertion_point(field_get:Protocol.RoomData.roomName)
-  return _internal_roomname(index);
-}
-inline void RoomData::set_roomname(int index, uint32_t value) {
-  _impl_.roomname_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.RoomData.roomName)
-}
-inline void RoomData::_internal_add_roomname(uint32_t value) {
-  _impl_.roomname_.Add(value);
-}
-inline void RoomData::add_roomname(uint32_t value) {
-  _internal_add_roomname(value);
-  // @@protoc_insertion_point(field_add:Protocol.RoomData.roomName)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-RoomData::_internal_roomname() const {
-  return _impl_.roomname_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-RoomData::roomname() const {
-  // @@protoc_insertion_point(field_list:Protocol.RoomData.roomName)
   return _internal_roomname();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-RoomData::_internal_mutable_roomname() {
-  return &_impl_.roomname_;
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RoomData::set_roomname(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.roomname_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.RoomData.roomName)
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-RoomData::mutable_roomname() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.RoomData.roomName)
-  return _internal_mutable_roomname();
+inline std::string* RoomData::mutable_roomname() {
+  std::string* _s = _internal_mutable_roomname();
+  // @@protoc_insertion_point(field_mutable:Protocol.RoomData.roomName)
+  return _s;
+}
+inline const std::string& RoomData::_internal_roomname() const {
+  return _impl_.roomname_.Get();
+}
+inline void RoomData::_internal_set_roomname(const std::string& value) {
+  
+  _impl_.roomname_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RoomData::_internal_mutable_roomname() {
+  
+  return _impl_.roomname_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RoomData::release_roomname() {
+  // @@protoc_insertion_point(field_release:Protocol.RoomData.roomName)
+  return _impl_.roomname_.Release();
+}
+inline void RoomData::set_allocated_roomname(std::string* roomname) {
+  if (roomname != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.roomname_.SetAllocated(roomname, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.roomname_.IsDefault()) {
+    _impl_.roomname_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.RoomData.roomName)
 }
 
 // bool isPassWord = 4;
@@ -1196,6 +1206,56 @@ inline void RoomData::_internal_set_ispassword(bool value) {
 inline void RoomData::set_ispassword(bool value) {
   _internal_set_ispassword(value);
   // @@protoc_insertion_point(field_set:Protocol.RoomData.isPassWord)
+}
+
+// bytes mapHash = 5;
+inline void RoomData::clear_maphash() {
+  _impl_.maphash_.ClearToEmpty();
+}
+inline const std::string& RoomData::maphash() const {
+  // @@protoc_insertion_point(field_get:Protocol.RoomData.mapHash)
+  return _internal_maphash();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RoomData::set_maphash(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.maphash_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.RoomData.mapHash)
+}
+inline std::string* RoomData::mutable_maphash() {
+  std::string* _s = _internal_mutable_maphash();
+  // @@protoc_insertion_point(field_mutable:Protocol.RoomData.mapHash)
+  return _s;
+}
+inline const std::string& RoomData::_internal_maphash() const {
+  return _impl_.maphash_.Get();
+}
+inline void RoomData::_internal_set_maphash(const std::string& value) {
+  
+  _impl_.maphash_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RoomData::_internal_mutable_maphash() {
+  
+  return _impl_.maphash_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RoomData::release_maphash() {
+  // @@protoc_insertion_point(field_release:Protocol.RoomData.mapHash)
+  return _impl_.maphash_.Release();
+}
+inline void RoomData::set_allocated_maphash(std::string* maphash) {
+  if (maphash != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.maphash_.SetAllocated(maphash, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.maphash_.IsDefault()) {
+    _impl_.maphash_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.RoomData.mapHash)
 }
 
 // -------------------------------------------------------------------

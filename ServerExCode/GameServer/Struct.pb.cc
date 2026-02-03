@@ -39,8 +39,8 @@ struct BuffDataDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BuffDataDefaultTypeInternal _BuffData_default_instance_;
 PROTOBUF_CONSTEXPR RoomData::RoomData(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.roomname_)*/{}
-  , /*decltype(_impl_._roomname_cached_byte_size_)*/{0}
+    /*decltype(_impl_.roomname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.maphash_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.roomcode_)*/0
   , /*decltype(_impl_.playercount_)*/0u
   , /*decltype(_impl_.ispassword_)*/false
@@ -125,6 +125,7 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   PROTOBUF_FIELD_OFFSET(::Protocol::RoomData, _impl_.playercount_),
   PROTOBUF_FIELD_OFFSET(::Protocol::RoomData, _impl_.roomname_),
   PROTOBUF_FIELD_OFFSET(::Protocol::RoomData, _impl_.ispassword_),
+  PROTOBUF_FIELD_OFFSET(::Protocol::RoomData, _impl_.maphash_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Protocol::PlayerInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -157,9 +158,9 @@ const uint32_t TableStruct_Struct_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Protocol::BuffData)},
   { 9, -1, -1, sizeof(::Protocol::RoomData)},
-  { 19, -1, -1, sizeof(::Protocol::PlayerInfo)},
-  { 26, -1, -1, sizeof(::Protocol::Vector3)},
-  { 35, -1, -1, sizeof(::Protocol::ObjectData)},
+  { 20, -1, -1, sizeof(::Protocol::PlayerInfo)},
+  { 27, -1, -1, sizeof(::Protocol::Vector3)},
+  { 36, -1, -1, sizeof(::Protocol::ObjectData)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -173,23 +174,23 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\014Struct.proto\022\010Protocol\032\nEnum.proto\"\?\n\010"
   "BuffData\022\016\n\006buffId\030\001 \001(\004\022\022\n\nremainTime\030\002"
-  " \001(\002\022\017\n\007victims\030\003 \003(\004\"W\n\010RoomData\022\020\n\010roo"
+  " \001(\002\022\017\n\007victims\030\003 \003(\004\"h\n\010RoomData\022\020\n\010roo"
   "mCode\030\001 \001(\005\022\023\n\013playerCount\030\002 \001(\r\022\020\n\010room"
-  "Name\030\003 \003(\r\022\022\n\nisPassWord\030\004 \001(\010\"\036\n\nPlayer"
-  "Info\022\020\n\010playerId\030\001 \001(\003\"*\n\007Vector3\022\t\n\001x\030\001"
-  " \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 \001(\002\"\253\001\n\nObjectDat"
-  "a\022\"\n\004type\030\001 \001(\0162\024.Protocol.ObjectType\022\020\n"
-  "\010objectId\030\002 \001(\r\022\020\n\010playerId\030\003 \001(\003\022#\n\010pos"
-  "ition\030\004 \001(\0132\021.Protocol.Vector3\022$\n\tdirect"
-  "ion\030\005 \001(\0132\021.Protocol.Vector3\022\n\n\002hp\030\006 \001(\002"
-  "b\006proto3"
+  "Name\030\003 \001(\t\022\022\n\nisPassWord\030\004 \001(\010\022\017\n\007mapHas"
+  "h\030\005 \001(\014\"\036\n\nPlayerInfo\022\020\n\010playerId\030\001 \001(\003\""
+  "*\n\007Vector3\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 "
+  "\001(\002\"\253\001\n\nObjectData\022\"\n\004type\030\001 \001(\0162\024.Proto"
+  "col.ObjectType\022\020\n\010objectId\030\002 \001(\r\022\020\n\010play"
+  "erId\030\003 \001(\003\022#\n\010position\030\004 \001(\0132\021.Protocol."
+  "Vector3\022$\n\tdirection\030\005 \001(\0132\021.Protocol.Ve"
+  "ctor3\022\n\n\002hp\030\006 \001(\002b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_Struct_2eproto_deps[1] = {
   &::descriptor_table_Enum_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_Struct_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_Struct_2eproto = {
-    false, false, 448, descriptor_table_protodef_Struct_2eproto,
+    false, false, 465, descriptor_table_protodef_Struct_2eproto,
     "Struct.proto",
     &descriptor_table_Struct_2eproto_once, descriptor_table_Struct_2eproto_deps, 1, 5,
     schemas, file_default_instances, TableStruct_Struct_2eproto::offsets,
@@ -485,14 +486,30 @@ RoomData::RoomData(const RoomData& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   RoomData* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.roomname_){from._impl_.roomname_}
-    , /*decltype(_impl_._roomname_cached_byte_size_)*/{0}
+      decltype(_impl_.roomname_){}
+    , decltype(_impl_.maphash_){}
     , decltype(_impl_.roomcode_){}
     , decltype(_impl_.playercount_){}
     , decltype(_impl_.ispassword_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.roomname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.roomname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_roomname().empty()) {
+    _this->_impl_.roomname_.Set(from._internal_roomname(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.maphash_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.maphash_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_maphash().empty()) {
+    _this->_impl_.maphash_.Set(from._internal_maphash(), 
+      _this->GetArenaForAllocation());
+  }
   ::memcpy(&_impl_.roomcode_, &from._impl_.roomcode_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.ispassword_) -
     reinterpret_cast<char*>(&_impl_.roomcode_)) + sizeof(_impl_.ispassword_));
@@ -504,13 +521,21 @@ inline void RoomData::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.roomname_){arena}
-    , /*decltype(_impl_._roomname_cached_byte_size_)*/{0}
+      decltype(_impl_.roomname_){}
+    , decltype(_impl_.maphash_){}
     , decltype(_impl_.roomcode_){0}
     , decltype(_impl_.playercount_){0u}
     , decltype(_impl_.ispassword_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.roomname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.roomname_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.maphash_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.maphash_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 RoomData::~RoomData() {
@@ -524,7 +549,8 @@ RoomData::~RoomData() {
 
 inline void RoomData::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.roomname_.~RepeatedField();
+  _impl_.roomname_.Destroy();
+  _impl_.maphash_.Destroy();
 }
 
 void RoomData::SetCachedSize(int size) const {
@@ -537,7 +563,8 @@ void RoomData::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.roomname_.Clear();
+  _impl_.roomname_.ClearToEmpty();
+  _impl_.maphash_.ClearToEmpty();
   ::memset(&_impl_.roomcode_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.ispassword_) -
       reinterpret_cast<char*>(&_impl_.roomcode_)) + sizeof(_impl_.ispassword_));
@@ -566,14 +593,13 @@ const char* RoomData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
         } else
           goto handle_unusual;
         continue;
-      // repeated uint32 roomName = 3;
+      // string roomName = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt32Parser(_internal_mutable_roomname(), ptr, ctx);
+          auto str = _internal_mutable_roomname();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<uint8_t>(tag) == 24) {
-          _internal_add_roomname(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
-          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "Protocol.RoomData.roomName"));
         } else
           goto handle_unusual;
         continue;
@@ -581,6 +607,15 @@ const char* RoomData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.ispassword_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bytes mapHash = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_maphash();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -626,19 +661,26 @@ uint8_t* RoomData::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_playercount(), target);
   }
 
-  // repeated uint32 roomName = 3;
-  {
-    int byte_size = _impl_._roomname_cached_byte_size_.load(std::memory_order_relaxed);
-    if (byte_size > 0) {
-      target = stream->WriteUInt32Packed(
-          3, _internal_roomname(), byte_size, target);
-    }
+  // string roomName = 3;
+  if (!this->_internal_roomname().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_roomname().data(), static_cast<int>(this->_internal_roomname().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "Protocol.RoomData.roomName");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_roomname(), target);
   }
 
   // bool isPassWord = 4;
   if (this->_internal_ispassword() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteBoolToArray(4, this->_internal_ispassword(), target);
+  }
+
+  // bytes mapHash = 5;
+  if (!this->_internal_maphash().empty()) {
+    target = stream->WriteBytesMaybeAliased(
+        5, this->_internal_maphash(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -657,18 +699,18 @@ size_t RoomData::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated uint32 roomName = 3;
-  {
-    size_t data_size = ::_pbi::WireFormatLite::
-      UInt32Size(this->_impl_.roomname_);
-    if (data_size > 0) {
-      total_size += 1 +
-        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
-    }
-    int cached_size = ::_pbi::ToCachedSize(data_size);
-    _impl_._roomname_cached_byte_size_.store(cached_size,
-                                    std::memory_order_relaxed);
-    total_size += data_size;
+  // string roomName = 3;
+  if (!this->_internal_roomname().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_roomname());
+  }
+
+  // bytes mapHash = 5;
+  if (!this->_internal_maphash().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_maphash());
   }
 
   // int32 roomCode = 1;
@@ -704,7 +746,12 @@ void RoomData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_impl_.roomname_.MergeFrom(from._impl_.roomname_);
+  if (!from._internal_roomname().empty()) {
+    _this->_internal_set_roomname(from._internal_roomname());
+  }
+  if (!from._internal_maphash().empty()) {
+    _this->_internal_set_maphash(from._internal_maphash());
+  }
   if (from._internal_roomcode() != 0) {
     _this->_internal_set_roomcode(from._internal_roomcode());
   }
@@ -730,8 +777,17 @@ bool RoomData::IsInitialized() const {
 
 void RoomData::InternalSwap(RoomData* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.roomname_.InternalSwap(&other->_impl_.roomname_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.roomname_, lhs_arena,
+      &other->_impl_.roomname_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.maphash_, lhs_arena,
+      &other->_impl_.maphash_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(RoomData, _impl_.ispassword_)
       + sizeof(RoomData::_impl_.ispassword_)

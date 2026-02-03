@@ -106,22 +106,25 @@ public class MapMaker : EditorWindow
                 using (BinaryWriter bw = new BinaryWriter(fs))
                 {
                     byte[] checksum = MakeChecksum(mapData, resourceData, points);
+                    
+                    using var sha = SHA256.Create();
+                    byte[] data = sha.ComputeHash(checksum);
 
                     {
                         bw.Write((ushort)MapSection.HASH);
-                        bw.Write((ushort)checksum.Length);
-                        bw.Write(checksum);
+                        bw.Write((Int32)data.Length);
+                        bw.Write(data);
                     }
                     // 파일의 형식에 맞게 저장. 스코프로 나누어서 가독성을 높임.
                     {
                         bw.Write((ushort)MapSection.OWNR);
-                        bw.Write((ushort)1);
+                        bw.Write((Int32)1 * sizeof(ushort));
                         bw.Write(playerNum);
                     }
 
                     {
                         bw.Write((ushort)MapSection.SIZE);
-                        bw.Write((ushort)3);
+                        bw.Write((Int32)(2 * sizeof(int) + sizeof(ushort)));
                         bw.Write(tileMapSize.width);
                         bw.Write(tileMapSize.height);
                         bw.Write(scale);
@@ -135,15 +138,16 @@ public class MapMaker : EditorWindow
 
                     {
                         bw.Write((ushort)MapSection.RESO);
-                        bw.Write((ushort)resourceData.Length * sizeof(ushort));
+                        bw.Write((Int32)resourceData.Length);
                         bw.Write(resourceData);
                     }
 
                     {
+                        bw.Write((ushort)MapSection.SPOS);
+                        bw.Write((Int32)(points.Count * sizeof(short) * 2));
+
                         foreach (PlayerStartPoint point in points)
                         {
-                            bw.Write((ushort)MapSection.SPOS);
-                            bw.Write((ushort)(points.Count * sizeof(ushort) * 2));
                             bw.Write(point.x);
                             bw.Write(point.y);
                         }

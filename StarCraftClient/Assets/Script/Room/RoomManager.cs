@@ -62,13 +62,13 @@ public class RoomManager : MonoBehaviour
     /// </summary>
     /// <param name="roomId"> room의 Id 번호 </param>
     /// <param name="playerCount"> 해당 룸의 플레이어 접속 수 </param>
-    void ShowRoomInfo(int roomId, uint playerCount, string roomName, bool isPassWord)
+    void ShowRoomInfo(int roomId, uint playerCount, string roomName, bool isPassWord, byte[] mapHash)
     {
         GameObject roomData = Instantiate(room);
         roomData.transform.parent = Content.transform;
         RoomContent roomContent = roomData.GetComponent<RoomContent>();
 
-        roomContent.Init(roomId, playerCount, roomName, isPassWord);
+        roomContent.Init(roomId, playerCount, roomName, isPassWord, mapHash);
     }
 
     public void OnCreateRoom()

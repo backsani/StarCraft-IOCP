@@ -267,8 +267,23 @@ class C_LOGIN final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTestFieldNumber = 2,
     kLoginCodeFieldNumber = 1,
   };
+  // string test = 2;
+  void clear_test();
+  const std::string& test() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_test(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_test();
+  PROTOBUF_NODISCARD std::string* release_test();
+  void set_allocated_test(std::string* test);
+  private:
+  const std::string& _internal_test() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_test(const std::string& value);
+  std::string* _internal_mutable_test();
+  public:
+
   // uint64 loginCode = 1;
   void clear_logincode();
   uint64_t logincode() const;
@@ -286,6 +301,7 @@ class C_LOGIN final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr test_;
     uint64_t logincode_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -596,52 +612,50 @@ class C_ROOM_CREATE final :
   enum : int {
     kGameNameFieldNumber = 2,
     kGamePassWordFieldNumber = 3,
+    kMapHashFieldNumber = 4,
     kGameIdFieldNumber = 1,
-    kMapIdFieldNumber = 4,
   };
-  // repeated uint32 gameName = 2;
-  int gamename_size() const;
-  private:
-  int _internal_gamename_size() const;
-  public:
+  // string gameName = 2;
   void clear_gamename();
+  const std::string& gamename() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_gamename(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_gamename();
+  PROTOBUF_NODISCARD std::string* release_gamename();
+  void set_allocated_gamename(std::string* gamename);
   private:
-  uint32_t _internal_gamename(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      _internal_gamename() const;
-  void _internal_add_gamename(uint32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      _internal_mutable_gamename();
+  const std::string& _internal_gamename() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_gamename(const std::string& value);
+  std::string* _internal_mutable_gamename();
   public:
-  uint32_t gamename(int index) const;
-  void set_gamename(int index, uint32_t value);
-  void add_gamename(uint32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      gamename() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      mutable_gamename();
 
-  // repeated uint32 gamePassWord = 3;
-  int gamepassword_size() const;
-  private:
-  int _internal_gamepassword_size() const;
-  public:
+  // string gamePassWord = 3;
   void clear_gamepassword();
+  const std::string& gamepassword() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_gamepassword(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_gamepassword();
+  PROTOBUF_NODISCARD std::string* release_gamepassword();
+  void set_allocated_gamepassword(std::string* gamepassword);
   private:
-  uint32_t _internal_gamepassword(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      _internal_gamepassword() const;
-  void _internal_add_gamepassword(uint32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      _internal_mutable_gamepassword();
+  const std::string& _internal_gamepassword() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_gamepassword(const std::string& value);
+  std::string* _internal_mutable_gamepassword();
   public:
-  uint32_t gamepassword(int index) const;
-  void set_gamepassword(int index, uint32_t value);
-  void add_gamepassword(uint32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      gamepassword() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      mutable_gamepassword();
+
+  // bytes mapHash = 4;
+  void clear_maphash();
+  const std::string& maphash() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_maphash(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_maphash();
+  PROTOBUF_NODISCARD std::string* release_maphash();
+  void set_allocated_maphash(std::string* maphash);
+  private:
+  const std::string& _internal_maphash() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_maphash(const std::string& value);
+  std::string* _internal_mutable_maphash();
+  public:
 
   // uint64 gameId = 1;
   void clear_gameid();
@@ -652,15 +666,6 @@ class C_ROOM_CREATE final :
   void _internal_set_gameid(uint64_t value);
   public:
 
-  // int32 mapId = 4;
-  void clear_mapid();
-  int32_t mapid() const;
-  void set_mapid(int32_t value);
-  private:
-  int32_t _internal_mapid() const;
-  void _internal_set_mapid(int32_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:Protocol.C_ROOM_CREATE)
  private:
   class _Internal;
@@ -669,12 +674,10 @@ class C_ROOM_CREATE final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t > gamename_;
-    mutable std::atomic<int> _gamename_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t > gamepassword_;
-    mutable std::atomic<int> _gamepassword_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr gamename_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr gamepassword_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr maphash_;
     uint64_t gameid_;
-    int32_t mapid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -954,27 +957,19 @@ class C_ROOM_REQUEST final :
     kGamePassWordFieldNumber = 2,
     kRoomCodeFieldNumber = 1,
   };
-  // repeated uint32 gamePassWord = 2;
-  int gamepassword_size() const;
-  private:
-  int _internal_gamepassword_size() const;
-  public:
+  // string gamePassWord = 2;
   void clear_gamepassword();
+  const std::string& gamepassword() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_gamepassword(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_gamepassword();
+  PROTOBUF_NODISCARD std::string* release_gamepassword();
+  void set_allocated_gamepassword(std::string* gamepassword);
   private:
-  uint32_t _internal_gamepassword(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      _internal_gamepassword() const;
-  void _internal_add_gamepassword(uint32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      _internal_mutable_gamepassword();
+  const std::string& _internal_gamepassword() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_gamepassword(const std::string& value);
+  std::string* _internal_mutable_gamepassword();
   public:
-  uint32_t gamepassword(int index) const;
-  void set_gamepassword(int index, uint32_t value);
-  void add_gamepassword(uint32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      gamepassword() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      mutable_gamepassword();
 
   // int32 roomCode = 1;
   void clear_roomcode();
@@ -993,8 +988,7 @@ class C_ROOM_REQUEST final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t > gamepassword_;
-    mutable std::atomic<int> _gamepassword_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr gamepassword_;
     int32_t roomcode_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -2226,53 +2220,51 @@ class S_ROOM_LOBBY final :
   enum : int {
     kGameNameFieldNumber = 2,
     kGamePassWordFieldNumber = 3,
+    kMapHashFieldNumber = 5,
     kHostIdFieldNumber = 1,
-    kMapIdFieldNumber = 4,
-    kRoomCodeFieldNumber = 5,
+    kRoomCodeFieldNumber = 4,
   };
-  // repeated uint32 gameName = 2;
-  int gamename_size() const;
-  private:
-  int _internal_gamename_size() const;
-  public:
+  // string gameName = 2;
   void clear_gamename();
+  const std::string& gamename() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_gamename(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_gamename();
+  PROTOBUF_NODISCARD std::string* release_gamename();
+  void set_allocated_gamename(std::string* gamename);
   private:
-  uint32_t _internal_gamename(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      _internal_gamename() const;
-  void _internal_add_gamename(uint32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      _internal_mutable_gamename();
+  const std::string& _internal_gamename() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_gamename(const std::string& value);
+  std::string* _internal_mutable_gamename();
   public:
-  uint32_t gamename(int index) const;
-  void set_gamename(int index, uint32_t value);
-  void add_gamename(uint32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      gamename() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      mutable_gamename();
 
-  // repeated uint32 gamePassWord = 3;
-  int gamepassword_size() const;
-  private:
-  int _internal_gamepassword_size() const;
-  public:
+  // string gamePassWord = 3;
   void clear_gamepassword();
+  const std::string& gamepassword() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_gamepassword(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_gamepassword();
+  PROTOBUF_NODISCARD std::string* release_gamepassword();
+  void set_allocated_gamepassword(std::string* gamepassword);
   private:
-  uint32_t _internal_gamepassword(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      _internal_gamepassword() const;
-  void _internal_add_gamepassword(uint32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      _internal_mutable_gamepassword();
+  const std::string& _internal_gamepassword() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_gamepassword(const std::string& value);
+  std::string* _internal_mutable_gamepassword();
   public:
-  uint32_t gamepassword(int index) const;
-  void set_gamepassword(int index, uint32_t value);
-  void add_gamepassword(uint32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-      gamepassword() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-      mutable_gamepassword();
+
+  // bytes mapHash = 5;
+  void clear_maphash();
+  const std::string& maphash() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_maphash(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_maphash();
+  PROTOBUF_NODISCARD std::string* release_maphash();
+  void set_allocated_maphash(std::string* maphash);
+  private:
+  const std::string& _internal_maphash() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_maphash(const std::string& value);
+  std::string* _internal_mutable_maphash();
+  public:
 
   // uint64 hostId = 1;
   void clear_hostid();
@@ -2283,16 +2275,7 @@ class S_ROOM_LOBBY final :
   void _internal_set_hostid(uint64_t value);
   public:
 
-  // int32 mapId = 4;
-  void clear_mapid();
-  int32_t mapid() const;
-  void set_mapid(int32_t value);
-  private:
-  int32_t _internal_mapid() const;
-  void _internal_set_mapid(int32_t value);
-  public:
-
-  // int32 roomCode = 5;
+  // int32 roomCode = 4;
   void clear_roomcode();
   int32_t roomcode() const;
   void set_roomcode(int32_t value);
@@ -2309,12 +2292,10 @@ class S_ROOM_LOBBY final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t > gamename_;
-    mutable std::atomic<int> _gamename_cached_byte_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t > gamepassword_;
-    mutable std::atomic<int> _gamepassword_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr gamename_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr gamepassword_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr maphash_;
     uint64_t hostid_;
-    int32_t mapid_;
     int32_t roomcode_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -3964,6 +3945,56 @@ inline void C_LOGIN::set_logincode(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.loginCode)
 }
 
+// string test = 2;
+inline void C_LOGIN::clear_test() {
+  _impl_.test_.ClearToEmpty();
+}
+inline const std::string& C_LOGIN::test() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_LOGIN.test)
+  return _internal_test();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_LOGIN::set_test(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.test_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_LOGIN.test)
+}
+inline std::string* C_LOGIN::mutable_test() {
+  std::string* _s = _internal_mutable_test();
+  // @@protoc_insertion_point(field_mutable:Protocol.C_LOGIN.test)
+  return _s;
+}
+inline const std::string& C_LOGIN::_internal_test() const {
+  return _impl_.test_.Get();
+}
+inline void C_LOGIN::_internal_set_test(const std::string& value) {
+  
+  _impl_.test_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C_LOGIN::_internal_mutable_test() {
+  
+  return _impl_.test_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C_LOGIN::release_test() {
+  // @@protoc_insertion_point(field_release:Protocol.C_LOGIN.test)
+  return _impl_.test_.Release();
+}
+inline void C_LOGIN::set_allocated_test(std::string* test) {
+  if (test != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.test_.SetAllocated(test, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.test_.IsDefault()) {
+    _impl_.test_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_LOGIN.test)
+}
+
 // -------------------------------------------------------------------
 
 // C_MOVE
@@ -4117,118 +4148,154 @@ inline void C_ROOM_CREATE::set_gameid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_ROOM_CREATE.gameId)
 }
 
-// repeated uint32 gameName = 2;
-inline int C_ROOM_CREATE::_internal_gamename_size() const {
-  return _impl_.gamename_.size();
-}
-inline int C_ROOM_CREATE::gamename_size() const {
-  return _internal_gamename_size();
-}
+// string gameName = 2;
 inline void C_ROOM_CREATE::clear_gamename() {
-  _impl_.gamename_.Clear();
+  _impl_.gamename_.ClearToEmpty();
 }
-inline uint32_t C_ROOM_CREATE::_internal_gamename(int index) const {
-  return _impl_.gamename_.Get(index);
-}
-inline uint32_t C_ROOM_CREATE::gamename(int index) const {
+inline const std::string& C_ROOM_CREATE::gamename() const {
   // @@protoc_insertion_point(field_get:Protocol.C_ROOM_CREATE.gameName)
-  return _internal_gamename(index);
-}
-inline void C_ROOM_CREATE::set_gamename(int index, uint32_t value) {
-  _impl_.gamename_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_CREATE.gameName)
-}
-inline void C_ROOM_CREATE::_internal_add_gamename(uint32_t value) {
-  _impl_.gamename_.Add(value);
-}
-inline void C_ROOM_CREATE::add_gamename(uint32_t value) {
-  _internal_add_gamename(value);
-  // @@protoc_insertion_point(field_add:Protocol.C_ROOM_CREATE.gameName)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-C_ROOM_CREATE::_internal_gamename() const {
-  return _impl_.gamename_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-C_ROOM_CREATE::gamename() const {
-  // @@protoc_insertion_point(field_list:Protocol.C_ROOM_CREATE.gameName)
   return _internal_gamename();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-C_ROOM_CREATE::_internal_mutable_gamename() {
-  return &_impl_.gamename_;
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_ROOM_CREATE::set_gamename(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.gamename_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_CREATE.gameName)
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-C_ROOM_CREATE::mutable_gamename() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.C_ROOM_CREATE.gameName)
-  return _internal_mutable_gamename();
+inline std::string* C_ROOM_CREATE::mutable_gamename() {
+  std::string* _s = _internal_mutable_gamename();
+  // @@protoc_insertion_point(field_mutable:Protocol.C_ROOM_CREATE.gameName)
+  return _s;
+}
+inline const std::string& C_ROOM_CREATE::_internal_gamename() const {
+  return _impl_.gamename_.Get();
+}
+inline void C_ROOM_CREATE::_internal_set_gamename(const std::string& value) {
+  
+  _impl_.gamename_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C_ROOM_CREATE::_internal_mutable_gamename() {
+  
+  return _impl_.gamename_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C_ROOM_CREATE::release_gamename() {
+  // @@protoc_insertion_point(field_release:Protocol.C_ROOM_CREATE.gameName)
+  return _impl_.gamename_.Release();
+}
+inline void C_ROOM_CREATE::set_allocated_gamename(std::string* gamename) {
+  if (gamename != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.gamename_.SetAllocated(gamename, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.gamename_.IsDefault()) {
+    _impl_.gamename_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_ROOM_CREATE.gameName)
 }
 
-// repeated uint32 gamePassWord = 3;
-inline int C_ROOM_CREATE::_internal_gamepassword_size() const {
-  return _impl_.gamepassword_.size();
-}
-inline int C_ROOM_CREATE::gamepassword_size() const {
-  return _internal_gamepassword_size();
-}
+// string gamePassWord = 3;
 inline void C_ROOM_CREATE::clear_gamepassword() {
-  _impl_.gamepassword_.Clear();
+  _impl_.gamepassword_.ClearToEmpty();
 }
-inline uint32_t C_ROOM_CREATE::_internal_gamepassword(int index) const {
-  return _impl_.gamepassword_.Get(index);
-}
-inline uint32_t C_ROOM_CREATE::gamepassword(int index) const {
+inline const std::string& C_ROOM_CREATE::gamepassword() const {
   // @@protoc_insertion_point(field_get:Protocol.C_ROOM_CREATE.gamePassWord)
-  return _internal_gamepassword(index);
-}
-inline void C_ROOM_CREATE::set_gamepassword(int index, uint32_t value) {
-  _impl_.gamepassword_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_CREATE.gamePassWord)
-}
-inline void C_ROOM_CREATE::_internal_add_gamepassword(uint32_t value) {
-  _impl_.gamepassword_.Add(value);
-}
-inline void C_ROOM_CREATE::add_gamepassword(uint32_t value) {
-  _internal_add_gamepassword(value);
-  // @@protoc_insertion_point(field_add:Protocol.C_ROOM_CREATE.gamePassWord)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-C_ROOM_CREATE::_internal_gamepassword() const {
-  return _impl_.gamepassword_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-C_ROOM_CREATE::gamepassword() const {
-  // @@protoc_insertion_point(field_list:Protocol.C_ROOM_CREATE.gamePassWord)
   return _internal_gamepassword();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-C_ROOM_CREATE::_internal_mutable_gamepassword() {
-  return &_impl_.gamepassword_;
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_ROOM_CREATE::set_gamepassword(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.gamepassword_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_CREATE.gamePassWord)
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-C_ROOM_CREATE::mutable_gamepassword() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.C_ROOM_CREATE.gamePassWord)
-  return _internal_mutable_gamepassword();
+inline std::string* C_ROOM_CREATE::mutable_gamepassword() {
+  std::string* _s = _internal_mutable_gamepassword();
+  // @@protoc_insertion_point(field_mutable:Protocol.C_ROOM_CREATE.gamePassWord)
+  return _s;
+}
+inline const std::string& C_ROOM_CREATE::_internal_gamepassword() const {
+  return _impl_.gamepassword_.Get();
+}
+inline void C_ROOM_CREATE::_internal_set_gamepassword(const std::string& value) {
+  
+  _impl_.gamepassword_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C_ROOM_CREATE::_internal_mutable_gamepassword() {
+  
+  return _impl_.gamepassword_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C_ROOM_CREATE::release_gamepassword() {
+  // @@protoc_insertion_point(field_release:Protocol.C_ROOM_CREATE.gamePassWord)
+  return _impl_.gamepassword_.Release();
+}
+inline void C_ROOM_CREATE::set_allocated_gamepassword(std::string* gamepassword) {
+  if (gamepassword != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.gamepassword_.SetAllocated(gamepassword, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.gamepassword_.IsDefault()) {
+    _impl_.gamepassword_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_ROOM_CREATE.gamePassWord)
 }
 
-// int32 mapId = 4;
-inline void C_ROOM_CREATE::clear_mapid() {
-  _impl_.mapid_ = 0;
+// bytes mapHash = 4;
+inline void C_ROOM_CREATE::clear_maphash() {
+  _impl_.maphash_.ClearToEmpty();
 }
-inline int32_t C_ROOM_CREATE::_internal_mapid() const {
-  return _impl_.mapid_;
+inline const std::string& C_ROOM_CREATE::maphash() const {
+  // @@protoc_insertion_point(field_get:Protocol.C_ROOM_CREATE.mapHash)
+  return _internal_maphash();
 }
-inline int32_t C_ROOM_CREATE::mapid() const {
-  // @@protoc_insertion_point(field_get:Protocol.C_ROOM_CREATE.mapId)
-  return _internal_mapid();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_ROOM_CREATE::set_maphash(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.maphash_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_CREATE.mapHash)
 }
-inline void C_ROOM_CREATE::_internal_set_mapid(int32_t value) {
+inline std::string* C_ROOM_CREATE::mutable_maphash() {
+  std::string* _s = _internal_mutable_maphash();
+  // @@protoc_insertion_point(field_mutable:Protocol.C_ROOM_CREATE.mapHash)
+  return _s;
+}
+inline const std::string& C_ROOM_CREATE::_internal_maphash() const {
+  return _impl_.maphash_.Get();
+}
+inline void C_ROOM_CREATE::_internal_set_maphash(const std::string& value) {
   
-  _impl_.mapid_ = value;
+  _impl_.maphash_.Set(value, GetArenaForAllocation());
 }
-inline void C_ROOM_CREATE::set_mapid(int32_t value) {
-  _internal_set_mapid(value);
-  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_CREATE.mapId)
+inline std::string* C_ROOM_CREATE::_internal_mutable_maphash() {
+  
+  return _impl_.maphash_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C_ROOM_CREATE::release_maphash() {
+  // @@protoc_insertion_point(field_release:Protocol.C_ROOM_CREATE.mapHash)
+  return _impl_.maphash_.Release();
+}
+inline void C_ROOM_CREATE::set_allocated_maphash(std::string* maphash) {
+  if (maphash != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.maphash_.SetAllocated(maphash, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.maphash_.IsDefault()) {
+    _impl_.maphash_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_ROOM_CREATE.mapHash)
 }
 
 // -------------------------------------------------------------------
@@ -4279,51 +4346,54 @@ inline void C_ROOM_REQUEST::set_roomcode(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_ROOM_REQUEST.roomCode)
 }
 
-// repeated uint32 gamePassWord = 2;
-inline int C_ROOM_REQUEST::_internal_gamepassword_size() const {
-  return _impl_.gamepassword_.size();
-}
-inline int C_ROOM_REQUEST::gamepassword_size() const {
-  return _internal_gamepassword_size();
-}
+// string gamePassWord = 2;
 inline void C_ROOM_REQUEST::clear_gamepassword() {
-  _impl_.gamepassword_.Clear();
+  _impl_.gamepassword_.ClearToEmpty();
 }
-inline uint32_t C_ROOM_REQUEST::_internal_gamepassword(int index) const {
-  return _impl_.gamepassword_.Get(index);
-}
-inline uint32_t C_ROOM_REQUEST::gamepassword(int index) const {
+inline const std::string& C_ROOM_REQUEST::gamepassword() const {
   // @@protoc_insertion_point(field_get:Protocol.C_ROOM_REQUEST.gamePassWord)
-  return _internal_gamepassword(index);
-}
-inline void C_ROOM_REQUEST::set_gamepassword(int index, uint32_t value) {
-  _impl_.gamepassword_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_REQUEST.gamePassWord)
-}
-inline void C_ROOM_REQUEST::_internal_add_gamepassword(uint32_t value) {
-  _impl_.gamepassword_.Add(value);
-}
-inline void C_ROOM_REQUEST::add_gamepassword(uint32_t value) {
-  _internal_add_gamepassword(value);
-  // @@protoc_insertion_point(field_add:Protocol.C_ROOM_REQUEST.gamePassWord)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-C_ROOM_REQUEST::_internal_gamepassword() const {
-  return _impl_.gamepassword_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-C_ROOM_REQUEST::gamepassword() const {
-  // @@protoc_insertion_point(field_list:Protocol.C_ROOM_REQUEST.gamePassWord)
   return _internal_gamepassword();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-C_ROOM_REQUEST::_internal_mutable_gamepassword() {
-  return &_impl_.gamepassword_;
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C_ROOM_REQUEST::set_gamepassword(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.gamepassword_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.C_ROOM_REQUEST.gamePassWord)
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-C_ROOM_REQUEST::mutable_gamepassword() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.C_ROOM_REQUEST.gamePassWord)
-  return _internal_mutable_gamepassword();
+inline std::string* C_ROOM_REQUEST::mutable_gamepassword() {
+  std::string* _s = _internal_mutable_gamepassword();
+  // @@protoc_insertion_point(field_mutable:Protocol.C_ROOM_REQUEST.gamePassWord)
+  return _s;
+}
+inline const std::string& C_ROOM_REQUEST::_internal_gamepassword() const {
+  return _impl_.gamepassword_.Get();
+}
+inline void C_ROOM_REQUEST::_internal_set_gamepassword(const std::string& value) {
+  
+  _impl_.gamepassword_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C_ROOM_REQUEST::_internal_mutable_gamepassword() {
+  
+  return _impl_.gamepassword_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C_ROOM_REQUEST::release_gamepassword() {
+  // @@protoc_insertion_point(field_release:Protocol.C_ROOM_REQUEST.gamePassWord)
+  return _impl_.gamepassword_.Release();
+}
+inline void C_ROOM_REQUEST::set_allocated_gamepassword(std::string* gamepassword) {
+  if (gamepassword != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.gamepassword_.SetAllocated(gamepassword, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.gamepassword_.IsDefault()) {
+    _impl_.gamepassword_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.C_ROOM_REQUEST.gamePassWord)
 }
 
 // -------------------------------------------------------------------
@@ -4683,121 +4753,107 @@ inline void S_ROOM_LOBBY::set_hostid(uint64_t value) {
   // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.hostId)
 }
 
-// repeated uint32 gameName = 2;
-inline int S_ROOM_LOBBY::_internal_gamename_size() const {
-  return _impl_.gamename_.size();
-}
-inline int S_ROOM_LOBBY::gamename_size() const {
-  return _internal_gamename_size();
-}
+// string gameName = 2;
 inline void S_ROOM_LOBBY::clear_gamename() {
-  _impl_.gamename_.Clear();
+  _impl_.gamename_.ClearToEmpty();
 }
-inline uint32_t S_ROOM_LOBBY::_internal_gamename(int index) const {
-  return _impl_.gamename_.Get(index);
-}
-inline uint32_t S_ROOM_LOBBY::gamename(int index) const {
+inline const std::string& S_ROOM_LOBBY::gamename() const {
   // @@protoc_insertion_point(field_get:Protocol.S_ROOM_LOBBY.gameName)
-  return _internal_gamename(index);
-}
-inline void S_ROOM_LOBBY::set_gamename(int index, uint32_t value) {
-  _impl_.gamename_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.gameName)
-}
-inline void S_ROOM_LOBBY::_internal_add_gamename(uint32_t value) {
-  _impl_.gamename_.Add(value);
-}
-inline void S_ROOM_LOBBY::add_gamename(uint32_t value) {
-  _internal_add_gamename(value);
-  // @@protoc_insertion_point(field_add:Protocol.S_ROOM_LOBBY.gameName)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-S_ROOM_LOBBY::_internal_gamename() const {
-  return _impl_.gamename_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-S_ROOM_LOBBY::gamename() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_ROOM_LOBBY.gameName)
   return _internal_gamename();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-S_ROOM_LOBBY::_internal_mutable_gamename() {
-  return &_impl_.gamename_;
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_ROOM_LOBBY::set_gamename(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.gamename_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.gameName)
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-S_ROOM_LOBBY::mutable_gamename() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_ROOM_LOBBY.gameName)
-  return _internal_mutable_gamename();
+inline std::string* S_ROOM_LOBBY::mutable_gamename() {
+  std::string* _s = _internal_mutable_gamename();
+  // @@protoc_insertion_point(field_mutable:Protocol.S_ROOM_LOBBY.gameName)
+  return _s;
+}
+inline const std::string& S_ROOM_LOBBY::_internal_gamename() const {
+  return _impl_.gamename_.Get();
+}
+inline void S_ROOM_LOBBY::_internal_set_gamename(const std::string& value) {
+  
+  _impl_.gamename_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S_ROOM_LOBBY::_internal_mutable_gamename() {
+  
+  return _impl_.gamename_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S_ROOM_LOBBY::release_gamename() {
+  // @@protoc_insertion_point(field_release:Protocol.S_ROOM_LOBBY.gameName)
+  return _impl_.gamename_.Release();
+}
+inline void S_ROOM_LOBBY::set_allocated_gamename(std::string* gamename) {
+  if (gamename != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.gamename_.SetAllocated(gamename, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.gamename_.IsDefault()) {
+    _impl_.gamename_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_ROOM_LOBBY.gameName)
 }
 
-// repeated uint32 gamePassWord = 3;
-inline int S_ROOM_LOBBY::_internal_gamepassword_size() const {
-  return _impl_.gamepassword_.size();
-}
-inline int S_ROOM_LOBBY::gamepassword_size() const {
-  return _internal_gamepassword_size();
-}
+// string gamePassWord = 3;
 inline void S_ROOM_LOBBY::clear_gamepassword() {
-  _impl_.gamepassword_.Clear();
+  _impl_.gamepassword_.ClearToEmpty();
 }
-inline uint32_t S_ROOM_LOBBY::_internal_gamepassword(int index) const {
-  return _impl_.gamepassword_.Get(index);
-}
-inline uint32_t S_ROOM_LOBBY::gamepassword(int index) const {
+inline const std::string& S_ROOM_LOBBY::gamepassword() const {
   // @@protoc_insertion_point(field_get:Protocol.S_ROOM_LOBBY.gamePassWord)
-  return _internal_gamepassword(index);
-}
-inline void S_ROOM_LOBBY::set_gamepassword(int index, uint32_t value) {
-  _impl_.gamepassword_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.gamePassWord)
-}
-inline void S_ROOM_LOBBY::_internal_add_gamepassword(uint32_t value) {
-  _impl_.gamepassword_.Add(value);
-}
-inline void S_ROOM_LOBBY::add_gamepassword(uint32_t value) {
-  _internal_add_gamepassword(value);
-  // @@protoc_insertion_point(field_add:Protocol.S_ROOM_LOBBY.gamePassWord)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-S_ROOM_LOBBY::_internal_gamepassword() const {
-  return _impl_.gamepassword_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
-S_ROOM_LOBBY::gamepassword() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_ROOM_LOBBY.gamePassWord)
   return _internal_gamepassword();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-S_ROOM_LOBBY::_internal_mutable_gamepassword() {
-  return &_impl_.gamepassword_;
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_ROOM_LOBBY::set_gamepassword(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.gamepassword_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.gamePassWord)
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
-S_ROOM_LOBBY::mutable_gamepassword() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_ROOM_LOBBY.gamePassWord)
-  return _internal_mutable_gamepassword();
+inline std::string* S_ROOM_LOBBY::mutable_gamepassword() {
+  std::string* _s = _internal_mutable_gamepassword();
+  // @@protoc_insertion_point(field_mutable:Protocol.S_ROOM_LOBBY.gamePassWord)
+  return _s;
 }
-
-// int32 mapId = 4;
-inline void S_ROOM_LOBBY::clear_mapid() {
-  _impl_.mapid_ = 0;
+inline const std::string& S_ROOM_LOBBY::_internal_gamepassword() const {
+  return _impl_.gamepassword_.Get();
 }
-inline int32_t S_ROOM_LOBBY::_internal_mapid() const {
-  return _impl_.mapid_;
-}
-inline int32_t S_ROOM_LOBBY::mapid() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_ROOM_LOBBY.mapId)
-  return _internal_mapid();
-}
-inline void S_ROOM_LOBBY::_internal_set_mapid(int32_t value) {
+inline void S_ROOM_LOBBY::_internal_set_gamepassword(const std::string& value) {
   
-  _impl_.mapid_ = value;
+  _impl_.gamepassword_.Set(value, GetArenaForAllocation());
 }
-inline void S_ROOM_LOBBY::set_mapid(int32_t value) {
-  _internal_set_mapid(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.mapId)
+inline std::string* S_ROOM_LOBBY::_internal_mutable_gamepassword() {
+  
+  return _impl_.gamepassword_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S_ROOM_LOBBY::release_gamepassword() {
+  // @@protoc_insertion_point(field_release:Protocol.S_ROOM_LOBBY.gamePassWord)
+  return _impl_.gamepassword_.Release();
+}
+inline void S_ROOM_LOBBY::set_allocated_gamepassword(std::string* gamepassword) {
+  if (gamepassword != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.gamepassword_.SetAllocated(gamepassword, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.gamepassword_.IsDefault()) {
+    _impl_.gamepassword_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_ROOM_LOBBY.gamePassWord)
 }
 
-// int32 roomCode = 5;
+// int32 roomCode = 4;
 inline void S_ROOM_LOBBY::clear_roomcode() {
   _impl_.roomcode_ = 0;
 }
@@ -4815,6 +4871,56 @@ inline void S_ROOM_LOBBY::_internal_set_roomcode(int32_t value) {
 inline void S_ROOM_LOBBY::set_roomcode(int32_t value) {
   _internal_set_roomcode(value);
   // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.roomCode)
+}
+
+// bytes mapHash = 5;
+inline void S_ROOM_LOBBY::clear_maphash() {
+  _impl_.maphash_.ClearToEmpty();
+}
+inline const std::string& S_ROOM_LOBBY::maphash() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_ROOM_LOBBY.mapHash)
+  return _internal_maphash();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S_ROOM_LOBBY::set_maphash(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.maphash_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:Protocol.S_ROOM_LOBBY.mapHash)
+}
+inline std::string* S_ROOM_LOBBY::mutable_maphash() {
+  std::string* _s = _internal_mutable_maphash();
+  // @@protoc_insertion_point(field_mutable:Protocol.S_ROOM_LOBBY.mapHash)
+  return _s;
+}
+inline const std::string& S_ROOM_LOBBY::_internal_maphash() const {
+  return _impl_.maphash_.Get();
+}
+inline void S_ROOM_LOBBY::_internal_set_maphash(const std::string& value) {
+  
+  _impl_.maphash_.Set(value, GetArenaForAllocation());
+}
+inline std::string* S_ROOM_LOBBY::_internal_mutable_maphash() {
+  
+  return _impl_.maphash_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S_ROOM_LOBBY::release_maphash() {
+  // @@protoc_insertion_point(field_release:Protocol.S_ROOM_LOBBY.mapHash)
+  return _impl_.maphash_.Release();
+}
+inline void S_ROOM_LOBBY::set_allocated_maphash(std::string* maphash) {
+  if (maphash != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.maphash_.SetAllocated(maphash, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.maphash_.IsDefault()) {
+    _impl_.maphash_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_ROOM_LOBBY.mapHash)
 }
 
 // -------------------------------------------------------------------

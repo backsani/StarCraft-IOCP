@@ -3,6 +3,7 @@ using Protocol;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,10 +54,10 @@ public static partial class PacketManager
             case PacketType.PKT_S_ROOM_LOBBY:
                 S_ROOM_LOBBY s_ROOM_LOBBY = packet as S_ROOM_LOBBY;
 
-                string roomName = GlobalUtils.UnpackBytesToString(s_ROOM_LOBBY.GameName);
-                string roomPassWord = GlobalUtils.UnpackBytesToString(s_ROOM_LOBBY.GamePassWord);
+                string roomName = s_ROOM_LOBBY.GameName;
+                string roomPassWord = s_ROOM_LOBBY.GamePassWord;
 
-                RoomData.Instance.SaveLobbyData(s_ROOM_LOBBY.HostId, roomName, roomPassWord, s_ROOM_LOBBY.MapId);
+                RoomData.Instance.SaveLobbyData(s_ROOM_LOBBY.HostId, roomName, roomPassWord, s_ROOM_LOBBY.MapHash.ToByteArray());
                 ServerConnect.Instance.currentRoomCode = s_ROOM_LOBBY.RoomCode;
                 SceneManager.LoadScene("MatchMakingScene");
                 break;
@@ -101,9 +102,9 @@ public static partial class PacketManager
 
                 foreach (Protocol.RoomData data in s_ROOM_DATA.RoomData)
                 {
-                    string name = GlobalUtils.UnpackBytesToString(data.RoomName);
+                    string name = data.RoomName;
 
-                    ServerConnect.Instance.showRoomInfoAction(data.RoomCode, data.PlayerCount, name, data.IsPassWord);
+                    ServerConnect.Instance.showRoomInfoAction(data.RoomCode, data.PlayerCount, name, data.IsPassWord, data.MapHash.ToByteArray());
                 }
                 break;
 

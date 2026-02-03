@@ -14,8 +14,9 @@ message RoomData
 {
 	int32 roomCode = 1;
 	uint32 playerCount = 2;
-	repeated uint32 roomName = 3;
+	string roomName = 3;
 	bool isPassWord = 4;
+	bytes mapHash = 5;
 }
 
 message PlayerInfo

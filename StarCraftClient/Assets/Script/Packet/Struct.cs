@@ -26,19 +26,20 @@ namespace Protocol {
           string.Concat(
             "CgxTdHJ1Y3QucHJvdG8SCFByb3RvY29sGgpFbnVtLnByb3RvIj8KCEJ1ZmZE",
             "YXRhEg4KBmJ1ZmZJZBgBIAEoBBISCgpyZW1haW5UaW1lGAIgASgCEg8KB3Zp",
-            "Y3RpbXMYAyADKAQiVwoIUm9vbURhdGESEAoIcm9vbUNvZGUYASABKAUSEwoL",
-            "cGxheWVyQ291bnQYAiABKA0SEAoIcm9vbU5hbWUYAyADKA0SEgoKaXNQYXNz",
-            "V29yZBgEIAEoCCIeCgpQbGF5ZXJJbmZvEhAKCHBsYXllcklkGAEgASgDIioK",
-            "B1ZlY3RvcjMSCQoBeBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyABKAIiqwEK",
-            "Ck9iamVjdERhdGESIgoEdHlwZRgBIAEoDjIULlByb3RvY29sLk9iamVjdFR5",
-            "cGUSEAoIb2JqZWN0SWQYAiABKA0SEAoIcGxheWVySWQYAyABKAMSIwoIcG9z",
-            "aXRpb24YBCABKAsyES5Qcm90b2NvbC5WZWN0b3IzEiQKCWRpcmVjdGlvbhgF",
-            "IAEoCzIRLlByb3RvY29sLlZlY3RvcjMSCgoCaHAYBiABKAJiBnByb3RvMw=="));
+            "Y3RpbXMYAyADKAQiaAoIUm9vbURhdGESEAoIcm9vbUNvZGUYASABKAUSEwoL",
+            "cGxheWVyQ291bnQYAiABKA0SEAoIcm9vbU5hbWUYAyABKAkSEgoKaXNQYXNz",
+            "V29yZBgEIAEoCBIPCgdtYXBIYXNoGAUgASgMIh4KClBsYXllckluZm8SEAoI",
+            "cGxheWVySWQYASABKAMiKgoHVmVjdG9yMxIJCgF4GAEgASgCEgkKAXkYAiAB",
+            "KAISCQoBehgDIAEoAiKrAQoKT2JqZWN0RGF0YRIiCgR0eXBlGAEgASgOMhQu",
+            "UHJvdG9jb2wuT2JqZWN0VHlwZRIQCghvYmplY3RJZBgCIAEoDRIQCghwbGF5",
+            "ZXJJZBgDIAEoAxIjCghwb3NpdGlvbhgEIAEoCzIRLlByb3RvY29sLlZlY3Rv",
+            "cjMSJAoJZGlyZWN0aW9uGAUgASgLMhEuUHJvdG9jb2wuVmVjdG9yMxIKCgJo",
+            "cBgGIAEoAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.BuffData), global::Protocol.BuffData.Parser, new[]{ "BuffId", "RemainTime", "Victims" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.RoomData), global::Protocol.RoomData.Parser, new[]{ "RoomCode", "PlayerCount", "RoomName", "IsPassWord" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.RoomData), global::Protocol.RoomData.Parser, new[]{ "RoomCode", "PlayerCount", "RoomName", "IsPassWord", "MapHash" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.PlayerInfo), global::Protocol.PlayerInfo.Parser, new[]{ "PlayerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.Vector3), global::Protocol.Vector3.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.ObjectData), global::Protocol.ObjectData.Parser, new[]{ "Type", "ObjectId", "PlayerId", "Position", "Direction", "Hp" }, null, null, null, null)
@@ -338,8 +339,9 @@ namespace Protocol {
     public RoomData(RoomData other) : this() {
       roomCode_ = other.roomCode_;
       playerCount_ = other.playerCount_;
-      roomName_ = other.roomName_.Clone();
+      roomName_ = other.roomName_;
       isPassWord_ = other.isPassWord_;
+      mapHash_ = other.mapHash_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -375,13 +377,14 @@ namespace Protocol {
 
     /// <summary>Field number for the "roomName" field.</summary>
     public const int RoomNameFieldNumber = 3;
-    private static readonly pb::FieldCodec<uint> _repeated_roomName_codec
-        = pb::FieldCodec.ForUInt32(26);
-    private readonly pbc::RepeatedField<uint> roomName_ = new pbc::RepeatedField<uint>();
+    private string roomName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<uint> RoomName {
+    public string RoomName {
       get { return roomName_; }
+      set {
+        roomName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     /// <summary>Field number for the "isPassWord" field.</summary>
@@ -393,6 +396,18 @@ namespace Protocol {
       get { return isPassWord_; }
       set {
         isPassWord_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mapHash" field.</summary>
+    public const int MapHashFieldNumber = 5;
+    private pb::ByteString mapHash_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pb::ByteString MapHash {
+      get { return mapHash_; }
+      set {
+        mapHash_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -413,8 +428,9 @@ namespace Protocol {
       }
       if (RoomCode != other.RoomCode) return false;
       if (PlayerCount != other.PlayerCount) return false;
-      if(!roomName_.Equals(other.roomName_)) return false;
+      if (RoomName != other.RoomName) return false;
       if (IsPassWord != other.IsPassWord) return false;
+      if (MapHash != other.MapHash) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -424,8 +440,9 @@ namespace Protocol {
       int hash = 1;
       if (RoomCode != 0) hash ^= RoomCode.GetHashCode();
       if (PlayerCount != 0) hash ^= PlayerCount.GetHashCode();
-      hash ^= roomName_.GetHashCode();
+      if (RoomName.Length != 0) hash ^= RoomName.GetHashCode();
       if (IsPassWord != false) hash ^= IsPassWord.GetHashCode();
+      if (MapHash.Length != 0) hash ^= MapHash.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -452,10 +469,17 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(PlayerCount);
       }
-      roomName_.WriteTo(output, _repeated_roomName_codec);
+      if (RoomName.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(RoomName);
+      }
       if (IsPassWord != false) {
         output.WriteRawTag(32);
         output.WriteBool(IsPassWord);
+      }
+      if (MapHash.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteBytes(MapHash);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -475,10 +499,17 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(PlayerCount);
       }
-      roomName_.WriteTo(ref output, _repeated_roomName_codec);
+      if (RoomName.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(RoomName);
+      }
       if (IsPassWord != false) {
         output.WriteRawTag(32);
         output.WriteBool(IsPassWord);
+      }
+      if (MapHash.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteBytes(MapHash);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -496,9 +527,14 @@ namespace Protocol {
       if (PlayerCount != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(PlayerCount);
       }
-      size += roomName_.CalculateSize(_repeated_roomName_codec);
+      if (RoomName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomName);
+      }
       if (IsPassWord != false) {
         size += 1 + 1;
+      }
+      if (MapHash.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(MapHash);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -518,9 +554,14 @@ namespace Protocol {
       if (other.PlayerCount != 0) {
         PlayerCount = other.PlayerCount;
       }
-      roomName_.Add(other.roomName_);
+      if (other.RoomName.Length != 0) {
+        RoomName = other.RoomName;
+      }
       if (other.IsPassWord != false) {
         IsPassWord = other.IsPassWord;
+      }
+      if (other.MapHash.Length != 0) {
+        MapHash = other.MapHash;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -545,13 +586,16 @@ namespace Protocol {
             PlayerCount = input.ReadUInt32();
             break;
           }
-          case 26:
-          case 24: {
-            roomName_.AddEntriesFrom(input, _repeated_roomName_codec);
+          case 26: {
+            RoomName = input.ReadString();
             break;
           }
           case 32: {
             IsPassWord = input.ReadBool();
+            break;
+          }
+          case 42: {
+            MapHash = input.ReadBytes();
             break;
           }
         }
@@ -577,13 +621,16 @@ namespace Protocol {
             PlayerCount = input.ReadUInt32();
             break;
           }
-          case 26:
-          case 24: {
-            roomName_.AddEntriesFrom(ref input, _repeated_roomName_codec);
+          case 26: {
+            RoomName = input.ReadString();
             break;
           }
           case 32: {
             IsPassWord = input.ReadBool();
+            break;
+          }
+          case 42: {
+            MapHash = input.ReadBytes();
             break;
           }
         }

@@ -53,7 +53,7 @@ static SpawnFunc g_spawners[] =
 	nullptr, // ARBITER_TRIBUNAL
 };
 
-Room::Room(int roomId, int hostId, vector<INT32> GameName, vector<INT32> GamePassWord, INT32 mapId) : roomId(roomId), hostId(hostId), GameName(GameName), GamePassWord(GamePassWord), mapId(mapId)
+Room::Room(int roomId, int hostId, std::string GameName, std::string GamePassWord, std::string mapHash) : roomId(roomId), hostId(hostId), GameName(GameName), GamePassWord(GamePassWord), mapHash(mapHash)
 {
 	idCount = 0;
 	playerCount = 0;

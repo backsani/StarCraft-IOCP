@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public struct LobbyData
@@ -7,7 +8,7 @@ public struct LobbyData
     public ulong hostId;
     public string gameName;
     public string gamePassWord;
-    public int mapId;
+    public byte[] mapHash;
 }
 
 public enum DisconnectCode
@@ -43,6 +44,12 @@ public class RoomData : MonoBehaviour
         }
     }
 
+    public LobbyData currentRoom;
+    public ulong hostId;
+    public DisconnectCode currentDisconnectCode;
+    public byte[] MapHash;
+    public Dictionary<byte[], string> HashToMapname = new Dictionary<byte[], string>();
+
     // 생성자와 초기화
     private void Awake()
     {
@@ -59,19 +66,28 @@ public class RoomData : MonoBehaviour
         }
 
         currentDisconnectCode = DisconnectCode.DISCONNECT_NONE;
+        Init();
     }
 
-    public LobbyData currentRoom;
-    public ulong hostId;
-    public DisconnectCode currentDisconnectCode;
+    public void Init()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "Maps");
+        foreach(string p in Directory.GetFiles(path, "*.bin"))
+        {
+            byte[] data;
+            GlobalUtils.ExtractionMapHash(p, out data);
+            HashToMapname[data] = Path.GetFileNameWithoutExtension(p);
+        }
+    }
 
-    public void SaveLobbyData(ulong hostId, string gameName, string gamePassWord, int mapId)
+    public void SaveLobbyData(ulong hostId, string gameName, string gamePassWord, byte[] mapHash)
     {
         this.hostId = hostId;
         currentRoom.hostId = hostId;
         currentRoom.gameName = gameName;
         currentRoom.gamePassWord = gamePassWord;
-        currentRoom.mapId = mapId;
+        currentRoom.mapHash = mapHash;
 
+        MapHash = mapHash;
     }
 }

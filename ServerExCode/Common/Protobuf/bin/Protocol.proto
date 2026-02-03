@@ -7,6 +7,7 @@ import "Struct.proto";
 message C_LOGIN
 {
 	uint64 loginCode= 1;
+	string test = 2;
 }
 
 message C_MOVE 
@@ -19,9 +20,9 @@ message C_MOVE
 message C_ROOM_CREATE
 {
 	uint64 gameId = 1;
-	repeated uint32 gameName = 2;
-	repeated uint32 gamePassWord = 3;
-	int32 mapId = 4;
+	string gameName = 2;
+	string gamePassWord = 3;
+	bytes mapHash = 4;
 }
 
 // Room Data Request
@@ -34,7 +35,7 @@ message C_ROOM_DATA
 message C_ROOM_REQUEST
 {
 	int32 roomCode = 1;
-	repeated uint32 gamePassWord = 2;
+	string gamePassWord = 2;
 }
 
 message C_ROOM_PLAYER_LIST_REQUEST
@@ -83,10 +84,10 @@ message S_LOGIN
 message S_ROOM_LOBBY
 {
 	uint64 hostId = 1;
-	repeated uint32 gameName = 2;
-	repeated uint32 gamePassWord = 3;
-	int32 mapId = 4;
-	int32 roomCode = 5;
+	string gameName = 2;
+	string gamePassWord = 3;
+	int32 roomCode = 4;
+	bytes mapHash = 5;
 }
 
 message S_LOBBY_PLAYER_INFO
