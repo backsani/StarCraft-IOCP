@@ -68,7 +68,7 @@ public class RoomManager : MonoBehaviour
         roomData.transform.parent = Content.transform;
         RoomContent roomContent = roomData.GetComponent<RoomContent>();
 
-        roomContent.Init(roomId, playerCount, roomName, isPassWord, mapHash);
+        roomContent.Init(this, roomId, playerCount, roomName, isPassWord, mapHash);
     }
 
     public void OnCreateRoom()
@@ -103,5 +103,11 @@ public class RoomManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void WornWindowShow(string str)
+    {
+        worngMessage.text = str;
+        WorngWindow.gameObject.SetActive(true);
     }
 }

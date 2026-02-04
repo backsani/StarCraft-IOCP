@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -23,7 +24,7 @@ public class MatchMakingUI : MonoBehaviour
         roomPassWord.text = roomData.gamePassWord;
 
         // map의 hash로 RoomData의 HashToMapname Dictionary를 통해 name 받아오기 
-        mapId.text = "map : " + RoomData.Instance.HashToMapname[roomData.mapHash];
+        mapId.text = "map : " + RoomData.Instance.HashToMapname[Convert.ToBase64String(roomData.mapHash)];
         hostId = roomData.hostId;
 
         ServerConnect.Instance.callback = null;

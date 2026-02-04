@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -48,7 +49,7 @@ public class RoomData : MonoBehaviour
     public ulong hostId;
     public DisconnectCode currentDisconnectCode;
     public byte[] MapHash;
-    public Dictionary<byte[], string> HashToMapname = new Dictionary<byte[], string>();
+    public Dictionary<string, string> HashToMapname = new Dictionary<string, string>();
 
     // 생성자와 초기화
     private void Awake()
@@ -76,7 +77,8 @@ public class RoomData : MonoBehaviour
         {
             byte[] data;
             GlobalUtils.ExtractionMapHash(p, out data);
-            HashToMapname[data] = Path.GetFileNameWithoutExtension(p);
+
+            HashToMapname[Convert.ToBase64String(data)] = Path.GetFileNameWithoutExtension(p);
         }
     }
 

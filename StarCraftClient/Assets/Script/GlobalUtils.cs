@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Security.Cryptography;
+using System.Reflection;
+using UnityEditor.U2D.Aseprite;
+using UnityEngine.UIElements;
 
 public static class GlobalUtils
 {
@@ -19,14 +22,33 @@ public static class GlobalUtils
 
         byte[] data = File.ReadAllBytes(path);
 
-        Dictionary<MapSection, byte[]> dic;
+        //Dictionary<MapSection, byte[]> dic;
 
-        ExtractionMapSection(data, out dic);
+        //ExtractionMapSection(data, out dic);
+        int index = 0;
 
-        bytes = dic[MapSection.HASH];
+        MapSection section = (MapSection)BitConverter.ToUInt16(data, 0);
+
+        if (section != MapSection.HASH)
+        {
+            Debug.LogError($"File Section Hash Invaild");
+            bytes = new byte[0];
+            return false;
+        }
+        index += sizeof(ushort);
+
+        Int32 length = BitConverter.ToInt32(data, index);
+        index += sizeof(Int32);
+
+        byte[] hash = new byte[length];
+
+        Buffer.BlockCopy(data, index, hash, 0, length);
+
+        bytes = hash;
 
         return true;
     }
+
 
     // ProtoBuf 오류로 bytes 사용이 불가능해 문자열을 uint32에 압축해서 전송
     public static uint[] PackStringToBytes(string str)
@@ -86,6 +108,7 @@ public static class GlobalUtils
         return System.Text.Encoding.ASCII.GetString(byteList.ToArray());
     }
 
+    // 맵 data를 섹션별로 나누어서 Dictionary로 반환
     public static void ExtractionMapSection(byte[] mapData, out Dictionary<MapSection, byte[]> dictionary)
     {
         dictionary = new Dictionary<MapSection, byte[]>();

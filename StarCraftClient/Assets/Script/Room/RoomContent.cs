@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +21,11 @@ public class RoomContent : MonoBehaviour
     [SerializeField] private GameObject passWordWindow;
     [SerializeField] private TMP_InputField passWordInput;
 
+    RoomManager roomManager;
 
-    public void Init(int roomId, uint playerCount, string roomName, bool isPassWord, byte[] mapHash)
+    public void Init(RoomManager roomManager, int roomId, uint playerCount, string roomName, bool isPassWord, byte[] mapHash)
     {
+        this.roomManager = roomManager;
         this.roomId = roomId;
         this.roomPlayerCount = playerCount;
 
@@ -39,6 +43,15 @@ public class RoomContent : MonoBehaviour
         {
             passWordWindow.SetActive(true);
 
+            return;
+        }
+
+        // RoomData는 MatchingScene을 로드할 때 모든 맵 파일을 읽어서
+        // <Hash, path>로 HashToMapname Dictionary를 초기화한다.
+        // 즉 현재 선택한 룸의 MapHash 키가 없다면 맵이 없는 것이다.
+        if (!RoomData.Instance.HashToMapname.ContainsKey(Convert.ToBase64String(mapHash)))
+        {
+            roomManager.WornWindowShow("Can't find map");
             return;
         }
 
