@@ -50,6 +50,7 @@ public class RoomData : MonoBehaviour
     public DisconnectCode currentDisconnectCode;
     public byte[] MapHash;
     public Dictionary<string, string> HashToMapname = new Dictionary<string, string>();
+    public Dictionary<string, string> HashToMappath = new Dictionary<string, string>();
 
     // 생성자와 초기화
     private void Awake()
@@ -77,6 +78,8 @@ public class RoomData : MonoBehaviour
         {
             byte[] data;
             GlobalUtils.ExtractionMapHash(p, out data);
+
+            HashToMappath[Convert.ToBase64String(data)] = p;
 
             HashToMapname[Convert.ToBase64String(data)] = Path.GetFileNameWithoutExtension(p);
         }

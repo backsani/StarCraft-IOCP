@@ -81,7 +81,7 @@ public static partial class PacketManager
             case PacketType.PKT_S_GAME_START:
                 S_GAME_START s_GAME_START = packet as S_GAME_START;
 
-                PacketRelay.Instance.MapLeader(s_GAME_START.MapSectionCount, s_GAME_START.MapData);
+                //PacketRelay.Instance.MapLeader(s_GAME_START.MapSectionCount, s_GAME_START.MapData);
 
                 SceneManager.LoadScene("BattleScene");
 

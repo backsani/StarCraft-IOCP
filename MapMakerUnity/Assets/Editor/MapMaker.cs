@@ -168,6 +168,7 @@ public class MapMaker : EditorWindow
         return true;
     }
 
+    // 맵 타일 데이터, 리소스 데이터, 플레이어 시작 위치는 맵 마다 다르며, 같다면 같은 맵으로 봐도 무방하기에 이 정보들로 해쉬를 만든다.
     private byte[] MakeChecksum(byte[] mapData, byte[] resourceData, List<PlayerStartPoint> points)
     {
         byte[] bytes;

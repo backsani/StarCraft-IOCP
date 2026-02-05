@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Reflection;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine.UIElements;
+using UnityEngine.Tilemaps;
 
 public static class GlobalUtils
 {
@@ -136,5 +137,15 @@ public static class GlobalUtils
 
             dictionary[section] = data;
         }
+    }
+
+    public static Vector3 CellToWorldCenter(Tilemap tilemap, int x, int y)
+    {
+        return tilemap.GetCellCenterWorld(new Vector3Int(x,y,0));
+    }
+
+    public static Vector3Int WorldToCell(Tilemap tilemap, Vector3 world)
+    {
+        return tilemap.WorldToCell(world);
     }
 }

@@ -14,6 +14,7 @@ public enum MapSection : ushort
     SPOS = 5,   // 플레이어의 시작 위치
 }
 
+[Serializable]
 public struct ResourceData
 {
     public enum ResourceCode
@@ -93,7 +94,7 @@ public class PacketRelay : MonoBehaviour
     public void MapLeader(int count, IEnumerable<int> data)
     {
         int[] mapData = data.ToArray();
-        int index = 0;
+        int index = 1;
 
         for(int i = 0; i < count; i++)
         {
