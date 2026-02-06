@@ -115,6 +115,7 @@ public class MapManager : MonoBehaviour
 
         tileDictionary = new Dictionary<int, Tile>(tiles.Count);
 
+        // ScriptableObject에 저장된 sprite, Id를 Dictionary로 초기화
         foreach (TileData tile in tiles)
         {
             if (tile.sprite == null)
@@ -138,6 +139,7 @@ public class MapManager : MonoBehaviour
             return;
         }
 
+        // file을 불러와서 해당 파일을 섹션별로 Dictionary로 저장
         byte[] fileData = File.ReadAllBytes(path);
         GlobalUtils.ExtractionMapSection(fileData, out mapSectionData);
     }

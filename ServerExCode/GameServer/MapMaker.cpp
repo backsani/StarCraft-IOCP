@@ -3,11 +3,12 @@
 #include <algorithm>
 #include <random>
 #include <ctime>
+#include <filesystem>
 
 
 MapMaker::MapMaker()
 {
-    BuildSampleMap();
+    MapFileLoader();
 }
 
 void MapMaker::AppendSection(MapSection type, const vector<int32>& data)
@@ -19,6 +20,138 @@ void MapMaker::AppendSection(MapSection type, const vector<int32>& data)
     m_buffer.insert(m_buffer.end(), data.begin(), data.end());
 
     SectionCount++;
+}
+
+void MapMaker::MapFileLoader()
+{
+    // SolutionDir/Map
+    filesystem::path dir = filesystem::current_path() / "Map";
+
+    // 해당 주소의 모든 파일들을 순회
+    for (const auto& file : filesystem::directory_iterator(dir))
+    {
+        // text, 바이너리 등 파일인지 체크
+        if (!file.is_regular_file())
+            continue;
+
+        // 확장자 명이 bin인 파일들만
+        if (file.path().extension() == ".bin")
+        {
+            // 정상적으로 열렸는지 확인
+            ifstream bin(file.path(), std::ios::binary);
+            if (!bin.is_open())
+            {
+                cout << "file can't read on " << file.path() << endl;
+                continue;
+            }
+
+            // bin의 파일 포인터를 맨 뒤로
+            bin.seekg(0, std::ios::end);
+            // 현재 포인터의 위치 값(맨뒤) == 파일의 크기
+            size_t size = bin.tellg();
+            // 파일 포인터를 다시 맵 앞으로
+            bin.seekg(0, std::ios::beg);
+
+            vector<uint8_t> data(size);
+            // 파일을 data로 읽어오기
+            bin.read(reinterpret_cast<char*>(data.data()), size);
+            if (!bin)
+                return;
+
+            vector<uint8_t> mapHash;
+            if (!GetHashData(data, mapHash))
+            {
+                cout << "Can't find map hash on " << file.path() << endl;
+                continue;
+            }
+
+            if (!SetHashToMap(data))
+            {
+                cout << "find data Invalid on " << file.path() << endl;
+                continue;
+            }
+
+            cout << "Map Loader Good" << endl;
+        }
+    }
+}
+
+bool MapMaker::GetHashData(vector<uint8_t>& data, vector<uint8_t>& mapHash)
+{
+    int index = 0;
+
+    uint16 sectionCode;
+    memcpy(&sectionCode, data.data() + index, sizeof(uint16));
+    index += sizeof(uint16);
+
+    if ((MapSection)sectionCode != MapSection::HASH)
+    {
+        return false;
+    }
+
+    int32 size;
+    memcpy(&size, data.data() + index, sizeof(int32));
+    index += sizeof(int32);
+
+    mapHash.resize(size);
+    memcpy(mapHash.data(), data.data() + index, size);
+
+    return true;
+}
+
+bool MapMaker::SetHashToMap(vector<uint8_t>& data)
+{
+    int index = 0;
+
+    string hash;
+    // Hash 추출
+    {
+        uint16 sectionCode;
+        memcpy(&sectionCode, data.data() + index, sizeof(uint16));
+        index += sizeof(uint16);
+
+        if ((MapSection)sectionCode != MapSection::HASH)
+        {
+            return false;
+        }
+
+        int32 size;
+        memcpy(&size, data.data() + index, sizeof(int32));
+        index += sizeof(int32);
+
+        hash.assign(reinterpret_cast<const char*>(data.data() + index), size);
+        index += size;
+    }
+
+    // hashToMap에서 MapSectionData가 const이기 때문에 
+    // 미리 만들어서 값을 전부 변경 후 마지막에 map에 삽입
+    auto mapData = MakeShared<MapSectionData>();
+
+    // SectionData 추출
+    while (index < data.size())
+    {
+        uint16 sectionCode;
+        memcpy(&sectionCode, data.data() + index, sizeof(uint16));
+        index += sizeof(uint16);
+
+        int32 size;
+        memcpy(&size, data.data() + index, sizeof(int32));
+        index += sizeof(int32);
+
+        if (size < 0)
+            return false;
+
+        vector<uint8_t> sectionData(size);
+        memcpy(sectionData.data(), data.data() + index, size);
+        index += size;
+
+        // sectionData는 현재 스코프가 끝나면 파괴되고 사용이 끝나므로 move 시멘틱을 사용해 소유권을 이전시켜 복사 비용 줄이기
+        mapData->sections[(MapSection)sectionCode] = move(sectionData);
+    }
+
+    hashToMap[hash] = mapData;
+
+    return true;
 }
 
 void MapMaker::BuildSampleMap()
