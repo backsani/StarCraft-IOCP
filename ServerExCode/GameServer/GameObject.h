@@ -143,6 +143,8 @@ protected:
 
 	Race race;
 
+	std::vector<std::pair<int, int>> path;
+
 public:
 	//충돌관련
 	AABB bounds;
@@ -155,7 +157,7 @@ public:
 	GameObject(RoomRef room, int id, float hp, GameObjectCode objectCode, Vector3 position = Vector3(0, 0, 0), Vector3 direction = Vector3(0, 0, 1), float speed = 0.1f, Race race = Race::NONE);
 
 	SendBufferRef Update();
-	virtual void SetMove(GameObjectState state, Vector3 direction);
+	virtual void SetMove(GameObjectState state, Vector3 position, Vector3 target);
 	virtual void SetAttack(Vector3 targetPos);
 	virtual void SetDead() { currentState = GameObjectState::DEAD; }
 

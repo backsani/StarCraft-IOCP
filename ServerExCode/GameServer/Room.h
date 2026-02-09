@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "MapMaker.h"
 #include <functional>
 
 class GameSession;
@@ -14,6 +15,13 @@ using GridManagerRef = shared_ptr<GridManager>;
 
 using SpawnFunc = std::function<GameObjectRef(RoomRef, int, Vector3)>;
 extern SpawnFunc g_spawners[];
+
+struct IngamePlayerInfo
+{
+	PlayerStartPos spos;
+	int playerIndex;
+
+};
 
 class Room : public std::enable_shared_from_this<Room>
 {
@@ -30,7 +38,11 @@ class Room : public std::enable_shared_from_this<Room>
 	long long currentRoomTime;
 
 public:
-	Map<GameSessionRef, int> _sessionPlayers;
+	map<GameSessionRef, int> _sessionPlayers;
+
+	// ingame에서 플레이어의 id
+	map<GameSessionRef, int> ingamePlayerIndex;
+
 	map<int, GameObjectRef> objects;
 	queue<JobRef> jobQueue;
 	GridManagerRef grid;
@@ -39,7 +51,10 @@ public:
 
 	string GameName;
 	string GamePassWord;
+
 	string mapHash;
+	// 현재 room이 진행중인 맵의 sectionData를 참조
+	shared_ptr<const MapSectionData> mapSectionData;
 
 	USE_LOCK;
 
@@ -53,9 +68,9 @@ public:
 	void Update();
 	void ProcessJob();
 
-	void StartGame(MapMakerRef map);
+	void StartGame();
 
-	GameObjectRef ObjectAdd(GameObjectCode objectId, Vector3 position, Vector3 direction, GameObjectRef shooter = nullptr, int owner = -1);
+	GameObjectRef ObjectAdd(GameObjectCode objectId, Vector3 position, Vector3 direction, GameObjectRef shooter = nullptr, int owner = -1, bool broad = true);
 	void ObjectRemove(GameObjectRef object);
 
 	void HandleCollisions();
@@ -71,7 +86,7 @@ class Job
 public:
 	USE_LOCK;
 	// 오브젝트 상태 변화 시 필요한 Job
-	Job(int objectId, Vector3 position, Vector3 direction, GameObjectState state);
+	Job(int objectId, Vector3 position, Vector3 target, GameObjectState state);
 	// 오브젝트 생성 작업 시 필요한 Job
 	Job(GameObjectCode objectCode, Vector3 position, Vector3 direction, GameObjectState state);
 	// 오브젝트 생성, shooter까지 포함한 Job
@@ -81,6 +96,7 @@ public:
 	int GetObjectId() const { return objectId; }
 	GameObjectCode GetObjectCode() const { return objectCode; }
 	Vector3 GetPosition() const { return position; }
+	Vector3 GetTarget() const { return target; }
 	Vector3 GetDirection() const { return direction; }
 	GameObjectState GetState() const { return state; }
 	GameObjectRef GetShooter() { return shooter; }
@@ -89,6 +105,7 @@ private:
 	int objectId;
 	Vector3 position;
 	Vector3 direction;
+	Vector3 target;
 	GameObjectState state;
 	GameObjectCode objectCode;
 	GameObjectRef shooter;

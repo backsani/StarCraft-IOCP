@@ -27,7 +27,7 @@ namespace Protocol {
             "Cg5Qcm90b2NvbC5wcm90bxIIUHJvdG9jb2waCkVudW0ucHJvdG8aDFN0cnVj",
             "dC5wcm90byIqCgdDX0xPR0lOEhEKCWxvZ2luQ29kZRgBIAEoBBIMCgR0ZXN0",
             "GAIgASgJIlEKBkNfTU9WRRIQCghyb29tQ29kZRgBIAEoBRIQCghvYmplY3RJ",
-            "ZBgCIAEoDRIjCghwb3NpdGlvbhgEIAEoCzIRLlByb3RvY29sLlZlY3RvcjMi",
+            "ZBgCIAMoDRIjCghwb3NpdGlvbhgDIAEoCzIRLlByb3RvY29sLlZlY3RvcjMi",
             "WAoNQ19ST09NX0NSRUFURRIOCgZnYW1lSWQYASABKAQSEAoIZ2FtZU5hbWUY",
             "AiABKAkSFAoMZ2FtZVBhc3NXb3JkGAMgASgJEg8KB21hcEhhc2gYBCABKAwi",
             "HAoLQ19ST09NX0RBVEESDQoFZHVtbXkYASABKA0iOAoOQ19ST09NX1JFUVVF",
@@ -44,19 +44,21 @@ namespace Protocol {
             "ASgEEhAKCGdhbWVOYW1lGAIgASgJEhQKDGdhbWVQYXNzV29yZBgDIAEoCRIQ",
             "Cghyb29tQ29kZRgEIAEoBRIPCgdtYXBIYXNoGAUgASgMIj8KE1NfTE9CQllf",
             "UExBWUVSX0lORk8SKAoKcGxheWVyRGF0YRgBIAMoCzIULlByb3RvY29sLlBs",
-            "YXllckluZm8iOAoMU19HQU1FX1NUQVJUEhcKD21hcFNlY3Rpb25Db3VudBgB",
-            "IAEoBRIPCgdtYXBEYXRhGAIgAygFIj4KC1NfUk9PTV9FWElUEi8KDWRpY29u",
-            "bmVjdENvZGUYASABKA4yGC5Qcm90b2NvbC5EaXNjb25uZWN0Q29kZSIzCgtT",
-            "X1JPT01fREFUQRIkCghyb29tRGF0YRgBIAMoCzISLlByb3RvY29sLlJvb21E",
-            "YXRhIjcKD1NfUk9PTV9SRVNQT05TRRISCgpyb29tQWNjZXB0GAEgASgIEhAK",
-            "CHJvb21Db2RlGAIgASgFImkKBlNfTU9WRRIQCghvYmplY3RJZBgBIAEoDRIo",
-            "CgVzdGF0ZRgCIAEoDjIZLlByb3RvY29sLkdhbWVPYmplY3RTdGF0ZRIjCghw",
-            "b3NpdGlvbhgDIAEoCzIRLlByb3RvY29sLlZlY3RvcjMiTQoOU19PQkpFQ1Rf",
-            "U1BBV04SKAoKb2JqZWN0RGF0YRgBIAEoCzIULlByb3RvY29sLk9iamVjdERh",
-            "dGESEQoJc3Bhd25UaW1lGAIgASgDIksKDVNfT0JKRUNUX0RFQUQSEAoIb2Jq",
-            "ZWN0SWQYASABKA0SKAoFc3RhdGUYAiABKA4yGS5Qcm90b2NvbC5HYW1lT2Jq",
-            "ZWN0U3RhdGUiLwoPU19PQkpFQ1RfREFNQUdFEhAKCG9iamVjdElkGAEgASgN",
-            "EgoKAmhwGAIgASgCIhYKBlNfVEVTVBIMCgR0ZXN0GAEgASgMYgZwcm90bzM="));
+            "YXllckluZm8ibwoMU19HQU1FX1NUQVJUEiMKCHN0YXJ0UG9zGAEgASgLMhEu",
+            "UHJvdG9jb2wuVmVjdG9yMxIoCgpvYmplY3REYXRhGAIgAygLMhQuUHJvdG9j",
+            "b2wuT2JqZWN0RGF0YRIQCghwbGF5ZXJJZBgDIAEoBSI+CgtTX1JPT01fRVhJ",
+            "VBIvCg1kaWNvbm5lY3RDb2RlGAEgASgOMhguUHJvdG9jb2wuRGlzY29ubmVj",
+            "dENvZGUiMwoLU19ST09NX0RBVEESJAoIcm9vbURhdGEYASADKAsyEi5Qcm90",
+            "b2NvbC5Sb29tRGF0YSI3Cg9TX1JPT01fUkVTUE9OU0USEgoKcm9vbUFjY2Vw",
+            "dBgBIAEoCBIQCghyb29tQ29kZRgCIAEoBSJpCgZTX01PVkUSEAoIb2JqZWN0",
+            "SWQYASABKA0SKAoFc3RhdGUYAiABKA4yGS5Qcm90b2NvbC5HYW1lT2JqZWN0",
+            "U3RhdGUSIwoIcG9zaXRpb24YAyABKAsyES5Qcm90b2NvbC5WZWN0b3IzIk0K",
+            "DlNfT0JKRUNUX1NQQVdOEigKCm9iamVjdERhdGEYASABKAsyFC5Qcm90b2Nv",
+            "bC5PYmplY3REYXRhEhEKCXNwYXduVGltZRgCIAEoAyJLCg1TX09CSkVDVF9E",
+            "RUFEEhAKCG9iamVjdElkGAEgASgNEigKBXN0YXRlGAIgASgOMhkuUHJvdG9j",
+            "b2wuR2FtZU9iamVjdFN0YXRlIi8KD1NfT0JKRUNUX0RBTUFHRRIQCghvYmpl",
+            "Y3RJZBgBIAEoDRIKCgJocBgCIAEoAiIWCgZTX1RFU1QSDAoEdGVzdBgBIAEo",
+            "DGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protocol.EnumReflection.Descriptor, global::Protocol.StructReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -74,7 +76,7 @@ namespace Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_LOGIN), global::Protocol.S_LOGIN.Parser, new[]{ "GameId", "LoginAccept" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_LOBBY), global::Protocol.S_ROOM_LOBBY.Parser, new[]{ "HostId", "GameName", "GamePassWord", "RoomCode", "MapHash" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_LOBBY_PLAYER_INFO), global::Protocol.S_LOBBY_PLAYER_INFO.Parser, new[]{ "PlayerData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_GAME_START), global::Protocol.S_GAME_START.Parser, new[]{ "MapSectionCount", "MapData" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_GAME_START), global::Protocol.S_GAME_START.Parser, new[]{ "StartPos", "ObjectData", "PlayerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_EXIT), global::Protocol.S_ROOM_EXIT.Parser, new[]{ "DiconnectCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_DATA), global::Protocol.S_ROOM_DATA.Parser, new[]{ "RoomData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protocol.S_ROOM_RESPONSE), global::Protocol.S_ROOM_RESPONSE.Parser, new[]{ "RoomAccept", "RoomCode" }, null, null, null, null),
@@ -350,7 +352,7 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public C_MOVE(C_MOVE other) : this() {
       roomCode_ = other.roomCode_;
-      objectId_ = other.objectId_;
+      objectId_ = other.objectId_.Clone();
       position_ = other.position_ != null ? other.position_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -375,18 +377,17 @@ namespace Protocol {
 
     /// <summary>Field number for the "objectId" field.</summary>
     public const int ObjectIdFieldNumber = 2;
-    private uint objectId_;
+    private static readonly pb::FieldCodec<uint> _repeated_objectId_codec
+        = pb::FieldCodec.ForUInt32(18);
+    private readonly pbc::RepeatedField<uint> objectId_ = new pbc::RepeatedField<uint>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint ObjectId {
+    public pbc::RepeatedField<uint> ObjectId {
       get { return objectId_; }
-      set {
-        objectId_ = value;
-      }
     }
 
     /// <summary>Field number for the "position" field.</summary>
-    public const int PositionFieldNumber = 4;
+    public const int PositionFieldNumber = 3;
     private global::Protocol.Vector3 position_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -413,7 +414,7 @@ namespace Protocol {
         return true;
       }
       if (RoomCode != other.RoomCode) return false;
-      if (ObjectId != other.ObjectId) return false;
+      if(!objectId_.Equals(other.objectId_)) return false;
       if (!object.Equals(Position, other.Position)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -423,7 +424,7 @@ namespace Protocol {
     public override int GetHashCode() {
       int hash = 1;
       if (RoomCode != 0) hash ^= RoomCode.GetHashCode();
-      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
+      hash ^= objectId_.GetHashCode();
       if (position_ != null) hash ^= Position.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -447,12 +448,9 @@ namespace Protocol {
         output.WriteRawTag(8);
         output.WriteInt32(RoomCode);
       }
-      if (ObjectId != 0) {
-        output.WriteRawTag(16);
-        output.WriteUInt32(ObjectId);
-      }
+      objectId_.WriteTo(output, _repeated_objectId_codec);
       if (position_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(26);
         output.WriteMessage(Position);
       }
       if (_unknownFields != null) {
@@ -469,12 +467,9 @@ namespace Protocol {
         output.WriteRawTag(8);
         output.WriteInt32(RoomCode);
       }
-      if (ObjectId != 0) {
-        output.WriteRawTag(16);
-        output.WriteUInt32(ObjectId);
-      }
+      objectId_.WriteTo(ref output, _repeated_objectId_codec);
       if (position_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(26);
         output.WriteMessage(Position);
       }
       if (_unknownFields != null) {
@@ -490,9 +485,7 @@ namespace Protocol {
       if (RoomCode != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RoomCode);
       }
-      if (ObjectId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ObjectId);
-      }
+      size += objectId_.CalculateSize(_repeated_objectId_codec);
       if (position_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Position);
       }
@@ -511,9 +504,7 @@ namespace Protocol {
       if (other.RoomCode != 0) {
         RoomCode = other.RoomCode;
       }
-      if (other.ObjectId != 0) {
-        ObjectId = other.ObjectId;
-      }
+      objectId_.Add(other.objectId_);
       if (other.position_ != null) {
         if (position_ == null) {
           Position = new global::Protocol.Vector3();
@@ -539,11 +530,12 @@ namespace Protocol {
             RoomCode = input.ReadInt32();
             break;
           }
+          case 18:
           case 16: {
-            ObjectId = input.ReadUInt32();
+            objectId_.AddEntriesFrom(input, _repeated_objectId_codec);
             break;
           }
-          case 34: {
+          case 26: {
             if (position_ == null) {
               Position = new global::Protocol.Vector3();
             }
@@ -569,11 +561,12 @@ namespace Protocol {
             RoomCode = input.ReadInt32();
             break;
           }
+          case 18:
           case 16: {
-            ObjectId = input.ReadUInt32();
+            objectId_.AddEntriesFrom(ref input, _repeated_objectId_codec);
             break;
           }
-          case 34: {
+          case 26: {
             if (position_ == null) {
               Position = new global::Protocol.Vector3();
             }
@@ -3377,8 +3370,9 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S_GAME_START(S_GAME_START other) : this() {
-      mapSectionCount_ = other.mapSectionCount_;
-      mapData_ = other.mapData_.Clone();
+      startPos_ = other.startPos_ != null ? other.startPos_.Clone() : null;
+      objectData_ = other.objectData_.Clone();
+      playerId_ = other.playerId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3388,27 +3382,39 @@ namespace Protocol {
       return new S_GAME_START(this);
     }
 
-    /// <summary>Field number for the "mapSectionCount" field.</summary>
-    public const int MapSectionCountFieldNumber = 1;
-    private int mapSectionCount_;
+    /// <summary>Field number for the "startPos" field.</summary>
+    public const int StartPosFieldNumber = 1;
+    private global::Protocol.Vector3 startPos_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int MapSectionCount {
-      get { return mapSectionCount_; }
+    public global::Protocol.Vector3 StartPos {
+      get { return startPos_; }
       set {
-        mapSectionCount_ = value;
+        startPos_ = value;
       }
     }
 
-    /// <summary>Field number for the "mapData" field.</summary>
-    public const int MapDataFieldNumber = 2;
-    private static readonly pb::FieldCodec<int> _repeated_mapData_codec
-        = pb::FieldCodec.ForInt32(18);
-    private readonly pbc::RepeatedField<int> mapData_ = new pbc::RepeatedField<int>();
+    /// <summary>Field number for the "objectData" field.</summary>
+    public const int ObjectDataFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::Protocol.ObjectData> _repeated_objectData_codec
+        = pb::FieldCodec.ForMessage(18, global::Protocol.ObjectData.Parser);
+    private readonly pbc::RepeatedField<global::Protocol.ObjectData> objectData_ = new pbc::RepeatedField<global::Protocol.ObjectData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<int> MapData {
-      get { return mapData_; }
+    public pbc::RepeatedField<global::Protocol.ObjectData> ObjectData {
+      get { return objectData_; }
+    }
+
+    /// <summary>Field number for the "playerId" field.</summary>
+    public const int PlayerIdFieldNumber = 3;
+    private int playerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int PlayerId {
+      get { return playerId_; }
+      set {
+        playerId_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3426,8 +3432,9 @@ namespace Protocol {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (MapSectionCount != other.MapSectionCount) return false;
-      if(!mapData_.Equals(other.mapData_)) return false;
+      if (!object.Equals(StartPos, other.StartPos)) return false;
+      if(!objectData_.Equals(other.objectData_)) return false;
+      if (PlayerId != other.PlayerId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3435,8 +3442,9 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (MapSectionCount != 0) hash ^= MapSectionCount.GetHashCode();
-      hash ^= mapData_.GetHashCode();
+      if (startPos_ != null) hash ^= StartPos.GetHashCode();
+      hash ^= objectData_.GetHashCode();
+      if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3455,11 +3463,15 @@ namespace Protocol {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (MapSectionCount != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(MapSectionCount);
+      if (startPos_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(StartPos);
       }
-      mapData_.WriteTo(output, _repeated_mapData_codec);
+      objectData_.WriteTo(output, _repeated_objectData_codec);
+      if (PlayerId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(PlayerId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3470,11 +3482,15 @@ namespace Protocol {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (MapSectionCount != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(MapSectionCount);
+      if (startPos_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(StartPos);
       }
-      mapData_.WriteTo(ref output, _repeated_mapData_codec);
+      objectData_.WriteTo(ref output, _repeated_objectData_codec);
+      if (PlayerId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(PlayerId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -3485,10 +3501,13 @@ namespace Protocol {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (MapSectionCount != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MapSectionCount);
+      if (startPos_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StartPos);
       }
-      size += mapData_.CalculateSize(_repeated_mapData_codec);
+      size += objectData_.CalculateSize(_repeated_objectData_codec);
+      if (PlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerId);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3501,10 +3520,16 @@ namespace Protocol {
       if (other == null) {
         return;
       }
-      if (other.MapSectionCount != 0) {
-        MapSectionCount = other.MapSectionCount;
+      if (other.startPos_ != null) {
+        if (startPos_ == null) {
+          StartPos = new global::Protocol.Vector3();
+        }
+        StartPos.MergeFrom(other.StartPos);
       }
-      mapData_.Add(other.mapData_);
+      objectData_.Add(other.objectData_);
+      if (other.PlayerId != 0) {
+        PlayerId = other.PlayerId;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3520,13 +3545,19 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            MapSectionCount = input.ReadInt32();
+          case 10: {
+            if (startPos_ == null) {
+              StartPos = new global::Protocol.Vector3();
+            }
+            input.ReadMessage(StartPos);
             break;
           }
-          case 18:
-          case 16: {
-            mapData_.AddEntriesFrom(input, _repeated_mapData_codec);
+          case 18: {
+            objectData_.AddEntriesFrom(input, _repeated_objectData_codec);
+            break;
+          }
+          case 24: {
+            PlayerId = input.ReadInt32();
             break;
           }
         }
@@ -3544,13 +3575,19 @@ namespace Protocol {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            MapSectionCount = input.ReadInt32();
+          case 10: {
+            if (startPos_ == null) {
+              StartPos = new global::Protocol.Vector3();
+            }
+            input.ReadMessage(StartPos);
             break;
           }
-          case 18:
-          case 16: {
-            mapData_.AddEntriesFrom(ref input, _repeated_mapData_codec);
+          case 18: {
+            objectData_.AddEntriesFrom(ref input, _repeated_objectData_codec);
+            break;
+          }
+          case 24: {
+            PlayerId = input.ReadInt32();
             break;
           }
         }

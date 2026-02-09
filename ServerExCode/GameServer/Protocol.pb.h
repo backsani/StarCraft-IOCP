@@ -431,11 +431,33 @@ class C_MOVE final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPositionFieldNumber = 4,
-    kRoomCodeFieldNumber = 1,
     kObjectIdFieldNumber = 2,
+    kPositionFieldNumber = 3,
+    kRoomCodeFieldNumber = 1,
   };
-  // .Protocol.Vector3 position = 4;
+  // repeated uint32 objectId = 2;
+  int objectid_size() const;
+  private:
+  int _internal_objectid_size() const;
+  public:
+  void clear_objectid();
+  private:
+  uint32_t _internal_objectid(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
+      _internal_objectid() const;
+  void _internal_add_objectid(uint32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
+      _internal_mutable_objectid();
+  public:
+  uint32_t objectid(int index) const;
+  void set_objectid(int index, uint32_t value);
+  void add_objectid(uint32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
+      objectid() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
+      mutable_objectid();
+
+  // .Protocol.Vector3 position = 3;
   bool has_position() const;
   private:
   bool _internal_has_position() const;
@@ -462,15 +484,6 @@ class C_MOVE final :
   void _internal_set_roomcode(int32_t value);
   public:
 
-  // uint32 objectId = 2;
-  void clear_objectid();
-  uint32_t objectid() const;
-  void set_objectid(uint32_t value);
-  private:
-  uint32_t _internal_objectid() const;
-  void _internal_set_objectid(uint32_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:Protocol.C_MOVE)
  private:
   class _Internal;
@@ -479,9 +492,10 @@ class C_MOVE final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t > objectid_;
+    mutable std::atomic<int> _objectid_cached_byte_size_;
     ::Protocol::Vector3* position_;
     int32_t roomcode_;
-    uint32_t objectid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2582,38 +2596,53 @@ class S_GAME_START final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMapDataFieldNumber = 2,
-    kMapSectionCountFieldNumber = 1,
+    kObjectDataFieldNumber = 2,
+    kStartPosFieldNumber = 1,
+    kPlayerIdFieldNumber = 3,
   };
-  // repeated int32 mapData = 2;
-  int mapdata_size() const;
+  // repeated .Protocol.ObjectData objectData = 2;
+  int objectdata_size() const;
   private:
-  int _internal_mapdata_size() const;
+  int _internal_objectdata_size() const;
   public:
-  void clear_mapdata();
+  void clear_objectdata();
+  ::Protocol::ObjectData* mutable_objectdata(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectData >*
+      mutable_objectdata();
   private:
-  int32_t _internal_mapdata(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      _internal_mapdata() const;
-  void _internal_add_mapdata(int32_t value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      _internal_mutable_mapdata();
+  const ::Protocol::ObjectData& _internal_objectdata(int index) const;
+  ::Protocol::ObjectData* _internal_add_objectdata();
   public:
-  int32_t mapdata(int index) const;
-  void set_mapdata(int index, int32_t value);
-  void add_mapdata(int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-      mapdata() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-      mutable_mapdata();
+  const ::Protocol::ObjectData& objectdata(int index) const;
+  ::Protocol::ObjectData* add_objectdata();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectData >&
+      objectdata() const;
 
-  // int32 mapSectionCount = 1;
-  void clear_mapsectioncount();
-  int32_t mapsectioncount() const;
-  void set_mapsectioncount(int32_t value);
+  // .Protocol.Vector3 startPos = 1;
+  bool has_startpos() const;
   private:
-  int32_t _internal_mapsectioncount() const;
-  void _internal_set_mapsectioncount(int32_t value);
+  bool _internal_has_startpos() const;
+  public:
+  void clear_startpos();
+  const ::Protocol::Vector3& startpos() const;
+  PROTOBUF_NODISCARD ::Protocol::Vector3* release_startpos();
+  ::Protocol::Vector3* mutable_startpos();
+  void set_allocated_startpos(::Protocol::Vector3* startpos);
+  private:
+  const ::Protocol::Vector3& _internal_startpos() const;
+  ::Protocol::Vector3* _internal_mutable_startpos();
+  public:
+  void unsafe_arena_set_allocated_startpos(
+      ::Protocol::Vector3* startpos);
+  ::Protocol::Vector3* unsafe_arena_release_startpos();
+
+  // int32 playerId = 3;
+  void clear_playerid();
+  int32_t playerid() const;
+  void set_playerid(int32_t value);
+  private:
+  int32_t _internal_playerid() const;
+  void _internal_set_playerid(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:Protocol.S_GAME_START)
@@ -2624,9 +2653,9 @@ class S_GAME_START final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > mapdata_;
-    mutable std::atomic<int> _mapdata_cached_byte_size_;
-    int32_t mapsectioncount_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectData > objectdata_;
+    ::Protocol::Vector3* startpos_;
+    int32_t playerid_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4019,27 +4048,54 @@ inline void C_MOVE::set_roomcode(int32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.C_MOVE.roomCode)
 }
 
-// uint32 objectId = 2;
+// repeated uint32 objectId = 2;
+inline int C_MOVE::_internal_objectid_size() const {
+  return _impl_.objectid_.size();
+}
+inline int C_MOVE::objectid_size() const {
+  return _internal_objectid_size();
+}
 inline void C_MOVE::clear_objectid() {
-  _impl_.objectid_ = 0u;
+  _impl_.objectid_.Clear();
 }
-inline uint32_t C_MOVE::_internal_objectid() const {
-  return _impl_.objectid_;
+inline uint32_t C_MOVE::_internal_objectid(int index) const {
+  return _impl_.objectid_.Get(index);
 }
-inline uint32_t C_MOVE::objectid() const {
+inline uint32_t C_MOVE::objectid(int index) const {
   // @@protoc_insertion_point(field_get:Protocol.C_MOVE.objectId)
-  return _internal_objectid();
+  return _internal_objectid(index);
 }
-inline void C_MOVE::_internal_set_objectid(uint32_t value) {
-  
-  _impl_.objectid_ = value;
-}
-inline void C_MOVE::set_objectid(uint32_t value) {
-  _internal_set_objectid(value);
+inline void C_MOVE::set_objectid(int index, uint32_t value) {
+  _impl_.objectid_.Set(index, value);
   // @@protoc_insertion_point(field_set:Protocol.C_MOVE.objectId)
 }
+inline void C_MOVE::_internal_add_objectid(uint32_t value) {
+  _impl_.objectid_.Add(value);
+}
+inline void C_MOVE::add_objectid(uint32_t value) {
+  _internal_add_objectid(value);
+  // @@protoc_insertion_point(field_add:Protocol.C_MOVE.objectId)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
+C_MOVE::_internal_objectid() const {
+  return _impl_.objectid_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >&
+C_MOVE::objectid() const {
+  // @@protoc_insertion_point(field_list:Protocol.C_MOVE.objectId)
+  return _internal_objectid();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
+C_MOVE::_internal_mutable_objectid() {
+  return &_impl_.objectid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< uint32_t >*
+C_MOVE::mutable_objectid() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.C_MOVE.objectId)
+  return _internal_mutable_objectid();
+}
 
-// .Protocol.Vector3 position = 4;
+// .Protocol.Vector3 position = 3;
 inline bool C_MOVE::_internal_has_position() const {
   return this != internal_default_instance() && _impl_.position_ != nullptr;
 }
@@ -4968,71 +5024,146 @@ S_LOBBY_PLAYER_INFO::playerdata() const {
 
 // S_GAME_START
 
-// int32 mapSectionCount = 1;
-inline void S_GAME_START::clear_mapsectioncount() {
-  _impl_.mapsectioncount_ = 0;
+// .Protocol.Vector3 startPos = 1;
+inline bool S_GAME_START::_internal_has_startpos() const {
+  return this != internal_default_instance() && _impl_.startpos_ != nullptr;
 }
-inline int32_t S_GAME_START::_internal_mapsectioncount() const {
-  return _impl_.mapsectioncount_;
+inline bool S_GAME_START::has_startpos() const {
+  return _internal_has_startpos();
 }
-inline int32_t S_GAME_START::mapsectioncount() const {
-  // @@protoc_insertion_point(field_get:Protocol.S_GAME_START.mapSectionCount)
-  return _internal_mapsectioncount();
+inline const ::Protocol::Vector3& S_GAME_START::_internal_startpos() const {
+  const ::Protocol::Vector3* p = _impl_.startpos_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Protocol::Vector3&>(
+      ::Protocol::_Vector3_default_instance_);
 }
-inline void S_GAME_START::_internal_set_mapsectioncount(int32_t value) {
+inline const ::Protocol::Vector3& S_GAME_START::startpos() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_GAME_START.startPos)
+  return _internal_startpos();
+}
+inline void S_GAME_START::unsafe_arena_set_allocated_startpos(
+    ::Protocol::Vector3* startpos) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.startpos_);
+  }
+  _impl_.startpos_ = startpos;
+  if (startpos) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Protocol.S_GAME_START.startPos)
+}
+inline ::Protocol::Vector3* S_GAME_START::release_startpos() {
   
-  _impl_.mapsectioncount_ = value;
+  ::Protocol::Vector3* temp = _impl_.startpos_;
+  _impl_.startpos_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-inline void S_GAME_START::set_mapsectioncount(int32_t value) {
-  _internal_set_mapsectioncount(value);
-  // @@protoc_insertion_point(field_set:Protocol.S_GAME_START.mapSectionCount)
+inline ::Protocol::Vector3* S_GAME_START::unsafe_arena_release_startpos() {
+  // @@protoc_insertion_point(field_release:Protocol.S_GAME_START.startPos)
+  
+  ::Protocol::Vector3* temp = _impl_.startpos_;
+  _impl_.startpos_ = nullptr;
+  return temp;
+}
+inline ::Protocol::Vector3* S_GAME_START::_internal_mutable_startpos() {
+  
+  if (_impl_.startpos_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Protocol::Vector3>(GetArenaForAllocation());
+    _impl_.startpos_ = p;
+  }
+  return _impl_.startpos_;
+}
+inline ::Protocol::Vector3* S_GAME_START::mutable_startpos() {
+  ::Protocol::Vector3* _msg = _internal_mutable_startpos();
+  // @@protoc_insertion_point(field_mutable:Protocol.S_GAME_START.startPos)
+  return _msg;
+}
+inline void S_GAME_START::set_allocated_startpos(::Protocol::Vector3* startpos) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.startpos_);
+  }
+  if (startpos) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(startpos));
+    if (message_arena != submessage_arena) {
+      startpos = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, startpos, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.startpos_ = startpos;
+  // @@protoc_insertion_point(field_set_allocated:Protocol.S_GAME_START.startPos)
 }
 
-// repeated int32 mapData = 2;
-inline int S_GAME_START::_internal_mapdata_size() const {
-  return _impl_.mapdata_.size();
+// repeated .Protocol.ObjectData objectData = 2;
+inline int S_GAME_START::_internal_objectdata_size() const {
+  return _impl_.objectdata_.size();
 }
-inline int S_GAME_START::mapdata_size() const {
-  return _internal_mapdata_size();
+inline int S_GAME_START::objectdata_size() const {
+  return _internal_objectdata_size();
 }
-inline void S_GAME_START::clear_mapdata() {
-  _impl_.mapdata_.Clear();
+inline ::Protocol::ObjectData* S_GAME_START::mutable_objectdata(int index) {
+  // @@protoc_insertion_point(field_mutable:Protocol.S_GAME_START.objectData)
+  return _impl_.objectdata_.Mutable(index);
 }
-inline int32_t S_GAME_START::_internal_mapdata(int index) const {
-  return _impl_.mapdata_.Get(index);
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectData >*
+S_GAME_START::mutable_objectdata() {
+  // @@protoc_insertion_point(field_mutable_list:Protocol.S_GAME_START.objectData)
+  return &_impl_.objectdata_;
 }
-inline int32_t S_GAME_START::mapdata(int index) const {
-  // @@protoc_insertion_point(field_get:Protocol.S_GAME_START.mapData)
-  return _internal_mapdata(index);
+inline const ::Protocol::ObjectData& S_GAME_START::_internal_objectdata(int index) const {
+  return _impl_.objectdata_.Get(index);
 }
-inline void S_GAME_START::set_mapdata(int index, int32_t value) {
-  _impl_.mapdata_.Set(index, value);
-  // @@protoc_insertion_point(field_set:Protocol.S_GAME_START.mapData)
+inline const ::Protocol::ObjectData& S_GAME_START::objectdata(int index) const {
+  // @@protoc_insertion_point(field_get:Protocol.S_GAME_START.objectData)
+  return _internal_objectdata(index);
 }
-inline void S_GAME_START::_internal_add_mapdata(int32_t value) {
-  _impl_.mapdata_.Add(value);
+inline ::Protocol::ObjectData* S_GAME_START::_internal_add_objectdata() {
+  return _impl_.objectdata_.Add();
 }
-inline void S_GAME_START::add_mapdata(int32_t value) {
-  _internal_add_mapdata(value);
-  // @@protoc_insertion_point(field_add:Protocol.S_GAME_START.mapData)
+inline ::Protocol::ObjectData* S_GAME_START::add_objectdata() {
+  ::Protocol::ObjectData* _add = _internal_add_objectdata();
+  // @@protoc_insertion_point(field_add:Protocol.S_GAME_START.objectData)
+  return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S_GAME_START::_internal_mapdata() const {
-  return _impl_.mapdata_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Protocol::ObjectData >&
+S_GAME_START::objectdata() const {
+  // @@protoc_insertion_point(field_list:Protocol.S_GAME_START.objectData)
+  return _impl_.objectdata_;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
-S_GAME_START::mapdata() const {
-  // @@protoc_insertion_point(field_list:Protocol.S_GAME_START.mapData)
-  return _internal_mapdata();
+
+// int32 playerId = 3;
+inline void S_GAME_START::clear_playerid() {
+  _impl_.playerid_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S_GAME_START::_internal_mutable_mapdata() {
-  return &_impl_.mapdata_;
+inline int32_t S_GAME_START::_internal_playerid() const {
+  return _impl_.playerid_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
-S_GAME_START::mutable_mapdata() {
-  // @@protoc_insertion_point(field_mutable_list:Protocol.S_GAME_START.mapData)
-  return _internal_mutable_mapdata();
+inline int32_t S_GAME_START::playerid() const {
+  // @@protoc_insertion_point(field_get:Protocol.S_GAME_START.playerId)
+  return _internal_playerid();
+}
+inline void S_GAME_START::_internal_set_playerid(int32_t value) {
+  
+  _impl_.playerid_ = value;
+}
+inline void S_GAME_START::set_playerid(int32_t value) {
+  _internal_set_playerid(value);
+  // @@protoc_insertion_point(field_set:Protocol.S_GAME_START.playerId)
 }
 
 // -------------------------------------------------------------------

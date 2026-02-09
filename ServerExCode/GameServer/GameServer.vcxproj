@@ -178,6 +178,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AStarMove.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -218,6 +219,7 @@
     <ClCompile Include="VisualManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStarMove.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="Enum.pb.h" />
     <ClInclude Include="GameObject.h" />

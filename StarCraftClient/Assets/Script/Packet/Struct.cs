@@ -32,7 +32,7 @@ namespace Protocol {
             "cGxheWVySWQYASABKAMiKgoHVmVjdG9yMxIJCgF4GAEgASgCEgkKAXkYAiAB",
             "KAISCQoBehgDIAEoAiKrAQoKT2JqZWN0RGF0YRIiCgR0eXBlGAEgASgOMhQu",
             "UHJvdG9jb2wuT2JqZWN0VHlwZRIQCghvYmplY3RJZBgCIAEoDRIQCghwbGF5",
-            "ZXJJZBgDIAEoAxIjCghwb3NpdGlvbhgEIAEoCzIRLlByb3RvY29sLlZlY3Rv",
+            "ZXJJZBgDIAEoBRIjCghwb3NpdGlvbhgEIAEoCzIRLlByb3RvY29sLlZlY3Rv",
             "cjMSJAoJZGlyZWN0aW9uGAUgASgLMhEuUHJvdG9jb2wuVmVjdG9yMxIKCgJo",
             "cBgGIAEoAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
@@ -1170,10 +1170,10 @@ namespace Protocol {
 
     /// <summary>Field number for the "playerId" field.</summary>
     public const int PlayerIdFieldNumber = 3;
-    private long playerId_;
+    private int playerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long PlayerId {
+    public int PlayerId {
       get { return playerId_; }
       set {
         playerId_ = value;
@@ -1246,7 +1246,7 @@ namespace Protocol {
       int hash = 1;
       if (Type != global::Protocol.ObjectType.ObjectNone) hash ^= Type.GetHashCode();
       if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
-      if (PlayerId != 0L) hash ^= PlayerId.GetHashCode();
+      if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
       if (position_ != null) hash ^= Position.GetHashCode();
       if (direction_ != null) hash ^= Direction.GetHashCode();
       if (Hp != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Hp);
@@ -1276,9 +1276,9 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(ObjectId);
       }
-      if (PlayerId != 0L) {
+      if (PlayerId != 0) {
         output.WriteRawTag(24);
-        output.WriteInt64(PlayerId);
+        output.WriteInt32(PlayerId);
       }
       if (position_ != null) {
         output.WriteRawTag(34);
@@ -1310,9 +1310,9 @@ namespace Protocol {
         output.WriteRawTag(16);
         output.WriteUInt32(ObjectId);
       }
-      if (PlayerId != 0L) {
+      if (PlayerId != 0) {
         output.WriteRawTag(24);
-        output.WriteInt64(PlayerId);
+        output.WriteInt32(PlayerId);
       }
       if (position_ != null) {
         output.WriteRawTag(34);
@@ -1342,8 +1342,8 @@ namespace Protocol {
       if (ObjectId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ObjectId);
       }
-      if (PlayerId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(PlayerId);
+      if (PlayerId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerId);
       }
       if (position_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Position);
@@ -1372,7 +1372,7 @@ namespace Protocol {
       if (other.ObjectId != 0) {
         ObjectId = other.ObjectId;
       }
-      if (other.PlayerId != 0L) {
+      if (other.PlayerId != 0) {
         PlayerId = other.PlayerId;
       }
       if (other.position_ != null) {
@@ -1414,7 +1414,7 @@ namespace Protocol {
             break;
           }
           case 24: {
-            PlayerId = input.ReadInt64();
+            PlayerId = input.ReadInt32();
             break;
           }
           case 34: {
@@ -1459,7 +1459,7 @@ namespace Protocol {
             break;
           }
           case 24: {
-            PlayerId = input.ReadInt64();
+            PlayerId = input.ReadInt32();
             break;
           }
           case 34: {

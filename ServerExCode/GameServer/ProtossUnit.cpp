@@ -25,7 +25,7 @@ void ProtossProbe::MiningMineral(UnitRef target)
 	}
 	else
 	{
-		SetMove(GameObjectState::MOVE, target->GetPosition() - GetPosition());
+		SetMove(GameObjectState::MOVE, target->GetPosition(), GetPosition());
 	}
 	
 }

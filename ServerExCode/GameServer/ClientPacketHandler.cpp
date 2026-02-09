@@ -59,17 +59,20 @@ bool Handle_C_MOVE(PacketSessionRef& session, Protocol::C_MOVE& pkt)
 	if (room == nullptr)
 		cout << "room Null" << endl;
 
-	GameObjectRef object = room->objects[(int)pkt.objectid()];
-	Vector3 vec = object->GetPosition();
-	Vector3 dir(pkt.position().x() - vec.x, pkt.position().y() - vec.y, 0);
-
-	JobRef job = MakeShared<Job>((int)pkt.objectid(), vec, dir, GameObjectState::MOVE);
-
+	for (uint32 id : pkt.objectid())
 	{
-		WriteLockGuard guard(room->_locks[0], __FUNCTION__);
-		room->jobQueue.push(job);
+		GameObjectRef object = room->objects[id];
+		Vector3 vec = object->GetPosition();
+		Vector3 target(pkt.position().x(), pkt.position().y(), 0);
+
+		cout << id << " : " << vec.x << ", " << vec.y << "target" << target.x << ", " << target.y << endl;
+
+		JobRef job = MakeShared<Job>(id, vec, target, GameObjectState::MOVE);
+		{
+			WriteLockGuard guard(room->_locks[0], __FUNCTION__);
+			room->jobQueue.push(job);
+		}
 	}
-	
 
 	//object->SetMove((GameObjectState)pkt.state(), dir);
 
@@ -236,17 +239,16 @@ bool Handle_C_START_GAME(PacketSessionRef& session, Protocol::C_START_GAME& pkt)
 
 	MapMakerRef map = MapMaker::GetInstance();
 
-	packet.set_mapsectioncount(map->GetSectionCount());
+	room->mapSectionData = map->hashToMap[room->mapHash];
 
-	for (int32 data : map->GetBuffer())
-	{
-		packet.add_mapdata(data);
-	}
+	//packet.set_mapsectioncount(map->GetSectionCount());
 
-	room->StartGame(map);
+	//for (int32 data : map->GetBuffer())
+	//{
+	//	packet.add_mapdata(data);
+	//}
 
-	SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
-	room->Broadcast(sendBuffer);
+	room->StartGame();
 
 	return false;
 }

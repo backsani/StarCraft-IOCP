@@ -92,21 +92,21 @@ public class MapManager : MonoBehaviour
 
     public void SettingCamera()
     {
-        int index = 0;
-        PlayerStartPosition spos = default;
+        //int index = 0;
+        PlayerStartPosition spos = PacketRelay.Instance.playerStartPositions;
 
-        foreach (PlayerInfo player in ServerConnect.Instance.playerInfo)
-        {
-            if(player.PlayerId.ToString() == ServerConnect.Instance.UserId)
-            {
-                spos = PacketRelay.Instance.playerStartPositions[index];
-                ServerConnect.Instance.playerIndex = index;
-                break;
-            }
-            index++;
-        }
+        //foreach (PlayerInfo player in ServerConnect.Instance.playerInfo)
+        //{
+        //    if(player.PlayerId.ToString() == ServerConnect.Instance.UserId)
+        //    {
+        //        spos = PacketRelay.Instance.playerStartPositions[index];
+        //        ServerConnect.Instance.playerIndex = index;
+        //        break;
+        //    }
+        //    index++;
+        //}
 
-        Camera.main.transform.position = new Vector3(spos.x * 0.32f, spos.y * 0.32f, -10);
+        Camera.main.transform.position = new Vector3(spos.x, spos.y, -10);
     }
 
     private void MapDataInit()

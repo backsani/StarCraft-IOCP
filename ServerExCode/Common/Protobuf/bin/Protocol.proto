@@ -13,8 +13,8 @@ message C_LOGIN
 message C_MOVE 
 {
 	int32 roomCode = 1;
-	uint32 objectId = 2;
-	Vector3 position = 4;
+	repeated uint32 objectId = 2;
+	Vector3 position = 3;
 }
 
 message C_ROOM_CREATE
@@ -97,8 +97,9 @@ message S_LOBBY_PLAYER_INFO
 
 message S_GAME_START
 {
-	int32 mapSectionCount = 1;
-	repeated int32 mapData = 2;
+	Vector3 startPos = 1;
+	repeated ObjectData objectData = 2;
+	int32 playerId = 3;
 }
 
 message S_ROOM_EXIT

@@ -69,6 +69,9 @@
     <ClCompile Include="ProtossBuilding.cpp">
       <Filter>Main\Ingame</Filter>
     </ClCompile>
+    <ClCompile Include="AStarMove.cpp">
+      <Filter>Main\Ingame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -120,6 +123,9 @@
       <Filter>Main\Ingame</Filter>
     </ClInclude>
     <ClInclude Include="ProtossBuilding.h">
+      <Filter>Main\Ingame</Filter>
+    </ClInclude>
+    <ClInclude Include="AStarMove.h">
       <Filter>Main\Ingame</Filter>
     </ClInclude>
   </ItemGroup>

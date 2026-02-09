@@ -36,7 +36,7 @@ message ObjectData
 {
 	ObjectType type = 1;
 	uint32 objectId = 2;
-	int64 playerId = 3;
+	int32 playerId = 3;
 	Vector3 position = 4;
 	Vector3 direction = 5;
 	float hp = 6;

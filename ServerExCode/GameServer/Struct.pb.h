@@ -959,13 +959,13 @@ class ObjectData final :
   void _internal_set_objectid(uint32_t value);
   public:
 
-  // int64 playerId = 3;
+  // int32 playerId = 3;
   void clear_playerid();
-  int64_t playerid() const;
-  void set_playerid(int64_t value);
+  int32_t playerid() const;
+  void set_playerid(int32_t value);
   private:
-  int64_t _internal_playerid() const;
-  void _internal_set_playerid(int64_t value);
+  int32_t _internal_playerid() const;
+  void _internal_set_playerid(int32_t value);
   public:
 
   // float hp = 6;
@@ -989,7 +989,7 @@ class ObjectData final :
     ::Protocol::Vector3* direction_;
     int type_;
     uint32_t objectid_;
-    int64_t playerid_;
+    int32_t playerid_;
     float hp_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1390,22 +1390,22 @@ inline void ObjectData::set_objectid(uint32_t value) {
   // @@protoc_insertion_point(field_set:Protocol.ObjectData.objectId)
 }
 
-// int64 playerId = 3;
+// int32 playerId = 3;
 inline void ObjectData::clear_playerid() {
-  _impl_.playerid_ = int64_t{0};
+  _impl_.playerid_ = 0;
 }
-inline int64_t ObjectData::_internal_playerid() const {
+inline int32_t ObjectData::_internal_playerid() const {
   return _impl_.playerid_;
 }
-inline int64_t ObjectData::playerid() const {
+inline int32_t ObjectData::playerid() const {
   // @@protoc_insertion_point(field_get:Protocol.ObjectData.playerId)
   return _internal_playerid();
 }
-inline void ObjectData::_internal_set_playerid(int64_t value) {
+inline void ObjectData::_internal_set_playerid(int32_t value) {
   
   _impl_.playerid_ = value;
 }
-inline void ObjectData::set_playerid(int64_t value) {
+inline void ObjectData::set_playerid(int32_t value) {
   _internal_set_playerid(value);
   // @@protoc_insertion_point(field_set:Protocol.ObjectData.playerId)
 }

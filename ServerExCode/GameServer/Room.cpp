@@ -8,6 +8,8 @@
 #include "Unit.h"
 #include "ProtossUnit.h"
 #include "RoomManager.h"
+#include "Protocol.pb.h"
+#include <random>
 
 // enum GameObjectCode 순서대로 맞춰주거나, 인덱스를 직접 매핑
 static SpawnFunc g_spawners[] =
@@ -234,12 +236,12 @@ void Room::ProcessJob()
 		{
 		case GameObjectState::IDLE:
 		{
-			object->SetMove(job->GetState(), job->GetDirection());
+			object->SetMove(job->GetState(), job->GetPosition(), job->GetTarget());
 			break;
 		}
 		case GameObjectState::MOVE:
 		{
-			object->SetMove(job->GetState(), job->GetDirection());
+			object->SetMove(job->GetState(), job->GetPosition(), job->GetTarget());
 			break;
 		}
 		case GameObjectState::ATTACK:
@@ -270,27 +272,68 @@ void Room::ProcessJob()
 	}
 }
 
-void Room::StartGame(MapMakerRef map)
+void Room::StartGame()
 {
-	for (ResourceEntry resource : map->resources)
+	// 플레이어 index 설정
 	{
-		GameObjectCode type = GameObjectCode::NONE;
-
-		if (resource.type == 0)
-			type = GameObjectCode::MINERAL;
-		else if (resource.type == 1)
-			type = GameObjectCode::GAS;
-
-		GameObjectRef object = ObjectAdd(type, { resource.x * 0.32f, resource.y * 0.32f, 0 }, { 0,0,0 });
+		int index = 0;
+		for (pair<GameSessionRef, int> p : _sessionPlayers)
+		{
+			ingamePlayerIndex[p.first] = index;
+			index++;
+		}
 	}
 
-	for (PlayerStartPos spos : map->sposv)
+	// 플레이어 별 시작위치 선정
+	{
+		vector<int> v = { 0,1,2,3 };
+		random_device rd;
+		mt19937 gen(rd());
+		shuffle(v.begin(), v.end(), gen);
+
+		for (pair<GameSessionRef, int> p : ingamePlayerIndex)
+		{
+			PlayerStartPos spos = mapSectionData->playerPos[v[p.second]];
+
+			Protocol::S_GAME_START packet;
+			IngamePlayerInfo info;
+
+			info.playerIndex = p.second;
+			packet.set_playerid(p.second);
+
+			cout << p.first << " " << p.second << endl;
+
+			// 시작시 넥서스, 프로브 데이터 넘기기.
+			for (int i = -1; i < 3; i++)
+			{
+				GameObjectRef object = ObjectAdd(GameObjectCode::PROBE, { (float)spos.x + i, (float)spos.y - 2, 0 }, { 0,0,0 }, nullptr, info.playerIndex);
+			}
+			
+
+
+			// 자원 오브젝트들 생성하기.
+
+
+			info.spos = spos;
+			Protocol::Vector3* data = packet.mutable_startpos();
+
+			data->set_x(spos.x);
+			data->set_y(spos.y);
+			data->set_z(0);
+
+			cout << spos.x << " " << spos.y << " " << info.playerIndex << endl;
+
+			SendBufferRef sendBuffer = ClientPacketHandler::MakeSendBuffer(packet);
+			p.first->Send(sendBuffer);
+		}
+	}
+	/*for (PlayerStartPos spos : map->sposv)
 	{
 		GameObjectRef object = ObjectAdd(GameObjectCode::PROBE, { spos.x * 0.32f, spos.y * 0.32f, 0 }, { 0,0,0 }, nullptr, spos.playerIndex);
-	}
+	}*/
 }
 
-GameObjectRef Room::ObjectAdd(GameObjectCode objectCode, Vector3 position, Vector3 direction, GameObjectRef shooter, int owner)
+GameObjectRef Room::ObjectAdd(GameObjectCode objectCode, Vector3 position, Vector3 direction, GameObjectRef shooter, int owner, bool broad)
 {
 	GameObjectRef object = nullptr;
 
@@ -305,7 +348,8 @@ GameObjectRef Room::ObjectAdd(GameObjectCode objectCode, Vector3 position, Vecto
 	objects[objectId] = object;
 	idList.insert(idCount);
 
-	Broadcast(object->spawn());
+	if(broad)
+		Broadcast(object->spawn());
 
 	while(idList.find(idCount) != idList.end())
 	{
@@ -373,7 +417,7 @@ void Room::GetRoomPlayerInfo(Vector<GameSessionRef>& out)
 }
 
 
-Job::Job(int objectId, Vector3 position, Vector3 direction, GameObjectState state) : objectId(objectId), position(position), direction(direction), state(state), objectCode(GameObjectCode::NONE)
+Job::Job(int objectId, Vector3 position, Vector3 target, GameObjectState state) : objectId(objectId), position(position), target(target), state(state), objectCode(GameObjectCode::NONE)
 {
 }
 

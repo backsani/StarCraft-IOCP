@@ -41,8 +41,8 @@ public struct MapData
 public struct PlayerStartPosition
 {
     public int index;
-    public int x;
-    public int y;
+    public float x;
+    public float y;
 }
 
 public class PacketRelay : MonoBehaviour
@@ -71,7 +71,7 @@ public class PacketRelay : MonoBehaviour
         }
     }
 
-    public PlayerStartPosition[] playerStartPositions;
+    public PlayerStartPosition playerStartPositions;
     public MapData currentMapData;
     public ResourceData[] currentResourceData;
 
@@ -91,78 +91,84 @@ public class PacketRelay : MonoBehaviour
         }
     }
 
-    public void MapLeader(int count, IEnumerable<int> data)
+    public void GameStart(Vector3 spos)
     {
-        int[] mapData = data.ToArray();
-        int index = 1;
-
-        for(int i = 0; i < count; i++)
-        {
-            MapSection sectionType = (MapSection)mapData[index++];
-            int size = mapData[index++];
-            int[] temp = new int[size];
-
-            Array.Copy(mapData, index, temp, 0, size);
-
-            index += size;
-
-            switch (sectionType)
-            {
-                case MapSection.OWNR:
-                    playerStartPositions = new PlayerStartPosition[temp[0]];
-                    currentMapData.PlayerNumber = temp[0];
-                    break;
-
-                case MapSection.SIZE:
-                    currentMapData.width = temp[0];
-                    currentMapData.height = temp[1];
-                    currentMapData.scale = temp[2];
-                    currentMapData.map = new int[currentMapData.width * currentMapData.height];
-                    break;
-
-                case MapSection.MTXM:
-                    if (currentMapData.map == null)
-                        currentMapData.map = new int[currentMapData.width * currentMapData.height];
-
-                    for (int j = 0; j < currentMapData.map.Length; j++)
-                    {
-                        currentMapData.map[i] = temp[0];
-                    }
-
-                    break;
-                //currentMapData.MapSize = temp.Length;
-                //currentMapData.map = temp;
-                //for(int y = 0; y < currentMapData.height; y++)
-                //{
-                //    for(int x = 0; x < currentMapData.width; x++)
-                //    {
-                //        currentMapData.map[y * currentMapData.height + x] = temp[0];
-                //    }
-                //}
-                //break;
-
-                case MapSection.RESO:
-                    currentResourceData = new ResourceData[temp.Length / 3];
-
-                    for(int j = 0; j < temp.Length / 3; j++)
-                    {
-                        currentResourceData[j].ResourceType = (ResourceData.ResourceCode)temp[j * 3];
-                        currentResourceData[j].x = temp[j * 3 + 1];
-                        currentResourceData[j].y = temp[j * 3 + 2];
-                    }
-                    break;
-
-                case MapSection.SPOS:
-                    for(int j = 0; j < temp.Length / 3; j++)
-                    {
-                        playerStartPositions[j].index = temp[j * 3];
-                        playerStartPositions[j].x = temp[j * 3 + 1];
-                        playerStartPositions[j].y = temp[j * 3 + 2];
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        playerStartPositions.x = spos.x;
+        playerStartPositions.y = spos.y;
     }
+
+    //public void MapLeader(int count, IEnumerable<int> data)
+    //{
+    //    int[] mapData = data.ToArray();
+    //    int index = 1;
+
+    //    for(int i = 0; i < count; i++)
+    //    {
+    //        MapSection sectionType = (MapSection)mapData[index++];
+    //        int size = mapData[index++];
+    //        int[] temp = new int[size];
+
+    //        Array.Copy(mapData, index, temp, 0, size);
+
+    //        index += size;
+
+    //        switch (sectionType)
+    //        {
+    //            case MapSection.OWNR:
+    //                playerStartPositions = new PlayerStartPosition[temp[0]];
+    //                currentMapData.PlayerNumber = temp[0];
+    //                break;
+
+    //            case MapSection.SIZE:
+    //                currentMapData.width = temp[0];
+    //                currentMapData.height = temp[1];
+    //                currentMapData.scale = temp[2];
+    //                currentMapData.map = new int[currentMapData.width * currentMapData.height];
+    //                break;
+
+    //            case MapSection.MTXM:
+    //                if (currentMapData.map == null)
+    //                    currentMapData.map = new int[currentMapData.width * currentMapData.height];
+
+    //                for (int j = 0; j < currentMapData.map.Length; j++)
+    //                {
+    //                    currentMapData.map[i] = temp[0];
+    //                }
+
+    //                break;
+    //            //currentMapData.MapSize = temp.Length;
+    //            //currentMapData.map = temp;
+    //            //for(int y = 0; y < currentMapData.height; y++)
+    //            //{
+    //            //    for(int x = 0; x < currentMapData.width; x++)
+    //            //    {
+    //            //        currentMapData.map[y * currentMapData.height + x] = temp[0];
+    //            //    }
+    //            //}
+    //            //break;
+
+    //            case MapSection.RESO:
+    //                currentResourceData = new ResourceData[temp.Length / 3];
+
+    //                for(int j = 0; j < temp.Length / 3; j++)
+    //                {
+    //                    currentResourceData[j].ResourceType = (ResourceData.ResourceCode)temp[j * 3];
+    //                    currentResourceData[j].x = temp[j * 3 + 1];
+    //                    currentResourceData[j].y = temp[j * 3 + 2];
+    //                }
+    //                break;
+
+    //            case MapSection.SPOS:
+    //                for(int j = 0; j < temp.Length / 3; j++)
+    //                {
+    //                    playerStartPositions[j].index = temp[j * 3];
+    //                    playerStartPositions[j].x = temp[j * 3 + 1];
+    //                    playerStartPositions[j].y = temp[j * 3 + 2];
+    //                }
+    //                break;
+    //            default:
+    //                break;
+    //        }
+    //    }
+    //}
 }

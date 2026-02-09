@@ -81,6 +81,11 @@ public static partial class PacketManager
             case PacketType.PKT_S_GAME_START:
                 S_GAME_START s_GAME_START = packet as S_GAME_START;
 
+                ServerConnect.Instance.playerIndex = s_GAME_START.PlayerId;
+
+                UnityEngine.Vector3 spos = new UnityEngine.Vector3(s_GAME_START.StartPos.X, s_GAME_START.StartPos.Y, 0);
+
+                PacketRelay.Instance.GameStart(spos);
                 //PacketRelay.Instance.MapLeader(s_GAME_START.MapSectionCount, s_GAME_START.MapData);
 
                 SceneManager.LoadScene("BattleScene");

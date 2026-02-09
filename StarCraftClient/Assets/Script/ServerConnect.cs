@@ -121,7 +121,7 @@ public class ServerConnect : MonoBehaviour
     public Queue<Action> spawnQueue = new Queue<Action>();
 
     public uint currentUnitId;
-    public long playerIndex;
+    public int playerIndex;
 
     void Start()
     {
@@ -245,7 +245,7 @@ public class ServerConnect : MonoBehaviour
     }
 
 
-    public void EnqueueSpawn(UnitCode code, uint id, long owner, UnityEngine.Vector3 pos, UnityEngine.Quaternion dir, float hp, long spawnTime = 0)
+    public void EnqueueSpawn(UnitCode code, uint id, int owner, UnityEngine.Vector3 pos, UnityEngine.Quaternion dir, float hp, long spawnTime = 0)
     {
         spawnQueue.Enqueue(() => UnitManager.Instance.SpawnUnit(code, id, owner, pos, dir, hp, spawnTime));
     }

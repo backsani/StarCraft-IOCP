@@ -6,6 +6,7 @@
 #include "Unit.h"
 #include "ProtossUnit.h"
 #include "ProtossBuilding.h"
+#include "AStarMove.h"
 
 /*------------------------------------------
 ****************GameObject******************
@@ -63,20 +64,34 @@ SendBufferRef GameObject::move()
 {
 	SendBufferRef sendBuffer = nullptr;
 
-	//position += direction * speed;
-	Vector3 toTarget = moveTarget - position;
-	float distanceSq = toTarget.x * toTarget.x + toTarget.y * toTarget.y + toTarget.z * toTarget.z;
-	float step = speed;
-
-	if (distanceSq <= step * step)
+	// 다음 경로
+	if (path.size() == 0)
 	{
-		position = moveTarget;
 		currentState = GameObjectState::IDLE;
+		return sendBuffer;
 	}
-	else
+	pair<int, int> next = path.back();
+	
+	Vector3 nextPosition((float)next.first, (float)next.second, 0);
+
+	cout << position.x << ", " << position.y << " : " << nextPosition.x << ", " << nextPosition.y << endl;
+
+	Vector3 toTarget = nextPosition - position;
+	float distanceSq = toTarget.x * toTarget.x + toTarget.y * toTarget.y;
+
+	float dist = sqrt(distanceSq);
+
+	if (speed * 0.1f >= dist)
 	{
-		position += direction * step;
+		position = nextPosition;
+		path.pop_back();
 	}
+	
+	float nx = toTarget.x / dist;
+	float ny = toTarget.y / dist;
+
+	position.x += nx * speed * 0.1f;
+	position.y += ny * speed * 0.1f;
 
 	UpdateBounds();
 
@@ -143,22 +158,16 @@ SendBufferRef GameObject::dead()
 	return sendBuffer;
 }
 
-void GameObject::SetMove(GameObjectState state, Vector3 direction)
+void GameObject::SetMove(GameObjectState state, Vector3 position, Vector3 target)
 {
-	//this->direction = direction;
-	//currentState = state;
+	path.clear();
 
-	if (state == GameObjectState::IDLE)
-	{
-		currentState = GameObjectState::IDLE;
-		this->direction = { 0,0,0 };
-		moveTarget = position;
-		return;
-	}
+	this->position = position;
 
+	Vector3 direction = position - target;
 	float lengthSq = direction.x * direction.x + direction.y * direction.y + direction.z * direction.z;
 
-	if (lengthSq <= 0.000001f)
+	if (state == GameObjectState::IDLE || lengthSq <= 0.000001f)
 	{
 		currentState = GameObjectState::IDLE;
 		this->direction = { 0,0,0 };
@@ -166,10 +175,26 @@ void GameObject::SetMove(GameObjectState state, Vector3 direction)
 		return;
 	}
 
-	// TODO: Move System 변경 위치
-	float invLength = 1.0f / sqrt(lengthSq);
-	this->direction = { direction.x * invLength, direction.y * invLength, direction.z * invLength };
-	moveTarget = position + direction;
+	shared_ptr<AStarMove> aStar = MakeShared<AStarMove>(room->mapSectionData->mapWidth, room->mapSectionData->mapHeight, room->mapSectionData->height);
+
+	if (!aStar->aStar((int)position.x, (int)position.y, (int)target.x, (int)target.y, path))
+	{
+		currentState = GameObjectState::IDLE;
+		this->direction = { 0,0,0 };
+		moveTarget = position;
+
+		cout << "aStar errer" << endl;
+
+		return;
+	}
+
+	path.pop_back();
+
+	for (pair<int, int> p : path)
+	{
+		cout << p.first << ", " << p.second << endl;
+	}
+
 	currentState = state;
 }
 

@@ -126,7 +126,7 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    public void SpawnUnit(UnitCode code, uint unitId, long owner, Vector3 position, Quaternion direction, float hp, long spawnTime = 0)
+    public void SpawnUnit(UnitCode code, uint unitId, int owner, Vector3 position, Quaternion direction, float hp, long spawnTime = 0)
     {
         Debug.Log("SpawnUnit 실행" + code.ToString());
 
@@ -138,21 +138,12 @@ public class UnitManager : MonoBehaviour
 
         GameObject spawn = Instantiate(prefab, position, direction);
 
-        if(owner == ServerConnect.Instance.playerIndex)
-        {
-            spawn.AddComponent<UnitController>();
-            ServerConnect.Instance.currentUnitId = unitId;
-
-            Camera.main.transform.SetParent(spawn.transform, false);
-            Camera.main.transform.localPosition = new Vector3(0, 0, -10f);
-        }
-
         if (spawn != null)
         {
             Debug.Log("prefab 매칭 성공");
 
             Unit unit = spawn.GetComponent<Unit>();
-            unit.Init(unitId, position, direction * Vector3.zero, spawnTime);
+            unit.Init(unitId, position, direction * Vector3.zero, owner, spawnTime);
             units.Add(unitId, unit);
         }
         

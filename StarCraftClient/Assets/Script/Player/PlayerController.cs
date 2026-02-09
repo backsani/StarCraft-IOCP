@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
             Protocol.C_MOVE c_MOVE = new Protocol.C_MOVE();
 
             c_MOVE.RoomCode = UnitManager.Instance.roomCode;
-            c_MOVE.ObjectId = player.GetObjectId();
+            //c_MOVE.ObjectId = player.GetObjectId();
 
             Protocol.Vector3 direction = new Protocol.Vector3();
             direction.X = dir.x;

@@ -88,7 +88,7 @@ PROTOBUF_CONSTEXPR ObjectData::ObjectData(
   , /*decltype(_impl_.direction_)*/nullptr
   , /*decltype(_impl_.type_)*/0
   , /*decltype(_impl_.objectid_)*/0u
-  , /*decltype(_impl_.playerid_)*/int64_t{0}
+  , /*decltype(_impl_.playerid_)*/0
   , /*decltype(_impl_.hp_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct ObjectDataDefaultTypeInternal {
@@ -181,7 +181,7 @@ const char descriptor_table_protodef_Struct_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "*\n\007Vector3\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z\030\003 "
   "\001(\002\"\253\001\n\nObjectData\022\"\n\004type\030\001 \001(\0162\024.Proto"
   "col.ObjectType\022\020\n\010objectId\030\002 \001(\r\022\020\n\010play"
-  "erId\030\003 \001(\003\022#\n\010position\030\004 \001(\0132\021.Protocol."
+  "erId\030\003 \001(\005\022#\n\010position\030\004 \001(\0132\021.Protocol."
   "Vector3\022$\n\tdirection\030\005 \001(\0132\021.Protocol.Ve"
   "ctor3\022\n\n\002hp\030\006 \001(\002b\006proto3"
   ;
@@ -1307,7 +1307,7 @@ inline void ObjectData::SharedCtor(
     , decltype(_impl_.direction_){nullptr}
     , decltype(_impl_.type_){0}
     , decltype(_impl_.objectid_){0u}
-    , decltype(_impl_.playerid_){int64_t{0}}
+    , decltype(_impl_.playerid_){0}
     , decltype(_impl_.hp_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -1375,10 +1375,10 @@ const char* ObjectData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // int64 playerId = 3;
+      // int32 playerId = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.playerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          _impl_.playerid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1449,10 +1449,10 @@ uint8_t* ObjectData::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_objectid(), target);
   }
 
-  // int64 playerId = 3;
+  // int32 playerId = 3;
   if (this->_internal_playerid() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_playerid(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_playerid(), target);
   }
 
   // .Protocol.Vector3 position = 4;
@@ -1520,9 +1520,9 @@ size_t ObjectData::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_objectid());
   }
 
-  // int64 playerId = 3;
+  // int32 playerId = 3;
   if (this->_internal_playerid() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_playerid());
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_playerid());
   }
 
   // float hp = 6;
